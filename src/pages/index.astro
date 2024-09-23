@@ -6,36 +6,43 @@ import Writings from "../components/home/writings.astro";
 import Layout from "../layouts/main.astro";
 ---
 
-<Layout title="Kai">
+<Layout title="Jairo Vera - Desarrollador Web">
   <div
     class="relative z-20 w-full max-w-4xl mx-auto mt-16 px-7 md:mt-24 lg:mt-32 xl:px-0"
   >
     <div class="flex flex-col items-center md:flex-row">
       <div class="relative w-full md:w-1/2">
         <h1
-          class="mb-5 text-4xl font-bold leading-tight md:text-4xl lg:text-6xl dark:text-white"
+          class="mb-5 text-4xl font-bold leading-tight md:text-4xl lg:text-6xl text-gray-800 dark:text-gray-200"
         >
-          Hello, I'm Kai.
+          <!-- Jairo Vera + emoji de desarrollador web front end -->
+          Jairo Vera <span class="text-6xl">👨🏽‍💻</span>
         </h1>
-        <p class="mb-6 text-base text-neutral-600 dark:text-neutral-400">
-          I'm a front-end programmer living in Nanjing. <br
-            class="hidden lg:block"
-          />I focus on Web development.
+
+        <p class="mb-6 text-base text-neutral-700 dark:text-neutral-300">
+          Soy un desarrollador front-end con 2 años de experiencia,
+          especializado en la creación de interfaces web modernas y optimizadas.
         </p>
         <p class="mb-2 font-semibold text-neutral-800 dark:text-neutral-200">
-          I can help you out with:
+          Puedo ayudarte con:
         </p>
         <ul
-          class="py-2 space-y-[3px] text-sm list-disc list-inside text-neutral-500 dark:text-neutral-400"
+          class="py-2 space-y-[3px] text-sm list-disc list-inside text-neutral-600 dark:text-neutral-300"
         >
-          <li>Vue.js Development</li>
-          <li>React.js Development</li>
-          <li>Node.js Development</li>
-          <li>Website Design</li>
-          <li>and more...</li>
+          <li>Optimización de sitios web para una carga rápida y mejor SEO</li>
+          <li>Integración de animaciones</li>
+          <li>Diseño de sistemas y landing pages eficientes</li>
+          <li>
+            Desarrollo de proyectos utilizando Astro, Next.js y Tailwind CSS y
+            más...
+          </li>
         </ul>
-        <Button text="Follow me on 𝕏" link="https://twitter.com/0xKaiBi" />
+        <Button
+          text="Sígueme en Linkedin"
+          link="https://www.linkedin.com/in/frank-jairo-vera/"
+        />
       </div>
+
       <div
         class="relative justify-end hidden w-full mt-10 md:flex md:pl-10 md:w-1/2 md:mt-0 md:translate-y-4 xl:translate-y-0"
       >
@@ -52,12 +59,12 @@ import Layout from "../layouts/main.astro";
               >
             </span>
           </div>
-          <div class="relative z-30 px-10">
+          <div class="relative z-30 rounded-lg">
             <img
-              src="/assets/images/photo.png"
+              src="/assets/images/port2.jpeg"
               loading="eager"
               decoding="auto"
-              class="relative z-30 w-full aspect-[790/1189] md:max-w-md mx-auto dark:-translate-y-0.5"
+              class="relative z-30 w-full md:max-w-md mx-auto dark:-translate-y-0.5 rounded-xl shadow-lg brightness-105"
             />
           </div>
           <div
@@ -69,7 +76,7 @@ import Layout from "../layouts/main.astro";
     </div>
   </div>
 
-  <Separator text="Check out my projects" />
+  <Separator text="Mis proyectos" />
   <Projects />
   <Separator text="Some of my writing" />
   <Writings />

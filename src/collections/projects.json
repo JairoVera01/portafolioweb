@@ -1,20 +1,16 @@
 [
-	{
-		"name": "Email.ML",
-		"description": "Minimalist temporary Email.",
-		"image": "/assets/images/projects/email.ml.png",
-		"url": "https://email.ml"
-	},
-	{
-		"name": "DNS.Surf",
-		"description": "Querying DNS Resolution Results in Different Regions Worldwide.",
-		"image": "/assets/images/projects/dns.surf.png",
-		"url": "https://dns.surf"
-	},
-	{
-		"name": "HTML.ZONE",
-		"description": "Web Toolbox.",
-		"image": "/assets/images/projects/html.zone.png",
-		"url": "https://html.zone"
-	}
+  {
+    "name": "UBILEX",
+    "description": "Proyecto desarrollado para la empresa que brinda servicios de asesoría legal.",
+    "image": "/assets/images/projects/email.ml.png",
+    "portada": "/assets/images/projects/ubilex/portada2.png",
+    "galeria": [
+      "/assets/images/projects/ubilex/foto1.png",
+      "/assets/images/projects/ubilex/foto2.png",
+      "/assets/images/projects/ubilex/foto3.png"
+    ],
+    "url": "https://www.ubilex.pe/",
+    "tecnologies": ["Astro", "Tailwind", "GitHub", "Cloudflare"],
+    "proyectoPersonal": true
+  }
 ]

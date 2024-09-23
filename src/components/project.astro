@@ -1,5 +1,38 @@
 ---
-const { name, description, url, image } = Astro.props;
+const {
+  name,
+  description,
+  url,
+  image,
+  portada,
+  galeria,
+  tecnologies,
+  proyectoPersonal,
+} = Astro.props;
+
+// Rutas de iconos para matchear con las tecnologías
+const RutasIconos = [
+  {
+    tecnologia: "GitHub",
+    ruta: "/assets/icons/github-light.svg",
+  },
+  {
+    tecnologia: "Tailwind",
+    ruta: "/assets/icons/tailwindcss.svg",
+  },
+  {
+    tecnologia: "Astro",
+    ruta: "/assets/icons/astro.svg",
+  },
+  {
+    tecnologia: "Cloudflare",
+    ruta: "/assets/icons/cloudflare.svg",
+  },
+];
+
+// traer las imagenes de la galeria
+console.log(galeria);
+console.log(proyectoPersonal);
 ---
 
 <a
@@ -17,7 +50,7 @@ const { name, description, url, image } = Astro.props;
     class="relative z-30 block duration-300 ease-out group-hover:-translate-x-1 group-hover:-translate-y-1"
   >
     <span class="block w-full">
-      <img src={image} class="w-full h-auto rounded-lg aspect-[16/9]" />
+      <img src={portada} class="w-full h-auto rounded-lg aspect-[16/9]" />
     </span>
     <span class="block w-full px-1 mt-5 mb-1 sm:mt-3">
       <span
@@ -57,9 +90,27 @@ const { name, description, url, image } = Astro.props;
           ></svg
         >
       </span>
-      <span class="text-sm text-neutral-600 dark:text-neutral-400"
-        >{description}</span
+      <p
+        class="text-sm mt-1 text-neutral-600 dark:text-neutral-400 leading-snug"
       >
+        {description}
+      </p>
+      <div class="mt-4">
+        <span class="flex items-center mt-3">
+          {
+            tecnologies.map((tecnologia: any) => {
+              const icono = RutasIconos.find(
+                (icono) => icono.tecnologia === tecnologia
+              );
+              return (
+                icono && (
+                  <img src={icono.ruta} class="w-5 h-5 mr-2" alt={tecnologia} />
+                )
+              );
+            })
+          }
+        </span>
+      </div>
     </span>
   </span>
 </a>
