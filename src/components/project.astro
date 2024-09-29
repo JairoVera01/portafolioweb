@@ -41,6 +41,7 @@ const RutasIconos = [
 
 import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
+import { Image } from "astro:assets";
 
 // MAPEAR UBILEX - ISLANMEDR - DR RECETAS - QUIEBRASTOTALES - CHECKIT - DRMAO - TU LICENCIA (APP - LANDING)
 ---
@@ -59,8 +60,12 @@ import "@fancyapps/ui/dist/fancybox/fancybox.css";
   >
     <span class="block w-full">
       <a data-fancybox={nameGallery} href={portada}>
-        <img
+        <Image
+          alt={name}
           src={portada}
+          width={100}
+          height={100}
+          loading={"lazy"}
           class="w-full h-auto rounded-lg aspect-[16/9] object-cover"
         />
       </a>

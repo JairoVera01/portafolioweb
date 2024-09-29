@@ -2,11 +2,11 @@
   {
     "name": "UBILEX - Perú",
     "description": "Proyecto desarrollado para empresa que brinda servicios de asesoría legal.",
-    "portada": "/assets/images/projects/ubilex/portada2.png",
+    "portada": "/assets/images/projects/ubilex/portada.webp",
     "galeria": [
-      "/assets/images/projects/ubilex/foto1.png",
-      "/assets/images/projects/ubilex/foto2.png",
-      "/assets/images/projects/ubilex/foto3.png"
+      "/assets/images/projects/ubilex/foto1.webp",
+      "/assets/images/projects/ubilex/foto2.webp",
+      "/assets/images/projects/ubilex/foto3.webp"
     ],
     "url": "https://www.ubilex.pe/",
     "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub", "Cloudflare"],
@@ -17,11 +17,11 @@
   {
     "name": "Quiebras Ahora - Puerto Rico",
     "description": "Empresa de abogados especializados en quiebras para Puerto Rico.",
-    "portada": "/assets/images/projects/quiebras/portada.png",
+    "portada": "/assets/images/projects/quiebras/portada.webp",
     "galeria": [
-      "/assets/images/projects/quiebras/foto1.png",
-      "/assets/images/projects/quiebras/foto2.png",
-      "/assets/images/projects/quiebras/foto3.png"
+      "/assets/images/projects/quiebras/foto1.webp",
+      "/assets/images/projects/quiebras/foto2.webp",
+      "/assets/images/projects/quiebras/foto3.webp"
     ],
     "url": "https://www.quiebrasahora.com/",
     "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub"],
@@ -32,11 +32,11 @@
   {
     "name": "Tu Licencia Web - Puerto Rico",
     "description": "Landing page para sistema de gestiones de licencias en Puerto Rico.",
-    "portada": "/assets/images/projects/tulicencialanding/portada.png",
+    "portada": "/assets/images/projects/tulicencialanding/portada.webp",
     "galeria": [
-      "/assets/images/projects/tulicencialanding/foto1.png",
-      "/assets/images/projects/tulicencialanding/foto2.png",
-      "/assets/images/projects/tulicencialanding/foto3.png"
+      "/assets/images/projects/tulicencialanding/foto1.webp",
+      "/assets/images/projects/tulicencialanding/foto2.webp",
+      "/assets/images/projects/tulicencialanding/foto3.webp"
     ],
     "url": "http://tulicenciapr.com/",
     "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub", "React"],
