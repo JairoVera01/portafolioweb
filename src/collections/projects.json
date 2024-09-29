@@ -1,8 +1,7 @@
 [
   {
-    "name": "UBILEX",
-    "description": "Proyecto desarrollado para la empresa que brinda servicios de asesoría legal.",
-    "image": "/assets/images/projects/email.ml.png",
+    "name": "UBILEX - Perú",
+    "description": "Proyecto desarrollado para empresa que brinda servicios de asesoría legal.",
     "portada": "/assets/images/projects/ubilex/portada2.png",
     "galeria": [
       "/assets/images/projects/ubilex/foto1.png",
@@ -10,7 +9,39 @@
       "/assets/images/projects/ubilex/foto3.png"
     ],
     "url": "https://www.ubilex.pe/",
-    "tecnologies": ["Astro", "Tailwind", "GitHub", "Cloudflare"],
-    "proyectoPersonal": true
+    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub", "Cloudflare"],
+    "proyectoPersonal": true,
+    "autoria": "Desarrollo Freelance - Perú",
+    "nameGallery": "ubilex"
+  },
+  {
+    "name": "Quiebras Ahora - Puerto Rico",
+    "description": "Empresa de abogados especializados en quiebras para Puerto Rico.",
+    "portada": "/assets/images/projects/quiebras/portada.png",
+    "galeria": [
+      "/assets/images/projects/quiebras/foto1.png",
+      "/assets/images/projects/quiebras/foto2.png",
+      "/assets/images/projects/quiebras/foto3.png"
+    ],
+    "url": "https://www.quiebrasahora.com/",
+    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub"],
+    "proyectoPersonal": true,
+    "autoria": "Desarrollo para SmartHiring - PR",
+    "nameGallery": "quiebras"
+  },
+  {
+    "name": "Tu Licencia Web - Puerto Rico",
+    "description": "Landing page para sistema de gestiones de licencias en Puerto Rico.",
+    "portada": "/assets/images/projects/tulicencialanding/portada.png",
+    "galeria": [
+      "/assets/images/projects/tulicencialanding/foto1.png",
+      "/assets/images/projects/tulicencialanding/foto2.png",
+      "/assets/images/projects/tulicencialanding/foto3.png"
+    ],
+    "url": "http://tulicenciapr.com/",
+    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub", "React"],
+    "proyectoPersonal": true,
+    "autoria": "Desarrollo para SmartHiring - PR",
+    "nameGallery": "tulicencialanding"
   }
 ]
