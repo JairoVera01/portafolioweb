@@ -4,6 +4,10 @@ import Projects from "../components/home/projects.astro";
 import Separator from "../components/home/separator.astro";
 import Writings from "../components/home/writings.astro";
 import Layout from "../layouts/main.astro";
+import experiences from "../collections/experiences.json";
+import AboutExperience from "../components/about-experience.astro";
+import PageHeading from "../components/page-heading.astro";
+import { Image } from "astro:assets";
 ---
 
 <Layout title="Jairo Vera - Desarrollador Web">
@@ -78,6 +82,125 @@ import Layout from "../layouts/main.astro";
 
   <Separator text="Mis proyectos" />
   <Projects />
-  <Separator text="Some of my writing" />
-  <Writings />
+  <Separator text="Sobre mi" />
+  <!-- <Writings /> -->
+  <section
+    class="relative z-20 w-full max-w-4xl mx-auto mt-16 px-7 md:mt-24 lg:mt-32 xl:px-0"
+  >
+    <PageHeading
+      title="Sobre mi"
+      description="¡Hola, soy Jairo! Soy Ingeniero de Sistemas 💻 especializado en desarrollo web. Me dedico a crear experiencias digitales que no solo se ven bien, sino que también funcionan perfectamente. Siempre en busca de nuevos retos para mejorar el mundo digital."
+    />
+
+    <Image
+      width={100}
+      height={100}
+      alt={"Jairo Vera"}
+      src="/assets/images/aboutme.webp"
+      class="relative z-30 w-full my-10 rounded-xl brightness-105 hover:brightness-100"
+    />
+
+    <h2 class="mb-2 text-2xl font-bold dark:text-neutral-200">Bio Rápida</h2>
+    <p
+      class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
+    >
+      Soy Ingeniero de Sistemas especializado en Front-End, me encanta crear
+      interfaces rápidas, responsivas y atractivas. Estoy siempre dispuesto a
+      aprender algo nuevo en este apasionante mundo tecnológico. 🚀
+    </p>
+    <div
+      class="grid grid-cols-2 gap-10 mt-10 sm:grid-cols-2 dark:text-neutral-200"
+    >
+      <div>
+        <h2
+          class="mt-5 mb-2 text-2xl font-bold lg:mt-10 sm:mt-6 dark:text-neutral-200"
+        >
+          Experiencia Laboral
+        </h2>
+        <div class="px-5 py-10">
+          {
+            experiences.map((experience, loop) => {
+              return (
+                <>
+                  {loop == 0 || loop == 2 ? (
+                    <div class="pb-10 border-l border-gray-200 dark:border-neutral-700">
+                      <AboutExperience
+                        dates={experience.dates}
+                        role={experience.role}
+                        company={experience.company}
+                        description={experience.description}
+                        logo={experience.logo}
+                      />
+                    </div>
+                  ) : (
+                    <AboutExperience
+                      dates={experience.dates}
+                      role={experience.role}
+                      company={experience.company}
+                      description={experience.description}
+                      logo={experience.logo}
+                    />
+                  )}
+                </>
+              );
+            })
+          }
+        </div>
+      </div>
+      <div>
+        <h2
+          class="mt-5 mb-2 text-2xl font-bold lg:mt-10 sm:mt-6 dark:text-neutral-200"
+        >
+          Mis estudios
+        </h2>
+        <div class="px-5 py-10">
+          {
+            experiences.map((experience, loop) => {
+              return (
+                <>
+                  {loop == 0 || loop == 1 ? (
+                    <div class="pb-10 border-l border-gray-200 dark:border-neutral-700">
+                      <AboutExperience
+                        dates={experience.dates}
+                        role={experience.role}
+                        company={experience.company}
+                        description={experience.description}
+                        logo={experience.logo}
+                      />
+                    </div>
+                  ) : (
+                    <AboutExperience
+                      dates={experience.dates}
+                      role={experience.role}
+                      company={experience.company}
+                      description={experience.description}
+                      logo={experience.logo}
+                    />
+                  )}
+                </>
+              );
+            })
+          }
+        </div>
+      </div>
+    </div>
+
+    <h2
+      class="mt-5 mb-2 text-2xl font-bold lg:mt-10 sm:mt-6 dark:text-neutral-200"
+    >
+      Contacta conmigo
+    </h2>
+    <p
+      class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
+    >
+      If you want to stay up to date with my work be sure to <a
+        href="https://twitter.com/ccikai"
+        target="_blank"
+        class="text-indigo-600 underline">follow me on twitter</a
+      >, or you can send me an <a
+        href="mailto:astro-aria#miantiao.me"
+        class="text-indigo-600 underline">email</a
+      > and I'll be sure to get back to you.
+    </p>
+  </section>
 </Layout>
