@@ -6,13 +6,44 @@
     "galeria": [
       "/assets/images/projects/ubilex/foto1.webp",
       "/assets/images/projects/ubilex/foto2.webp",
-      "/assets/images/projects/ubilex/foto3.webp"
+      "/assets/images/projects/ubilex/foto3.webp",
+      "/assets/images/projects/ubilex/foto4.webp",
+      "/assets/images/projects/ubilex/foto5.webp"
     ],
     "url": "https://www.ubilex.pe/",
     "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub", "Cloudflare"],
     "proyectoPersonal": true,
     "autoria": "Desarrollo Freelance - Perú",
     "nameGallery": "ubilex"
+  },
+  {
+    "name": "Dr. Carlos Mao (en desarrollo)",
+    "description": "Landin page para médico especialista en neurocirugía en Perú.",
+    "portada": "/assets/images/projects/drmao/portada.webp",
+    "galeria": [
+      "/assets/images/projects/drmao/foto1.webp",
+      "/assets/images/projects/drmao/foto2.webp",
+      "/assets/images/projects/drmao/foto3.webp"
+    ],
+    "url": "https://drmaowebpage.vercel.app/",
+    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub", "Cloudflare"],
+    "proyectoPersonal": true,
+    "autoria": "Desarrollo Freelance - Perú",
+    "nameGallery": "carlosmao"
+  },
+  {
+    "name": "Generador de Overlays CSS",
+    "description": "Landin page para médico especialista en neurocirugía en Perú.",
+    "portada": "/assets/images/projects/generadoroverlay/portada.webp",
+    "galeria": [
+      "/assets/images/projects/generadoroverlay/foto1.webp",
+      "/assets/images/projects/generadoroverlay/foto2.webp"
+    ],
+    "url": "https://www.htmlcssoverlay.xyz/",
+    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub", "Cloudflare"],
+    "proyectoPersonal": true,
+    "autoria": "Desarrollo Propio",
+    "nameGallery": "generadordeoverlays"
   },
   {
     "name": "Quiebras Ahora - Puerto Rico",
@@ -30,7 +61,7 @@
     "nameGallery": "quiebras"
   },
   {
-    "name": "Tu Licencia Web - Puerto Rico",
+    "name": "Tu Licencia Web - PR",
     "description": "Landing page para sistema de gestiones de licencias en Puerto Rico.",
     "portada": "/assets/images/projects/tulicencialanding/portada.webp",
     "galeria": [
@@ -43,5 +74,69 @@
     "proyectoPersonal": true,
     "autoria": "Desarrollo para SmartHiring - PR",
     "nameGallery": "tulicencialanding"
+  },
+  {
+    "name": "Tu Licencia App Web - PR",
+    "description": "Sistema de gestiones de licencias en Puerto Rico.",
+    "portada": "/assets/images/projects/tulicenciaapp/portada.webp",
+    "galeria": [
+      "/assets/images/projects/tulicenciaapp/foto1.webp",
+      "/assets/images/projects/tulicenciaapp/foto2.webp"
+    ],
+    "url": "http://app.tulicenciapr.com/",
+    "tecnologies": ["Nextjs", "Tailwind", "GitHub", "React"],
+    "proyectoPersonal": true,
+    "autoria": "Desarrollo para SmartHiring - PR",
+    "nameGallery": "tulicenciaapp"
+  },
+  {
+    "name": "Dr. Recetas (Rediseño) - PR",
+    "description": "Rediseño de la página web de Doctor Recetas.",
+    "portada": "/assets/images/projects/drrecetas/portada.webp",
+    "galeria": [
+      "/assets/images/projects/drrecetas/foto1.webp",
+      "/assets/images/projects/drrecetas/foto2.webp",
+      "/assets/images/projects/drrecetas/foto3.webp",
+      "/assets/images/projects/drrecetas/foto4.webp",
+      "/assets/images/projects/drrecetas/foto5.webp"
+    ],
+    "url": "https://doctorrecetas.com/",
+    "tecnologies": ["Nextjs", "Tailwind", "GitHub", "React"],
+    "proyectoPersonal": true,
+    "autoria": "Desarrollo para SmartHiring - PR",
+    "nameGallery": "doctorrecetas"
+  },
+  {
+    "name": "Islanmed (Rediseño) - PR",
+    "description": "Rediseño de la página web de Doctor Recetas.",
+    "portada": "/assets/images/projects/islanmed/portada.webp",
+    "galeria": [
+      "/assets/images/projects/islanmed/foto1.webp",
+      "/assets/images/projects/islanmed/foto2.webp",
+      "/assets/images/projects/islanmed/foto3.webp",
+      "/assets/images/projects/islanmed/foto4.webp",
+      "/assets/images/projects/islanmed/foto5.webp"
+    ],
+    "url": "https://islandmedpr.com/",
+    "tecnologies": ["Nextjs", "Tailwind", "GitHub", "React"],
+    "proyectoPersonal": true,
+    "autoria": "Desarrollo para SmartHiring - PR",
+    "nameGallery": "islanmed"
+  },
+  {
+    "name": "CheckIt - PR",
+    "description": "Página de venta de servicios de backgraund check para Puerto Rico.",
+    "portada": "/assets/images/projects/checkit/portada.webp",
+    "galeria": [
+      "/assets/images/projects/checkit/foto1.webp",
+      "/assets/images/projects/checkit/foto2.webp",
+      "/assets/images/projects/checkit/foto3.webp",
+      "/assets/images/projects/checkit/foto4.webp"
+    ],
+    "url": "https://islandmedpr.com/",
+    "tecnologies": ["Nextjs", "Tailwind", "GitHub", "React"],
+    "proyectoPersonal": true,
+    "autoria": "Desarrollo para SmartHiring - PR",
+    "nameGallery": "checkit"
   }
 ]
