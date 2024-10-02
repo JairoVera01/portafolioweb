@@ -5,6 +5,7 @@ import Separator from "../components/home/separator.astro";
 import Writings from "../components/home/writings.astro";
 import Layout from "../layouts/main.astro";
 import experiences from "../collections/experiences.json";
+import studies from "../collections/studies.json";
 import AboutExperience from "../components/about-experience.astro";
 import PageHeading from "../components/page-heading.astro";
 import { Image } from "astro:assets";
@@ -117,7 +118,24 @@ import { Image } from "astro:assets";
         >
           Experiencia Laboral
         </h2>
-        <div class="px-5 py-10">
+        <div class="timeline px-5 py-10">
+          {
+            experiences.map((experience, index) => (
+              <div class="timeline-item">
+                <div class="bullet" />
+                <AboutExperience
+                  dates={experience.dates}
+                  role={experience.role}
+                  company={experience.company}
+                  description={experience.description}
+                  logo={experience.logo}
+                />
+              </div>
+            ))
+          }
+        </div>
+
+        <!-- <div class="px-5 py-10">
           {
             experiences.map((experience, loop) => {
               return (
@@ -145,7 +163,7 @@ import { Image } from "astro:assets";
               );
             })
           }
-        </div>
+        </div> -->
       </div>
       <div>
         <h2
@@ -153,33 +171,20 @@ import { Image } from "astro:assets";
         >
           Mis estudios
         </h2>
-        <div class="px-5 py-10">
+        <div class="timeline px-5 py-10">
           {
-            experiences.map((experience, loop) => {
-              return (
-                <>
-                  {loop == 0 || loop == 1 ? (
-                    <div class="pb-10 border-l border-gray-200 dark:border-neutral-700">
-                      <AboutExperience
-                        dates={experience.dates}
-                        role={experience.role}
-                        company={experience.company}
-                        description={experience.description}
-                        logo={experience.logo}
-                      />
-                    </div>
-                  ) : (
-                    <AboutExperience
-                      dates={experience.dates}
-                      role={experience.role}
-                      company={experience.company}
-                      description={experience.description}
-                      logo={experience.logo}
-                    />
-                  )}
-                </>
-              );
-            })
+            studies.map((experience, index) => (
+              <div class="timeline-item">
+                <div class="bullet" />
+                <AboutExperience
+                  dates={experience.dates}
+                  role={experience.role}
+                  company={experience.company}
+                  description={experience.description}
+                  logo={experience.logo}
+                />
+              </div>
+            ))
           }
         </div>
       </div>
@@ -193,14 +198,52 @@ import { Image } from "astro:assets";
     <p
       class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
     >
-      If you want to stay up to date with my work be sure to <a
-        href="https://twitter.com/ccikai"
+      Si deseas mantenerte al tanto de mi trabajo, asegúrate de <a
+        href="https://www.linkedin.com/in/frank-jairo-vera/"
         target="_blank"
-        class="text-indigo-600 underline">follow me on twitter</a
-      >, or you can send me an <a
-        href="mailto:astro-aria#miantiao.me"
-        class="text-indigo-600 underline">email</a
-      > and I'll be sure to get back to you.
+        class="text-indigo-600 underline">seguirme en LinkedIn</a
+      >, o puedes visitar mi <a
+        href="https://github.com/JairoVera01"
+        target="_blank"
+        class="text-indigo-600 underline">GitHub</a
+      > para ver mis proyectos. No dudes en contactarme, estaré encantado de responder.
     </p>
   </section>
 </Layout>
+<style>
+  .timeline {
+    position: relative;
+    padding-left: 2rem; /* Espacio para la línea */
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2rem; /* Espacio entre cada experiencia */
+  }
+
+  .timeline-item .bullet {
+    position: absolute;
+    left: -1.15rem; /* Ajusta la posición para centrar la bolita en la línea */
+    top: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: white;
+    border: 2px solid #e5e7eb; /* Color del borde de la bolita */
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  .timeline-item::after {
+    content: "";
+    position: absolute;
+    top: 1.5rem; /* Empieza justo debajo de la bolita */
+    left: -0.05rem; /* Ajuste para centrar la línea con la bolita */
+    width: 2px;
+    height: calc(100% + 1rem); /* La línea hasta la siguiente bolita */
+    background-color: #e5e7eb; /* Color de la línea */
+  }
+
+  .timeline-item:last-child::after {
+    display: none; /* Elimina la línea después de la última bolita */
+  }
+</style>

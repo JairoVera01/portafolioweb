@@ -1,0 +1,23 @@
+[
+  {
+    "dates": "2017 · 2024",
+    "role": "Ingeniería de Sistemas",
+    "company": "Unviersidad Privada del Norte - Perú",
+    "description": "Bachiller en Ingeniería de Sistemas",
+    "logo": "/assets/images/studies/upn.jpg"
+  },
+  {
+    "dates": "May 2023",
+    "role": "Curso Innovación y transformación digital",
+    "company": "Univerisdad Ándres Bello - Chile",
+    "description": "Curso de Innovación y transformación digital",
+    "logo": "/assets/images/studies/universidad_andres_bello_logo.jpg"
+  },
+  {
+    "dates": "May 2023",
+    "role": "Desarrollo Web - ReactJs - JavaScript - Ciberseguridad",
+    "company": "Coderhouse - Argentina",
+    "description": "Diferentes cursos de desarrollo web y ciberseguridad",
+    "logo": "/assets/images/studies/coderhouse_logo.jpg"
+  }
+]

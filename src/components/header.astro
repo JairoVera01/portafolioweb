@@ -114,3 +114,37 @@ import Logo from "../components/logo.astro";
     </nav>
   </div>
 </header>
+<script is:inline>
+  function toggleMenu() {
+    const openMenu = document.getElementById("openMenu");
+    const closeMenu = document.getElementById("closeMenu");
+    const menu = document.getElementById("menu");
+    const mobileMenuBackground = document.getElementById(
+      "mobileMenuBackground"
+    );
+
+    openMenu.addEventListener("click", () => {
+      menu.classList.remove("hidden");
+      mobileMenuBackground.classList.remove("hidden");
+      openMenu.classList.add("hidden");
+      closeMenu.classList.remove("hidden");
+    });
+
+    closeMenu.addEventListener("click", () => {
+      menu.classList.add("hidden");
+      mobileMenuBackground.classList.add("hidden");
+      openMenu.classList.remove("hidden");
+      closeMenu.classList.add("hidden");
+    });
+
+    mobileMenuBackground.addEventListener("click", () => {
+      menu.classList.add("hidden");
+      mobileMenuBackground.classList.add("hidden");
+      openMenu.classList.remove("hidden");
+      closeMenu.classList.add("hidden");
+    });
+  }
+
+  document.addEventListener("astro:after-swap", toggleMenu); // Se asegura de que el menú se reinicie después de las transiciones
+  toggleMenu(); // Ejecuta la función inicialmente
+</script>
