@@ -145,6 +145,34 @@ import Logo from "../components/logo.astro";
     });
   }
 
+  // lo mismo para el boton de dark mode y su animacion de transicion
+  function toggleDarkMode() {
+    const darkToggle = document.getElementById("darkToggle");
+    const sun = document.getElementById("sun");
+    const moon = document.getElementById("moon");
+    const dayText = document.getElementById("dayText");
+    const nightText = document.getElementById("nightText");
+
+    darkToggle.addEventListener("click", () => {
+      if (document.documentElement.classList.contains("dark")) {
+        document.documentElement.classList.remove("dark");
+        localStorage.setItem("dark_mode", "false");
+        sun.classList.remove("hidden");
+        moon.classList.add("hidden");
+        dayText.classList.remove("hidden");
+        nightText.classList.add("hidden");
+      } else {
+        document.documentElement.classList.add("dark");
+        localStorage.setItem("dark_mode", "true");
+        sun.classList.add("hidden");
+        moon.classList.remove("hidden");
+        dayText.classList.add("hidden");
+        nightText.classList.remove("hidden");
+      }
+    });
+  }
+
   document.addEventListener("astro:after-swap", toggleMenu); // Se asegura de que el menú se reinicie después de las transiciones
+  document.addEventListener("astro:after-swap", toggleDarkMode); // Se asegura de que el dark mode se reinicie después de las transiciones
   toggleMenu(); // Ejecuta la función inicialmente
 </script>
