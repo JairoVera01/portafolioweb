@@ -4,6 +4,7 @@ import Footer from "../components/footer.astro";
 import Header from "../components/header.astro";
 import SquareLines from "../components/square-lines.astro";
 const { title } = Astro.props;
+import "@fontsource/poppins";
 ---
 
 <!doctype html>
@@ -29,6 +30,9 @@ const { title } = Astro.props;
     <style>
       .prose img {
         border-radius: 20px;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
       }
     </style>
     <link rel="icon" type="image/x-icon" href="../assets/images/favicon.png" />
