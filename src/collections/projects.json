@@ -40,7 +40,7 @@
       "/assets/images/projects/generadoroverlay/foto2.webp"
     ],
     "url": "https://www.htmlcssoverlay.xyz/",
-    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub", "Cloudflare"],
+    "tecnologies": ["Nextjs", "React", "Shadcn", "GitHub"],
     "proyectoPersonal": true,
     "autoria": "Desarrollo Propio",
     "nameGallery": "generadordeoverlays"
@@ -101,7 +101,7 @@
       "/assets/images/projects/drrecetas/foto5.webp"
     ],
     "url": "https://doctorrecetas.com/",
-    "tecnologies": ["Nextjs", "Tailwind", "GitHub", "React"],
+    "tecnologies": ["HTML5", "Javascript", "Tailwind", "Flowbite"],
     "proyectoPersonal": true,
     "autoria": "Desarrollo para SmartHiring - PR",
     "nameGallery": "doctorrecetas"
@@ -118,7 +118,7 @@
       "/assets/images/projects/islanmed/foto5.webp"
     ],
     "url": "https://islandmedpr.com/",
-    "tecnologies": ["Nextjs", "Tailwind", "GitHub", "React"],
+    "tecnologies": ["HTML5", "Javascript", "Tailwind", "Flowbite"],
     "proyectoPersonal": true,
     "autoria": "Desarrollo para SmartHiring - PR",
     "nameGallery": "islanmed"
@@ -134,7 +134,7 @@
       "/assets/images/projects/checkit/foto4.webp"
     ],
     "url": "https://islandmedpr.com/",
-    "tecnologies": ["Nextjs", "Tailwind", "GitHub", "React"],
+    "tecnologies": ["HTML5", "Javascript", "Tailwind", "Flowbite"],
     "proyectoPersonal": true,
     "autoria": "Desarrollo para SmartHiring - PR",
     "nameGallery": "checkit"
