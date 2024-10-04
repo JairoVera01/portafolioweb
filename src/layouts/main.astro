@@ -5,6 +5,7 @@ import Header from "../components/header.astro";
 import SquareLines from "../components/square-lines.astro";
 const { title } = Astro.props;
 import "@fontsource/poppins";
+import { SEO } from "astro-seo";
 ---
 
 <!doctype html>
@@ -55,6 +56,48 @@ import "@fontsource/poppins";
       async
       defer></script>
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta
+      name="keywords"
+      content="Desarrollador web, Desarrollador de sitios web, Desarrollador de aplicaciones web, Desarrollador de páginas web"
+    />
+    <!-- robots -->
+    <meta name="robots" content="index, follow" />
+    <!-- authgor -->
+    <meta name="author" content="Jairo Vera" />
+
+    <SEO
+      title="
+      Jairo
+      Vera
+      -
+      Desarrollador
+      Web"
+      description="Desarrollador web especializado en la creación de sitios web rápidos y eficientes. Conoce más sobre mis servicios y proyectos."
+      canonical="https://jairovera.dev/"
+      openGraph={{
+        basic: {
+          title: "Jairo Vera - Desarrollador Web",
+          type: "website",
+          image: "https://jairovera.dev/assets/images/port2.jpeg",
+        },
+      }}
+      twitter={{
+        creator: "@jairoveradev",
+      }}
+      extend={{
+        // extending the default link tags
+        link: [{ rel: "icon", href: "/favicon.ico" }],
+        // extending the default meta tags
+        meta: [
+          {
+            name: "twitter:image",
+            content: "https://jairovera.dev/assets/images/port2.jpeg",
+          },
+          { name: "twitter:title", content: "Jairo Vera" },
+          { name: "twitter:description", content: "Agent" },
+        ],
+      }}
+    />
   </head>
   <body class="antialiased bg-white dark:bg-neutral-950">
     <SquareLines />
