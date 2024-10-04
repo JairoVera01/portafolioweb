@@ -8,13 +8,12 @@ import "@fontsource/poppins";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <ViewTransitions />
-
     <!-- Used to add dark mode right away, adding here prevents any flicker -->
     <script is:inline>
       if (typeof Storage !== "undefined") {
@@ -55,6 +54,7 @@ import "@fontsource/poppins";
       src="https://challenges.cloudflare.com/turnstile/v0/api.js"
       async
       defer></script>
+    <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
   <body class="antialiased bg-white dark:bg-neutral-950">
     <SquareLines />

@@ -2,7 +2,6 @@
 import Button from "../components/button.astro";
 import Projects from "../components/home/projects.astro";
 import Separator from "../components/home/separator.astro";
-import Writings from "../components/home/writings.astro";
 import Layout from "../layouts/main.astro";
 import experiences from "../collections/experiences.json";
 import studies from "../collections/studies.json";
@@ -71,7 +70,10 @@ import { Image } from "astro:assets";
             </span>
           </div>
           <div class="relative z-30 rounded-lg">
-            <img
+            <Image
+              width={100}
+              height={100}
+              alt={"Jairo Vera"}
               src="/assets/images/port2.jpeg"
               loading="eager"
               decoding="auto"
@@ -90,7 +92,7 @@ import { Image } from "astro:assets";
   <Separator text="Mis proyectos" />
   <Projects />
   <Separator text="Sobre mi" />
-  <!-- <Writings /> -->
+
   <section
     class="relative z-20 w-full max-w-4xl mx-auto mt-16 px-7 md:mt-24 lg:mt-32 xl:px-0"
   >

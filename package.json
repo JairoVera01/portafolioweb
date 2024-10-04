@@ -18,6 +18,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.2.0",
     "@fancyapps/ui": "^5.0.36",
     "@fontsource/poppins": "^5.1.0",
     "@studio-freight/lenis": "^1.0.42",
