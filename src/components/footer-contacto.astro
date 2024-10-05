@@ -1,0 +1,32 @@
+---
+const { linkedin, github, correo, rutaContacto } = Astro.props;
+// imprimir en consola los valores de las propiedades quevienen desde astro props
+console.log(linkedin, github, correo, rutaContacto);
+---
+
+<section>
+  <h2
+    class="mt-5 mb-2 text-2xl font-bold lg:mt-10 sm:mt-6 dark:text-neutral-200"
+  >
+    Contacta conmigo!
+  </h2>
+  <p
+    class="text-sm mb-10 leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
+  >
+    Si deseas mantenerte al tanto de mi trabajo, asegúrate de <a
+      href={linkedin}
+      target="_blank"
+      class="text-indigo-600 underline">seguirme en LinkedIn</a
+    >, o puedes visitar mi <a
+      href={github}
+      target="_blank"
+      class="text-indigo-600 underline">GitHub</a
+    > para ver mis proyectos. No dudes en contactarme a mi correo <a
+      href={correo}
+      class="text-indigo-600 underline">contacto@jairovera.dev</a
+    >, o también puedes ir a la página de contacto <a
+      href={rutaContacto}
+      class="text-indigo-600 underline">contacto</a
+    >. Estaré encantado de responder.
+  </p>
+</section>

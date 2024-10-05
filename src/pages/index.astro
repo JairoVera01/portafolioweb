@@ -7,6 +7,7 @@ import experiences from "../collections/experiences.json";
 import studies from "../collections/studies.json";
 import AboutExperience from "../components/about-experience.astro";
 import PageHeading from "../components/page-heading.astro";
+import FooterContacto from "../components/footer-contacto.astro";
 import { Image } from "astro:assets";
 ---
 
@@ -202,13 +203,14 @@ import { Image } from "astro:assets";
       </div>
     </div>
 
-    <h2
-      class="mt-5 mb-2 text-2xl font-bold lg:mt-10 sm:mt-6 dark:text-neutral-200"
-    >
-      Contacta conmigo!
-    </h2>
-    <p
-      class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
+    <FooterContacto
+      linkedin="https://www.linkedin.com/in/frank-jairo-vera/"
+      github="https://github.com/JairoVera01"
+      correo="mailto:contacto@jairovera.dev"
+      rutaContacto="/contacto"
+    />
+    <!-- <p
+      class="text-sm mb-10 leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
     >
       Si deseas mantenerte al tanto de mi trabajo, asegúrate de <a
         href="https://www.linkedin.com/in/frank-jairo-vera/"
@@ -225,7 +227,7 @@ import { Image } from "astro:assets";
         href="/contacto"
         class="text-indigo-600 underline">contacto</a
       >. Estaré encantado de responder.
-    </p>
+    </p> -->
   </section>
 </Layout>
 <style>

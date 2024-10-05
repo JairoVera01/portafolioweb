@@ -1,5 +1,6 @@
 ---
 import projects from "../collections/projects.json";
+import FooterContacto from "../components/footer-contacto.astro";
 import PageHeading from "../components/page-heading.astro";
 import Project from "../components/project.astro";
 import Layout from "../layouts/main.astro";
@@ -33,5 +34,11 @@ import Layout from "../layouts/main.astro";
         })
       }
     </div>
+    <FooterContacto
+      linkedin="https://www.linkedin.com/in/frank-jairo-vera/"
+      github="https://github.com/JairoVera01"
+      correo="mailto:contacto@jairovera.dev"
+      rutaContacto="/contacto"
+    />
   </section>
 </Layout>
