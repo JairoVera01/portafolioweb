@@ -8,12 +8,12 @@ import Layout from "../layouts/main.astro";
 <Layout title="My Projects">
   <section class="relative z-20 max-w-2xl mx-auto my-12 px-7 lg:px-0">
     <PageHeading
-      title="My Projects"
-      description="Here are some of the current projects I've been working on. I really enjoy creating new projects and coming up with new ideas. I'm always working on something new, so check back often!"
+      title="Mis proyectos"
+      description="Estos son algunos de los proyectos en los que he trabajado recientemente."
     />
 
     <div
-      class="z-50 grid items-stretch w-full grid-cols-1 my-8 gap-7 sm:gap-5 sm:grid-cols-2"
+      class="grid items-stretch w-full sm:grid-cols-2 md:grid-cols-2 gap-7 mt-7"
     >
       {
         projects.map((project) => {
@@ -26,6 +26,8 @@ import Layout from "../layouts/main.astro";
               url={project.url}
               tecnologies={project.tecnologies}
               proyectoPersonal={project.proyectoPersonal}
+              autoria={project.autoria}
+              nameGallery={project.nameGallery}
             />
           );
         })
