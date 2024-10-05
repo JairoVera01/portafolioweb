@@ -6,9 +6,9 @@ import Layout from "../layouts/main.astro";
   <h1 class="text-3xl font-bold text-center my-8">Formulario de Contacto</h1>
   <form id="contact-form" class="max-w-xl mx-auto px-4">
     <div class="mb-4">
-      <label for="name" class="block text-gray-700 font-semibold mb-2"
-        >Nombre:</label
-      >
+      <label for="name" class="block text-gray-700 font-semibold mb-2">
+        Nombre:
+      </label>
       <input
         type="text"
         id="name"
@@ -20,9 +20,9 @@ import Layout from "../layouts/main.astro";
     </div>
 
     <div class="mb-4">
-      <label for="email" class="block text-gray-700 font-semibold mb-2"
-        >Correo Electrónico:</label
-      >
+      <label for="email" class="block text-gray-700 font-semibold mb-2">
+        Correo Electrónico:
+      </label>
       <input
         type="email"
         id="email"
@@ -33,9 +33,9 @@ import Layout from "../layouts/main.astro";
     </div>
 
     <div class="mb-4">
-      <label for="message" class="block text-gray-700 font-semibold mb-2"
-        >Mensaje:</label
-      >
+      <label for="message" class="block text-gray-700 font-semibold mb-2">
+        Mensaje:
+      </label>
       <textarea
         id="message"
         name="message"
@@ -54,17 +54,33 @@ import Layout from "../layouts/main.astro";
 
     <button
       type="submit"
-      class="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition-colors"
+      id="submit-button"
+      class="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition-colors flex items-center justify-center"
     >
-      Enviar
+      <svg
+        id="spinner"
+        class="animate-spin h-5 w-5 mr-3 text-white hidden"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z"></path>
+      </svg>
+      <span id="button-text">Enviar</span>
     </button>
   </form>
 
-  <div
-    id="status-message"
-    class="max-w-xl mx-auto px-4 mt-4 text-center text-red-600"
-  >
-  </div>
+  <div id="status-message" class="max-w-xl mx-auto px-4 mt-4 text-center"></div>
 </Layout>
 
 <script is:inline>
@@ -76,12 +92,24 @@ import Layout from "../layouts/main.astro";
       const form = event.target;
       const formData = new FormData(form);
 
+      const submitButton = document.getElementById("submit-button");
+      const spinner = document.getElementById("spinner");
+      const buttonText = document.getElementById("button-text");
+
+      // Deshabilitar el botón y mostrar el spinner
+      submitButton.disabled = true;
+      spinner.classList.remove("hidden");
+      buttonText.textContent = "Enviando...";
+
       // Obtener el token de Turnstile
       const turnstileToken = formData.get("cf-turnstile-response");
 
       if (!turnstileToken) {
-        document.getElementById("status-message").innerHTML =
-          "Fallo en la verificación de Turnstile. Por favor, inténtalo de nuevo.";
+        showMessage(
+          "Fallo en la verificación de Turnstile. Por favor, inténtalo de nuevo.",
+          "error"
+        );
+        resetButton();
         return;
       }
 
@@ -95,28 +123,50 @@ import Layout from "../layouts/main.astro";
           }
         );
 
-        const statusMessage = document.getElementById("status-message");
         const result = await response.json(); // Parsear el JSON del Worker
 
         if (response.ok) {
-          statusMessage.innerHTML = "Tu mensaje ha sido enviado exitosamente.";
-          // Si es exitoso pintar en verde el mensaje añadiendo la clase text-green-600
-          statusMessage.classList.remove("text-red-600");
-          statusMessage.classList.add("text-green-600");
+          showMessage(
+            result.message || "Tu mensaje ha sido enviado exitosamente.",
+            "success"
+          );
           form.reset(); // Limpiar el formulario
 
           // Reiniciar el widget de Turnstile
           turnstile.reset("#turnstile-widget");
         } else {
-          statusMessage.innerHTML = "Hubo un error: " + result.error;
-          statusMessage.classList.remove("text-green-600");
-          statusMessage.classList.add("text-red-600");
+          // Mostrar el mensaje de error devuelto por el Worker
+          showMessage(
+            result.error || "Hubo un error al enviar el mensaje.",
+            "error"
+          );
         }
       } catch (error) {
-        const statusMessage = document.getElementById("status-message");
-        statusMessage.innerHTML = "Hubo un problema al procesar el formulario.";
+        showMessage("Hubo un problema al procesar el formulario.", "error");
+      } finally {
+        resetButton();
+      }
+
+      function resetButton() {
+        // Restaurar el estado del botón
+        submitButton.disabled = false;
+        spinner.classList.add("hidden");
+        buttonText.textContent = "Enviar";
       }
     });
+
+  // Función para mostrar mensajes al usuario
+  function showMessage(message, type) {
+    const statusMessage = document.getElementById("status-message");
+    statusMessage.textContent = message;
+    statusMessage.classList.remove("text-red-600", "text-green-600");
+
+    if (type === "success") {
+      statusMessage.classList.add("text-green-600");
+    } else {
+      statusMessage.classList.add("text-red-600");
+    }
+  }
 </script>
 
 <!-- Añadir el script de Turnstile -->
