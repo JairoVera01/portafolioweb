@@ -14,7 +14,6 @@ import Layout from "../layouts/main.astro";
         id="name"
         name="name"
         required
-        pattern="[A-Za-z\s]+"
         title="Solo letras"
         class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
@@ -101,12 +100,17 @@ import Layout from "../layouts/main.astro";
 
         if (response.ok) {
           statusMessage.innerHTML = "Tu mensaje ha sido enviado exitosamente.";
+          // Si es exitoso pintar en verde el mensaje añadiendo la clase text-green-600
+          statusMessage.classList.remove("text-red-600");
+          statusMessage.classList.add("text-green-600");
           form.reset(); // Limpiar el formulario
 
           // Reiniciar el widget de Turnstile
           turnstile.reset("#turnstile-widget");
         } else {
           statusMessage.innerHTML = "Hubo un error: " + result.error;
+          statusMessage.classList.remove("text-green-600");
+          statusMessage.classList.add("text-red-600");
         }
       } catch (error) {
         const statusMessage = document.getElementById("status-message");
