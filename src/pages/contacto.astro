@@ -2,34 +2,72 @@
 import Layout from "../layouts/main.astro";
 ---
 
-<Layout title="My Writing">
-  <h1>Formulario de Contacto</h1>
-  <form id="contact-form">
-    <label for="name">Nombre:</label>
-    <input
-      type="text"
-      id="name"
-      name="name"
-      required
-      pattern="[A-Za-z\s]+"
-      title="Solo letras"
-    /><br /><br />
+<Layout title="Formulario de Contacto">
+  <h1 class="text-3xl font-bold text-center my-8">Formulario de Contacto</h1>
+  <form id="contact-form" class="max-w-xl mx-auto px-4">
+    <div class="mb-4">
+      <label for="name" class="block text-gray-700 font-semibold mb-2"
+        >Nombre:</label
+      >
+      <input
+        type="text"
+        id="name"
+        name="name"
+        required
+        pattern="[A-Za-z\s]+"
+        title="Solo letras"
+        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
 
-    <label for="email">Correo Electrónico:</label>
-    <input type="email" id="email" name="email" required /><br /><br />
+    <div class="mb-4">
+      <label for="email" class="block text-gray-700 font-semibold mb-2"
+        >Correo Electrónico:</label
+      >
+      <input
+        type="email"
+        id="email"
+        name="email"
+        required
+        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
 
-    <label for="message">Mensaje:</label>
-    <textarea id="message" name="message" required></textarea><br /><br />
+    <div class="mb-4">
+      <label for="message" class="block text-gray-700 font-semibold mb-2"
+        >Mensaje:</label
+      >
+      <textarea
+        id="message"
+        name="message"
+        required
+        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 resize-vertical min-h-[120px]"
+      ></textarea>
+    </div>
 
-    <!-- Añadir el widget de Turnstile -->
-    <div class="cf-turnstile" data-sitekey="0x4AAAAAAAwmjYdGGjEprZat"></div><br
-    />
+    <!-- Widget de Turnstile -->
+    <div
+      class="cf-turnstile mb-4"
+      data-sitekey="0x4AAAAAAAwmjYdGGjEprZat"
+      id="turnstile-widget"
+    >
+    </div>
 
-    <button type="submit">Enviar</button>
+    <button
+      type="submit"
+      class="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition-colors"
+    >
+      Enviar
+    </button>
   </form>
 
-  <div id="status-message"></div>
+  <div
+    id="status-message"
+    class="max-w-xl mx-auto px-4 mt-4 text-center text-red-600"
+  >
+  </div>
 </Layout>
+
 <script is:inline>
   document
     .getElementById("contact-form")
@@ -62,10 +100,13 @@ import Layout from "../layouts/main.astro";
         const result = await response.json(); // Parsear el JSON del Worker
 
         if (response.ok) {
-          statusMessage.innerHTML = "Tu mensaje ha sido enviado exitosamente."; // Mostrar mensaje general de éxito
+          statusMessage.innerHTML = "Tu mensaje ha sido enviado exitosamente.";
           form.reset(); // Limpiar el formulario
+
+          // Reiniciar el widget de Turnstile
+          turnstile.reset("#turnstile-widget");
         } else {
-          statusMessage.innerHTML = "Hubo un error: " + result.error; // Mostrar el error del Worker
+          statusMessage.innerHTML = "Hubo un error: " + result.error;
         }
       } catch (error) {
         const statusMessage = document.getElementById("status-message");
@@ -73,3 +114,7 @@ import Layout from "../layouts/main.astro";
       }
     });
 </script>
+
+<!-- Añadir el script de Turnstile -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer
+></script>
