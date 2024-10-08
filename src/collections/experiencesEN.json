@@ -1,0 +1,30 @@
+[
+  {
+    "dates": "Sept 2024 · Present",
+    "role": "Front-end Mobile - React Native",
+    "company": "NCAS Tech - Chile",
+    "description": "Mobile development for Android and iOS using React Native.",
+    "logo": "/assets/images/experiences/logo-ncas.png"
+  },
+  {
+    "dates": "Nov 2023 · Sept 2024",
+    "role": "Front-end Developer",
+    "company": "Smart Hiring - Puerto Rico",
+    "description": "Development of web pages and applications in collaboration with the backend and design teams for the Puerto Rican market.",
+    "logo": "/assets/images/experiences/magia.jpg"
+  },
+  {
+    "dates": "Sept 2023 · Oct 2023",
+    "role": "Front-end Developer (Project)",
+    "company": "Vision Games Corporation S.A.C",
+    "description": "2-month project on an internal human resources system using Angular.",
+    "logo": "/assets/images/experiences/visiongames.jpg"
+  },
+  {
+    "dates": "Apr 2023 · Jul 2023",
+    "role": "Junior Frontend Web Developer",
+    "company": "Vision Games Corporation S.A.C",
+    "description": "Frontend Developer in a multi-services project using Astro.",
+    "logo": "/assets/images/experiences/vevig.jpg"
+  }
+]

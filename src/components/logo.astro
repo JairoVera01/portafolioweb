@@ -1,5 +1,19 @@
+---
+const isSpanish =
+  Astro.url.pathname === "/" ||
+  Astro.url.pathname === "/contacto" ||
+  Astro.url.pathname === "/projects";
+console.log("Estamos en español", isSpanish);
+
+const isEnglish =
+  Astro.url.pathname === "/en/" ||
+  Astro.url.pathname === "/en/contact" ||
+  Astro.url.pathname === "/en/projects";
+console.log("We are in English", isEnglish);
+---
+
 <a
-  href="/"
+  href={isSpanish ? "/" : "/en/"}
   class="h-5 text-base group relative z-30 flex items-center space-x-1.5 text-black dark:text-white font-semibold w-full"
 >
   <span

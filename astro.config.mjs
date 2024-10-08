@@ -9,4 +9,8 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://jairovera.dev",
   integrations: [tailwind(), sitemap()],
+  i18n: {
+    defaultLocale: "es",
+    locales: ["es", "en"], // Ahora incluye "es"
+  },
 });

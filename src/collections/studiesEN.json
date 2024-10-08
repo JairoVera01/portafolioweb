@@ -1,0 +1,23 @@
+[
+  {
+    "dates": "2017 · 2024",
+    "role": "Systems Engineering",
+    "company": "Private University of the North - Peru",
+    "description": "Bachelor's Degree in Systems Engineering",
+    "logo": "/assets/images/studies/upn.jpg"
+  },
+  {
+    "dates": "May 2023",
+    "role": "Course in Innovation and Digital Transformation",
+    "company": "Andrés Bello University - Chile",
+    "description": "Course in Innovation and Digital Transformation",
+    "logo": "/assets/images/studies/universidad_andres_bello_logo.jpg"
+  },
+  {
+    "dates": "2021 · 2023",
+    "role": "Web Development - ReactJs - JavaScript - Cybersecurity",
+    "company": "Coderhouse - Argentina",
+    "description": "Various courses in web development and cybersecurity",
+    "logo": "/assets/images/studies/coderhouse_logo.jpg"
+  }
+]

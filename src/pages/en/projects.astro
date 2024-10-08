@@ -1,23 +1,25 @@
 ---
-import projects from "../collections/projects.json";
-import FooterContacto from "../components/footer-contacto.astro";
-import PageHeading from "../components/page-heading.astro";
-import Project from "../components/project.astro";
-import Layout from "../layouts/main.astro";
+import projects from "../../collections/projectsen.json";
+import projectsen from "../../collections/projectsen.json";
+import FooterContacto from "../../components/footer-contacto.astro";
+import FooterContactoEN from "../../components/footer-contactoEN.astro";
+import PageHeading from "../../components/page-heading.astro";
+import Project from "../../components/project.astro";
+import Layout from "../../layouts/main.astro";
 ---
 
-<Layout title="Mis proyectos">
+<Layout title="My Projects">
   <section class="relative z-20 max-w-2xl mx-auto my-12 px-7 lg:px-0">
     <PageHeading
-      title="Mis proyectos"
-      description="Estos son algunos de los proyectos en los que he trabajado recientemente."
+      title="My Projects"
+      description="These are some of the projects I have worked on recently."
     />
 
     <div
       class="grid items-stretch w-full sm:grid-cols-2 md:grid-cols-2 gap-7 mt-7"
     >
       {
-        projects.map((project) => {
+        projectsen.map((project: any) => {
           return (
             <Project
               name={project.name}
@@ -34,7 +36,7 @@ import Layout from "../layouts/main.astro";
         })
       }
     </div>
-    <FooterContacto
+    <FooterContactoEN
       linkedin="https://www.linkedin.com/in/frank-jairo-vera/"
       github="https://github.com/JairoVera01"
       correo="mailto:contacto@jairovera.dev"

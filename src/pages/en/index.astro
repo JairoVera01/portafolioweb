@@ -1,18 +1,14 @@
 ---
-import Button from "../components/button.astro";
-import Projects from "../components/home/projects.astro";
-import Separator from "../components/home/separator.astro";
-import Layout from "../layouts/main.astro";
-import experiences from "../collections/experiences.json";
-import studies from "../collections/studies.json";
-import AboutExperience from "../components/about-experience.astro";
-import PageHeading from "../components/page-heading.astro";
-import FooterContacto from "../components/footer-contacto.astro";
+import Button from "../../components/button.astro";
+import Projects from "../../components/home/projects.astro";
+import Separator from "../../components/home/separator.astro";
+import Layout from "../../layouts/main.astro";
+import experiences from "../../collections/experiencesEN.json";
+import studies from "../../collections/studiesEN.json";
+import AboutExperience from "../../components/about-experience.astro";
+import PageHeading from "../../components/page-heading.astro";
 import { Image } from "astro:assets";
-// defaultLocale es "es"
-import { getRelativeLocaleUrl } from "astro:i18n";
-
-const aboutURL = getRelativeLocaleUrl("en", "index");
+import FooterContactoEN from "../../components/footer-contactoEN.astro";
 ---
 
 <Layout title="Jairo Vera - Desarrollador Web">
@@ -20,8 +16,6 @@ const aboutURL = getRelativeLocaleUrl("en", "index");
     class="relative z-20 w-full max-w-4xl mx-auto mt-16 px-7 md:mt-24 lg:mt-32 xl:px-0"
   >
     <div class="flex flex-col items-center md:flex-row">
-      <!-- <a href={getRelativeLocaleUrl("en", "/")}>Ira version en ingles</a> -->
-
       <div class="relative w-full md:w-1/2">
         <h1
           class="mb-5 text-4xl font-bold leading-tight md:text-4xl lg:text-6xl text-gray-800 dark:text-gray-200"
@@ -31,31 +25,31 @@ const aboutURL = getRelativeLocaleUrl("en", "index");
         </h1>
 
         <p class="mb-6 text-base text-neutral-700 dark:text-neutral-300">
-          Soy un desarrollador front-end con 2 años de experiencia,
-          especializado en la creación de interfaces web modernas y optimizadas.
+          I am a front-end developer with 2 years of experience, specialized in
+          creating modern and optimized web interfaces.
         </p>
         <p class="mb-2 font-semibold text-neutral-800 dark:text-neutral-200">
-          Puedo ayudarte con:
+          I can help you with:
         </p>
         <ul
           class="py-2 space-y-[3px] text-sm list-disc list-inside text-neutral-600 dark:text-neutral-300"
         >
           <li>
-            Desarrollos en
+            Development in
             <span class="font-semibold text-neutral-700 dark:text-neutral-200">
-              Astro, Next.js, React, HTML, CSS, Sass, Tailwind y JavaScript
+              Astro, Next.js, React, HTML, CSS, Sass, Tailwind, and JavaScript
             </span>
           </li>
-          <li>Optimización de sitios web para una carga rápida y mejor SEO</li>
-          <li>Integración de animaciones</li>
-          <li>Diseño de sistemas y landing pages eficientes</li>
+          <li>Website optimization for faster load times and better SEO</li>
+          <li>Integration of animations</li>
+          <li>Design of efficient systems and landing pages</li>
           <li>
-            Desarrollo de proyectos utilizando Astro, Next.js y Tailwind CSS y
-            más...
+            Project development using Astro, Next.js, Tailwind CSS, and more...
           </li>
         </ul>
+
         <Button
-          text="Sígueme en Linkedin"
+          text="Follow me on LinkedIn"
           link="https://www.linkedin.com/in/frank-jairo-vera/"
         />
       </div>
@@ -98,19 +92,19 @@ const aboutURL = getRelativeLocaleUrl("en", "index");
     </div>
   </div>
 
-  <Separator text="Mis proyectos" />
+  <Separator text="My projects" />
   <Projects
-    title="Mis proyectos"
-    subTitle="Estos son algunos de los proyectos en los que he trabajado recientemente."
+    title="My projects"
+    subTitle="Some of the projects I've worked on recently."
   />
-  <Separator text="Sobre mi" />
+  <Separator text="About me" />
 
   <section
     class="relative z-20 w-full max-w-4xl mx-auto mt-16 px-7 md:mt-24 lg:mt-32 xl:px-0"
   >
     <PageHeading
-      title="Sobre mi"
-      description="¡Hola, soy Jairo! Soy Ingeniero de Sistemas 💻 especializado en desarrollo web. Me dedico a crear experiencias digitales que no solo se ven bien, sino que también funcionan perfectamente. Siempre en busca de nuevos retos para mejorar el mundo digital."
+      title="About me"
+      description="Hi, I'm Jairo! I'm a Systems Engineer 💻 specialized in web development. I'm dedicated to creating digital experiences that not only look good, but also work perfectly. Always looking for new challenges to improve the digital world."
     />
 
     <Image
@@ -123,14 +117,15 @@ const aboutURL = getRelativeLocaleUrl("en", "index");
       class="relative z-30 w-full my-10 rounded-xl brightness-105 hover:brightness-100"
     />
 
-    <h2 class="mb-2 text-2xl font-bold dark:text-neutral-200">Bio Rápida</h2>
+    <h2 class="mb-2 text-2xl font-bold dark:text-neutral-200">Quick Bio</h2>
     <p
       class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
     >
-      Soy Ingeniero de Sistemas especializado en Front-End, me encanta crear
-      interfaces rápidas, responsivas y atractivas. Estoy siempre dispuesto a
-      aprender algo nuevo en este apasionante mundo tecnológico. 🚀
+      I am a Systems Engineer specialized in Front-End. I love creating fast,
+      responsive, and attractive interfaces. I am always eager to learn
+      something new in this exciting tech world. 🚀
     </p>
+
     <div
       class="grid grid-cols-1 gap-10 mt-10 xl:grid-cols-2 dark:text-neutral-200"
     >
@@ -138,7 +133,7 @@ const aboutURL = getRelativeLocaleUrl("en", "index");
         <h2
           class="mt-5 mb-2 text-2xl font-bold lg:mt-10 sm:mt-6 dark:text-neutral-200"
         >
-          Experiencia Laboral
+          Work Experience
         </h2>
         <div class="timeline px-5 py-10">
           {
@@ -156,42 +151,12 @@ const aboutURL = getRelativeLocaleUrl("en", "index");
             ))
           }
         </div>
-
-        <!-- <div class="px-5 py-10">
-          {
-            experiences.map((experience, loop) => {
-              return (
-                <>
-                  {loop == 0 || loop == 2 ? (
-                    <div class="pb-10 border-l border-gray-200 dark:border-neutral-700">
-                      <AboutExperience
-                        dates={experience.dates}
-                        role={experience.role}
-                        company={experience.company}
-                        description={experience.description}
-                        logo={experience.logo}
-                      />
-                    </div>
-                  ) : (
-                    <AboutExperience
-                      dates={experience.dates}
-                      role={experience.role}
-                      company={experience.company}
-                      description={experience.description}
-                      logo={experience.logo}
-                    />
-                  )}
-                </>
-              );
-            })
-          }
-        </div> -->
       </div>
       <div>
         <h2
           class="mt-5 mb-2 text-2xl font-bold lg:mt-10 sm:mt-6 dark:text-neutral-200"
         >
-          Mis estudios
+          My studies
         </h2>
         <div class="timeline px-5 py-10">
           {
@@ -212,31 +177,12 @@ const aboutURL = getRelativeLocaleUrl("en", "index");
       </div>
     </div>
 
-    <FooterContacto
+    <FooterContactoEN
       linkedin="https://www.linkedin.com/in/frank-jairo-vera/"
       github="https://github.com/JairoVera01"
       correo="mailto:contacto@jairovera.dev"
       rutaContacto="/contacto"
     />
-    <!-- <p
-      class="text-sm mb-10 leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
-    >
-      Si deseas mantenerte al tanto de mi trabajo, asegúrate de <a
-        href="https://www.linkedin.com/in/frank-jairo-vera/"
-        target="_blank"
-        class="text-indigo-600 underline">seguirme en LinkedIn</a
-      >, o puedes visitar mi <a
-        href="https://github.com/JairoVera01"
-        target="_blank"
-        class="text-indigo-600 underline">GitHub</a
-      > para ver mis proyectos. No dudes en contactarme a mi correo <a
-        href="mailto:contacto@jairovera.dev"
-        class="text-indigo-600 underline">contacto@jairovera.dev</a
-      >, o también puedes ir a la página de contacto <a
-        href="/contacto"
-        class="text-indigo-600 underline">contacto</a
-      >. Estaré encantado de responder.
-    </p> -->
   </section>
 </Layout>
 <style>

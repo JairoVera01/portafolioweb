@@ -1,41 +1,76 @@
 ---
 import projects from "../../collections/projects.json";
+import projectsen from "../../collections/projectsen.json";
 import Button from "../button.astro";
 import Project from "../project.astro";
+
+const { title, subTitle } = Astro.props;
+const isSpanish =
+  Astro.url.pathname === "/" ||
+  Astro.url.pathname === "/contacto" ||
+  Astro.url.pathname === "/projects";
+console.log("Estamos en español", isSpanish);
+
+const isEnglish =
+  Astro.url.pathname === "/en/" ||
+  Astro.url.pathname === "/en/contact" ||
+  Astro.url.pathname === "/en/projects";
+console.log("We are in English", isEnglish);
 ---
 
 <section class="max-w-4xl mx-auto px-7 lg:px-0">
   <h2
     class="text-2xl font-bold leading-10 tracking-tight text-neutral-900 dark:text-neutral-100"
   >
-    Mis proyectos
+    {title}
   </h2>
   <p class="mb-6 mt-1 text-base text-neutral-700 dark:text-neutral-300">
-    Algunos de los proyectos en los que he trabajado recientemente.
+    {subTitle}
   </p>
   <div
     class="grid items-stretch w-full sm:grid-cols-2 md:grid-cols-3 gap-7 mt-7"
   >
     {
-      projects.map((project) => {
-        return (
-          <Project
-            name={project.name}
-            description={project.description}
-            portada={project.portada}
-            galeria={project.galeria}
-            url={project.url}
-            tecnologies={project.tecnologies}
-            proyectoPersonal={project.proyectoPersonal}
-            autoria={project.autoria}
-            nameGallery={project.nameGallery}
-          />
-        );
-      })
+      isSpanish
+        ? projects.map((project) => {
+            return (
+              <Project
+                name={project.name}
+                description={project.description}
+                portada={project.portada}
+                galeria={project.galeria}
+                url={project.url}
+                tecnologies={project.tecnologies}
+                proyectoPersonal={project.proyectoPersonal}
+                autoria={project.autoria}
+                nameGallery={project.nameGallery}
+              />
+            );
+          })
+        : projectsen.map((project) => {
+            return (
+              <Project
+                name={project.name}
+                description={project.description}
+                portada={project.portada}
+                galeria={project.galeria}
+                url={project.url}
+                tecnologies={project.tecnologies}
+                proyectoPersonal={project.proyectoPersonal}
+                autoria={project.autoria}
+                nameGallery={project.nameGallery}
+              />
+            );
+          })
     }
   </div>
 
   <div class="flex items-center justify-center w-full py-5">
-    <Button text="Revisa todos mis proyectos" link="/projects" />
+    <Button
+      text={isSpanish
+        ? "Revisa todos mis proyectos"
+        : "Check out all my projects"}
+      link="/projects"
+    />
   </div>
 </section>

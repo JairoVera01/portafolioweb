@@ -1,14 +1,20 @@
 [
   {
     "name": "Inicio",
-    "url": "/"
+    "nameEn": "Home",
+    "url": "/",
+    "urlEn": "/en/"
   },
   {
     "name": "Proyectos",
-    "url": "/projects"
+    "nameEn": "Projects",
+    "url": "/projects",
+    "urlEn": "/en/projects"
   },
   {
     "name": "Contacto",
-    "url": "/contacto"
+    "nameEn": "Contact",
+    "url": "/contacto",
+    "urlEn": "/en/contacto"
   }
 ]

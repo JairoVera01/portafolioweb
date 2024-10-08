@@ -1,6 +1,19 @@
 ---
+import { Image } from "astro:assets";
 import menus from "../collections/menu.json";
 import Logo from "../components/logo.astro";
+
+const isSpanish =
+  Astro.url.pathname === "/" ||
+  Astro.url.pathname === "/contacto" ||
+  Astro.url.pathname === "/projects";
+console.log("Estamos en español", isSpanish);
+
+const isEnglish =
+  Astro.url.pathname === "/en/" ||
+  Astro.url.pathname === "/en/contact" ||
+  Astro.url.pathname === "/en/projects";
+console.log("We are in English", isEnglish);
 ---
 
 <!-- This is an invisible div with relative position so that it takes up the height of the menu (because menu is absolute/fixed) -->
@@ -17,7 +30,7 @@ import Logo from "../components/logo.astro";
     >
     </div>
     <nav
-      class="relative z-30 flex flex-row-reverse justify-start w-full text-sm sm:justify-end text-neutral-500 dark:text-neutral-400 sm:flex-row"
+      class="relative z-30 flex flex-row-reverse justify-start w-full text-sm sm:justify-end text-neutral-500 dark:text-neutral-400 sm:flex-row mr-4 items-center"
     >
       <div
         id="openMenu"
@@ -61,12 +74,17 @@ import Logo from "../components/logo.astro";
         </div>
         {
           menus.map((menu) => {
+            // const isActive = Astro.url.pathname === menu.url;
+            const isEnglish = Astro.url.pathname.startsWith("/en"); // Verifica si la URL es en inglés
+            const isActive = isEnglish
+              ? Astro.url.pathname === menu.urlEn
+              : Astro.url.pathname === menu.url;
             return (
               <a
-                href={menu.url}
-                class="relative flex items-center justify-center w-full px-3 py-2 font-medium tracking-wide text-center duration-200 ease-out sm:py-0 sm:mb-0 md:w-auto hover:text-neutral-900 dark:hover:text-white"
+                href={isEnglish ? menu.urlEn : menu.url}
+                class={`relative flex items-center justify-center w-full px-3 py-2 font-medium tracking-wide text-center duration-200 ease-out mx-auto my-auto h-full sm:py-0 sm:mb-0 md:w-auto hover:text-neutral-900 dark:hover:text-white ${isActive ? "text-black dark:text-black" : ""}`}
               >
-                {menu.name}
+                {isEnglish ? menu.nameEn : menu.name}
               </a>
             );
           })
@@ -107,14 +125,47 @@ import Logo from "../components/logo.astro";
           >
         </div>
         <span class="hidden sm:inline-block">
-          <span id="dayText" class="ml-2"> Modo claro </span>
-          <span id="nightText" class="hidden ml-2"> Modo oscuro </span>
+          <span id="dayText" class="ml-2">
+            {isSpanish ? "Modo claro" : "Light mode"}
+          </span>
+          <span id="nightText" class="hidden ml-2">
+            {isSpanish ? "Modo Oscuro" : "Dark mode"}
+          </span>
         </span>
+      </div>
+      <div class="ml-4">
+        {
+          isSpanish ? (
+            <a
+              href="/en"
+              class=" flex items-center justify-center w-full px-1 py-1 font-medium tracking-wide text-center duration-200 ease-out sm:py-1 sm:mb-0 md:w-auto hover:text-neutral-900 dark:hover:text-white border border-neutral-300 dark:border-neutral-700 rounded-md bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-900 shadow-md transition-all"
+            >
+              <Image
+                width={25}
+                height={25}
+                src="/assets/icons/eeuu.svg"
+                alt=""
+              />
+            </a>
+          ) : (
+            <a
+              href="/"
+              class=" flex items-center justify-center w-full px-1 py-1 font-medium tracking-wide text-center duration-200 ease-out sm:py-1 sm:mb-0 md:w-auto hover:text-neutral-900 dark:hover:text-white border border-neutral-300 dark:border-neutral-700 rounded-md bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-900 shadow-md transition-all"
+            >
+              <Image
+                width={25}
+                height={25}
+                src="/assets/icons/spain.svg"
+                alt=""
+              />
+            </a>
+          )
+        }
       </div>
     </nav>
   </div>
 </header>
-<script is:inline>
+<!-- <script is:inline>
   function toggleMenu() {
     const openMenu = document.getElementById("openMenu");
     const closeMenu = document.getElementById("closeMenu");
@@ -172,7 +223,46 @@ import Logo from "../components/logo.astro";
     });
   }
 
-  document.addEventListener("astro:after-swap", toggleMenu); // Se asegura de que el menú se reinicie después de las transiciones
-  document.addEventListener("astro:after-swap", toggleDarkMode); // Se asegura de que el dark mode se reinicie después de las transiciones
-  toggleMenu(); // Ejecuta la función inicialmente
-</script>
+  let onScroll; // Variable para almacenar el handler del scroll
+
+  function stickyHeader() {
+    console.log("stickyHeader ejecutado");
+
+    const header = document.getElementById("header");
+    const sticky = header.offsetTop;
+
+    // Si ya existe un event listener, lo eliminamos
+    if (onScroll) {
+      window.removeEventListener("scroll", onScroll);
+    }
+
+    onScroll = () => {
+      if (window.pageYOffset > sticky) {
+        header.classList.add("bg-white", "dark:bg-neutral-950");
+        header.classList.remove("border-transparent");
+      } else {
+        header.classList.remove("bg-white", "dark:bg-neutral-950");
+        header.classList.add("border-transparent");
+      }
+    };
+
+    window.addEventListener("scroll", onScroll);
+  }
+
+  function initializeScripts() {
+    console.log("initializeScripts ejecutado");
+
+    toggleMenu();
+    toggleDarkMode();
+    stickyHeader();
+  }
+
+  // Ejecutamos las funciones al cargar la página por primera vez
+  initializeScripts();
+
+  // Volvemos a ejecutar las funciones después de cada navegación
+  document.addEventListener("astro:page-load", () => {
+    console.log("astro:page-load disparado");
+    initializeScripts();
+  });
+</script> -->

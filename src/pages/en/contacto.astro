@@ -1,0 +1,181 @@
+---
+import PageHeading from "../../components/page-heading.astro";
+import Layout from "../../layouts/main.astro";
+---
+
+<Layout title="Formulario de Contacto">
+  <section class="relative z-20 max-w-2xl mx-auto my-12 px-7 lg:px-0">
+    <PageHeading
+      title="Contact Me"
+      description="If you have any questions or just want to say hi, feel free to send me a message."
+    />
+    <form id="contact-form" class="mt-5">
+      <div class="mb-4">
+        <label for="name" class="block text-gray-700 font-semibold mb-2">
+          Name:
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          title="Solo letras"
+          class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="email" class="block text-gray-700 font-semibold mb-2">
+          Email:
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="message" class="block text-gray-700 font-semibold mb-2">
+          Message:
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          required
+          class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 resize-vertical min-h-[120px]"
+        ></textarea>
+      </div>
+
+      <!-- Widget de Turnstile -->
+      <div
+        class="cf-turnstile mb-4"
+        data-sitekey="0x4AAAAAAAwmjYdGGjEprZat"
+        id="turnstile-widget"
+        data-language="en"
+      >
+      </div>
+
+      <button
+        type="submit"
+        id="submit-button"
+        class="w-full bg-gray-700 text-white p-3 rounded hover:bg-gray-800 transition-colors flex items-center justify-center"
+      >
+        <svg
+          id="spinner"
+          class="animate-spin h-5 w-5 mr-3 text-white hidden"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z"></path>
+        </svg>
+        <span id="button-text" class="font-semibold">Send</span>
+      </button>
+    </form>
+
+    <div id="status-message" class="mx-auto px-4 mt-4 text-center"></div>
+  </section>
+</Layout>
+
+<script is:inline>
+  document
+    .getElementById("contact-form")
+    .addEventListener("submit", async function (event) {
+      event.preventDefault(); // Evita la recarga de la página
+
+      const form = event.target;
+      const formData = new FormData(form);
+
+      const submitButton = document.getElementById("submit-button");
+      const spinner = document.getElementById("spinner");
+      const buttonText = document.getElementById("button-text");
+
+      // Deshabilitar el botón y mostrar el spinner
+      submitButton.disabled = true;
+      spinner.classList.remove("hidden");
+      buttonText.textContent = "Enviando...";
+
+      // Obtener el token de Turnstile
+      const turnstileToken = formData.get("cf-turnstile-response");
+
+      if (!turnstileToken) {
+        showMessage(
+          "Failed to verify that you're human. Please try again.",
+          "error"
+        );
+        resetButton();
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          "https://resend-email-worker.fj-verachamorro.workers.dev/",
+          {
+            method: "POST",
+            body: formData,
+            credentials: "include",
+          }
+        );
+
+        const result = await response.json(); // Parsear el JSON del Worker
+
+        if (response.ok) {
+          showMessage(
+            result.message || "Your message has been sent successfully.",
+            "success"
+          );
+          form.reset(); // Limpiar el formulario
+
+          // Reiniciar el widget de Turnstile
+          turnstile.reset("#turnstile-widget");
+        } else {
+          // Mostrar el mensaje de error devuelto por el Worker
+          showMessage(
+            result.error || "There was a problem processing the form.",
+            "error"
+          );
+        }
+      } catch (error) {
+        showMessage("here was a problem processing the form.", "error");
+      } finally {
+        resetButton();
+      }
+
+      function resetButton() {
+        // Restaurar el estado del botón
+        submitButton.disabled = false;
+        spinner.classList.add("hidden");
+        buttonText.textContent = "Send";
+      }
+    });
+
+  // Función para mostrar mensajes al usuario
+  function showMessage(message, type) {
+    const statusMessage = document.getElementById("status-message");
+    statusMessage.textContent = message;
+    statusMessage.classList.remove("text-red-600", "text-green-600");
+
+    if (type === "success") {
+      statusMessage.classList.add("text-green-600");
+    } else {
+      statusMessage.classList.add("text-red-600");
+    }
+  }
+</script>
+
+<!-- Añadir el script de Turnstile -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer
+></script>
