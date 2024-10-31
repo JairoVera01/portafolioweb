@@ -1,5 +1,23 @@
 [
   {
+    "name": "Estudio Shaddai - Perú",
+    "description": "Proyecto desarrollado para empresa que brinda servicios de contabilidad.",
+    "portada": "/assets/images/projects/estudioshaddai/portada.webp",
+    "galeria": [
+      "/assets/images/projects/estudioshaddai/foto1.webp",
+      "/assets/images/projects/estudioshaddai/foto2.webp",
+      "/assets/images/projects/estudioshaddai/foto3.webp",
+      "/assets/images/projects/estudioshaddai/foto4.webp",
+      "/assets/images/projects/estudioshaddai/foto5.webp",
+      "/assets/images/projects/estudioshaddai/foto6.webp"
+    ],
+    "url": "https://estudioshaddai.com/",
+    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub", "Cloudflare"],
+    "proyectoPersonal": true,
+    "autoria": "Desarrollo Freelance - Perú",
+    "nameGallery": "estudioshaddai"
+  },
+  {
     "name": "UBILEX - Perú",
     "description": "Proyecto desarrollado para empresa que brinda servicios de asesoría legal.",
     "portada": "/assets/images/projects/ubilex/portada.webp",
