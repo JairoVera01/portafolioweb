@@ -36,7 +36,7 @@
   },
   {
     "name": "Dr. Carlos Mao (en desarrollo)",
-    "description": "Landin page para médico especialista en neurocirugía en Perú.",
+    "description": "Landing page para médico especialista en neurocirugía en Perú.",
     "portada": "/assets/images/projects/drmao/portada.webp",
     "galeria": [
       "/assets/images/projects/drmao/foto1.webp",
@@ -51,7 +51,7 @@
   },
   {
     "name": "Generador de Overlays CSS",
-    "description": "Landin page para médico especialista en neurocirugía en Perú.",
+    "description": "Herramienta para generar overlays en CSS.",
     "portada": "/assets/images/projects/generadoroverlay/portada.webp",
     "galeria": [
       "/assets/images/projects/generadoroverlay/foto1.webp",

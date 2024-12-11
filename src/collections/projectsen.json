@@ -33,7 +33,7 @@
   },
   {
     "name": "CSS Overlay Generator",
-    "description": "Landing page for a medical specialist in neurosurgery in Peru.",
+    "description": "Tool to generate overlays in CSS.",
     "portada": "/assets/images/projects/generadoroverlay/portada.webp",
     "galeria": [
       "/assets/images/projects/generadoroverlay/foto1.webp",
