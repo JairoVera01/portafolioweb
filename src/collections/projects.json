@@ -1,5 +1,23 @@
 [
   {
+    "name": "Tatem - México",
+    "description": "Página web para empresa mexicana que brinda soluciones de software para empresas.",
+    "portada": "/assets/images/projects/tatem/portada.webp",
+    "galeria": [
+      "/assets/images/projects/tatem/foto1.webp",
+      "/assets/images/projects/tatem/foto2.webp",
+      "/assets/images/projects/tatem/foto3.webp",
+      "/assets/images/projects/tatem/foto4.webp",
+      "/assets/images/projects/tatem/foto5.webp",
+      "/assets/images/projects/tatem/foto6.webp"
+    ],
+    "url": "https://tatem.mx/",
+    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub"],
+    "proyectoPersonal": true,
+    "autoria": "Desarrollo Freelance - México",
+    "nameGallery": "tatem"
+  },
+  {
     "name": "Estudio Shaddai - Perú",
     "description": "Proyecto desarrollado para empresa que brinda servicios de contabilidad.",
     "portada": "/assets/images/projects/estudioshaddai/portada.webp",
