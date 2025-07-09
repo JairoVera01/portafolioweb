@@ -9,7 +9,6 @@ import AboutExperience from "../components/about-experience.astro";
 import PageHeading from "../components/page-heading.astro";
 import FooterContacto from "../components/footer-contacto.astro";
 import { Image } from "astro:assets";
-// defaultLocale es "es"
 import { getRelativeLocaleUrl } from "astro:i18n";
 
 const aboutURL = getRelativeLocaleUrl("en", "index");
@@ -20,13 +19,10 @@ const aboutURL = getRelativeLocaleUrl("en", "index");
     class="relative z-20 w-full max-w-4xl mx-auto mt-16 px-7 md:mt-24 lg:mt-32 xl:px-0"
   >
     <div class="flex flex-col items-center md:flex-row">
-      <!-- <a href={getRelativeLocaleUrl("en", "/")}>Ira version en ingles</a> -->
-
       <div class="relative w-full md:w-1/2">
         <h1
           class="mb-5 text-4xl font-bold leading-tight md:text-4xl lg:text-6xl text-gray-800 dark:text-gray-200"
         >
-          <!-- Jairo Vera + emoji de desarrollador web front end -->
           Jairo Vera <span class="text-6xl">👨🏽‍💻</span>
         </h1>
 
@@ -239,6 +235,7 @@ const aboutURL = getRelativeLocaleUrl("en", "index");
     </p> -->
   </section>
 </Layout>
+
 <style>
   .timeline {
     position: relative;

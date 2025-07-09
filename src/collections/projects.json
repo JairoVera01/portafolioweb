@@ -1,5 +1,20 @@
 [
   {
+    "name": "Rosario Zolezzi - Perú",
+    "description": "Página web para psicóloga peruana especializada en terapia individual y pareja.",
+    "portada": "/assets/images/projects/rosariozolezzi/portada.webp",
+    "galeria": [
+      "/assets/images/projects/rosariozolezzi/foto1.webp",
+      "/assets/images/projects/rosariozolezzi/foto2.webp",
+      "/assets/images/projects/rosariozolezzi/foto3.webp"
+    ],
+    "url": "https://rosariozolezzi.com/",
+    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub"],
+    "proyectoPersonal": true,
+    "autoria": "Desarrollo Freelance - Perú",
+    "nameGallery": "rosariozolezzi"
+  },
+  {
     "name": "Tatem - México",
     "description": "Página web para empresa mexicana que brinda soluciones de software para empresas.",
     "portada": "/assets/images/projects/tatem/portada.webp",
