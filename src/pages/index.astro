@@ -152,36 +152,6 @@ const aboutURL = getRelativeLocaleUrl("en", "index");
             ))
           }
         </div>
-
-        <!-- <div class="px-5 py-10">
-          {
-            experiences.map((experience, loop) => {
-              return (
-                <>
-                  {loop == 0 || loop == 2 ? (
-                    <div class="pb-10 border-l border-gray-200 dark:border-neutral-700">
-                      <AboutExperience
-                        dates={experience.dates}
-                        role={experience.role}
-                        company={experience.company}
-                        description={experience.description}
-                        logo={experience.logo}
-                      />
-                    </div>
-                  ) : (
-                    <AboutExperience
-                      dates={experience.dates}
-                      role={experience.role}
-                      company={experience.company}
-                      description={experience.description}
-                      logo={experience.logo}
-                    />
-                  )}
-                </>
-              );
-            })
-          }
-        </div> -->
       </div>
       <div>
         <h2
@@ -214,47 +184,28 @@ const aboutURL = getRelativeLocaleUrl("en", "index");
       correo="mailto:contacto@jairovera.dev"
       rutaContacto="/contacto"
     />
-    <!-- <p
-      class="text-sm mb-10 leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
-    >
-      Si deseas mantenerte al tanto de mi trabajo, asegúrate de <a
-        href="https://www.linkedin.com/in/frank-jairo-vera/"
-        target="_blank"
-        class="text-indigo-600 underline">seguirme en LinkedIn</a
-      >, o puedes visitar mi <a
-        href="https://github.com/JairoVera01"
-        target="_blank"
-        class="text-indigo-600 underline">GitHub</a
-      > para ver mis proyectos. No dudes en contactarme a mi correo <a
-        href="mailto:contacto@jairovera.dev"
-        class="text-indigo-600 underline">contacto@jairovera.dev</a
-      >, o también puedes ir a la página de contacto <a
-        href="/contacto"
-        class="text-indigo-600 underline">contacto</a
-      >. Estaré encantado de responder.
-    </p> -->
   </section>
 </Layout>
 
 <style>
   .timeline {
     position: relative;
-    padding-left: 2rem; /* Espacio para la línea */
+    padding-left: 2rem;
   }
 
   .timeline-item {
     position: relative;
-    margin-bottom: 2rem; /* Espacio entre cada experiencia */
+    margin-bottom: 2rem;
   }
 
   .timeline-item .bullet {
     position: absolute;
-    left: -1.15rem; /* Ajusta la posición para centrar la bolita en la línea */
+    left: -1.15rem;
     top: 0;
     width: 1.5rem;
     height: 1.5rem;
     background-color: white;
-    border: 2px solid #e5e7eb; /* Color del borde de la bolita */
+    border: 2px solid #e5e7eb;
     border-radius: 50%;
     z-index: 1;
   }
@@ -262,14 +213,14 @@ const aboutURL = getRelativeLocaleUrl("en", "index");
   .timeline-item::after {
     content: "";
     position: absolute;
-    top: 1.5rem; /* Empieza justo debajo de la bolita */
-    left: -0.05rem; /* Ajuste para centrar la línea con la bolita */
+    top: 1.5rem;
+    left: -0.05rem;
     width: 2px;
-    height: calc(100% + 1rem); /* La línea hasta la siguiente bolita */
-    background-color: #e5e7eb; /* Color de la línea */
+    height: calc(100% + 1rem);
+    background-color: #e5e7eb;
   }
 
   .timeline-item:last-child::after {
-    display: none; /* Elimina la línea después de la última bolita */
+    display: none;
   }
 </style>

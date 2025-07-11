@@ -1,5 +1,22 @@
 [
   {
+    "name": "MDP Solutions - Perú",
+    "description": "Página web que brinda soluciones en VOIP, seguridad y redes.",
+    "portada": "/assets/images/projects/mdpsolutions/portada.webp",
+    "galeria": [
+      "/assets/images/projects/mdpsolutions/foto1.webp",
+      "/assets/images/projects/mdpsolutions/foto2.webp",
+      "/assets/images/projects/mdpsolutions/foto3.webp",
+      "/assets/images/projects/mdpsolutions/foto4.webp",
+      "/assets/images/projects/mdpsolutions/foto5.webp"
+    ],
+    "url": "https://www.mdpsolutions.com.pe/",
+    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub"],
+    "proyectoPersonal": true,
+    "autoria": "Freelance Development - Peru",
+    "nameGallery": "mdpsolutions"
+  },
+  {
     "name": "Rosario Zolezzi - Perú",
     "description": "Website for a Peruvian psychologist specializing in individual and couple therapy.",
     "portada": "/assets/images/projects/rosariozolezzi/portada.webp",

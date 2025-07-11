@@ -52,7 +52,7 @@ const structuredData = {
 const defaultTitle =
   "Jairo Vera - Desarrollador Web Full Stack | Sitios Web Modernos y Rápidos";
 const defaultDescription =
-  "Desarrollador web full stack especializado en crear sitios web modernos, rápidos y optimizados. Experto en React, Vue, Astro y tecnologías web modernas. ¡Convierte tu idea en realidad digital!";
+  "Desarrollador web front end especializado en crear sitios web modernos, rápidos y optimizados. Experto en React, NextJs, Astro y tecnologías web modernas. ¡Convierte tu idea en realidad digital!";
 const defaultImage = "https://jairovera.dev/assets/images/openG.png";
 
 const pageTitle = title || defaultTitle;
@@ -117,7 +117,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="description" content={pageDescription} />
     <meta
       name="keywords"
-      content="desarrollador web, programador full stack, sitios web modernos, React developer, Vue developer, Astro developer, JavaScript expert, frontend developer, backend developer, desarrollo web profesional, páginas web optimizadas, SEO web, responsive design, Jairo Vera desarrollador"
+      content="desarrollador web, programador front end, sitios web modernos, React developer, Astro developer, JavaScript expert, frontend developer, backend developer, desarrollo web profesional, páginas web optimizadas, SEO web, responsive design, Jairo Vera desarrollador"
     />
     <meta name="author" content="Jairo Vera" />
     <meta
@@ -167,7 +167,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:image" content={defaultImage} />
     <meta
       name="twitter:image:alt"
-      content="Jairo Vera - Desarrollador Web Full Stack"
+      content="Jairo Vera - Desarrollador Web Front End"
     />
 
     <!-- LinkedIn específico -->
@@ -352,7 +352,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
       document.addEventListener("visibilitychange", function () {
         if (document.hidden) {
-          document.title = "💻 ¡No te vayas! - Jairo Vera Dev";
+          document.title =
+            "¡Vuelve pronto! 🚀 | Jairo Vera - Desarrollador Web";
         } else {
           document.title = originalTitle;
         }
@@ -372,7 +373,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         "name": "Jairo Vera - Desarrollador Web",
         "alternateName": "JairoVera.dev",
         "url": "https://jairovera.dev",
-        "description": "Portfolio profesional de Jairo Vera, desarrollador web full stack especializado en tecnologías modernas",
+        "description": "Portfolio profesional de Jairo Vera, desarrollador web front end especializado en tecnologías modernas",
         "inLanguage": "es-ES",
         "isAccessibleForFree": true,
         "creator": {

@@ -55,12 +55,14 @@ const RutasIconos = [
   },
 ];
 
-import { Fancybox } from "@fancyapps/ui";
-import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import { Image } from "astro:assets";
-
-// MAPEAR UBILEX (listo) - ISLANMEDR - DR RECETAS - QUIEBRASTOTALES (listo) - CHECKIT - DRMAO - TU LICENCIA (APP - LANDING)
 ---
+
+<!-- GLightbox CSS -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css"
+/>
 
 <div
   class="relative flex flex-col items-stretch duration-300 ease-out p-7 sm:p-3 group h-100 rounded-2xl"
@@ -75,7 +77,14 @@ import { Image } from "astro:assets";
     class="relative z-30 block duration-300 ease-out group-hover:-translate-x-1 group-hover:-translate-y-1"
   >
     <span class="block w-full">
-      <a data-fancybox={nameGallery} href={portada}>
+      <!-- Imagen principal con GLightbox -->
+      <a
+        href={portada}
+        class="glightbox"
+        data-gallery={nameGallery}
+        data-title={name}
+        data-description={description}
+      >
         <Image
           alt={name}
           src={portada}
@@ -88,18 +97,22 @@ import { Image } from "astro:assets";
         />
       </a>
     </span>
+
+    <!-- Imágenes adicionales de la galería (ocultas) -->
     <div style="display:none">
       {
-        galeria.map((imagen: any, index: any) => (
+        galeria.map((imagen: string, index: number) => (
           <a
             href={imagen}
-            data-fancybox={nameGallery}
-            data-caption={`Imagen ${index + 1}`}
-            class="hidden"
+            class="glightbox hidden"
+            data-gallery={nameGallery}
+            data-title={`${name} - Imagen ${index + 2}`}
+            data-description={`Galería de ${name}`}
           />
         ))
       }
     </div>
+
     <a class="block w-full px-1 mt-5 mb-1 sm:mt-3" href={url} target="_blank">
       <span
         class="flex items-center mb-0 text-base font-semibold tracking-tight text-neutral-900 dark:text-neutral-100"
@@ -154,7 +167,7 @@ import { Image } from "astro:assets";
       <div class="mt-4">
         <span class="flex items-center mt-3">
           {
-            tecnologies.map((tecnologia: any) => {
+            tecnologies.map((tecnologia: string) => {
               const icono = RutasIconos.find(
                 (icono) => icono.tecnologia === tecnologia
               );
@@ -179,20 +192,140 @@ import { Image } from "astro:assets";
   </span>
 </div>
 
+<!-- GLightbox JavaScript -->
 <script
   is:inline
-  src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"
+  src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"
 ></script>
-<script is:inline>
-  Fancybox.bind("[data-fancybox]", {
-    // opciones
-    contentClick: "toggleCover",
-    Images: {
-      Panzoom: {
-        panMode: "mousemove",
-        mouseMoveFactor: 1.1,
-        mouseMoveFriction: 0.12,
-      },
-    },
+
+<script>
+  import GLightbox from "glightbox";
+  import "glightbox/dist/css/glightbox.min.css";
+  console.log("GLightbox initialized");
+  // Inicializar GLightbox cuando el DOM esté listo
+  document.addEventListener("DOMContentLoaded", () => {
+    const lightbox = GLightbox({
+      touchNavigation: true,
+      loop: true,
+      autoplayVideos: true,
+    });
   });
 </script>
+
+<style>
+  /* Estilos adicionales para mejorar la apariencia de GLightbox */
+  .glightbox-clean .gslide-description {
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .glightbox-clean .gdesc-inner h4 {
+    color: white;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .glightbox-clean .gdesc-inner .gslide-desc {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  /* Personalización para modo oscuro */
+  @media (prefers-color-scheme: dark) {
+    .glightbox-clean .gslide-description {
+      background: rgba(23, 23, 23, 0.9);
+      border: 1px solid rgba(64, 64, 64, 0.3);
+    }
+  }
+
+  /* Animaciones personalizadas */
+  .gzoomIn {
+    animation: gzoomIn 0.5s ease;
+  }
+
+  .gzoomOut {
+    animation: gzoomOut 0.5s ease;
+  }
+
+  .gfadeIn {
+    animation: gfadeIn 0.3s ease;
+  }
+
+  .gfadeOut {
+    animation: gfadeOut 0.3s ease;
+  }
+
+  .gslideInRight {
+    animation: gslideInRight 0.4s ease;
+  }
+
+  .gslideOutLeft {
+    animation: gslideOutLeft 0.4s ease;
+  }
+
+  @keyframes gzoomIn {
+    from {
+      opacity: 0;
+      transform: scale3d(0.3, 0.3, 0.3);
+    }
+    to {
+      opacity: 1;
+      transform: scale3d(1, 1, 1);
+    }
+  }
+
+  @keyframes gzoomOut {
+    from {
+      opacity: 1;
+      transform: scale3d(1, 1, 1);
+    }
+    to {
+      opacity: 0;
+      transform: scale3d(0.3, 0.3, 0.3);
+    }
+  }
+
+  @keyframes gfadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes gfadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes gslideInRight {
+    from {
+      opacity: 0;
+      transform: translate3d(100%, 0, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes gslideOutLeft {
+    from {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      opacity: 0;
+      transform: translate3d(-100%, 0, 0);
+    }
+  }
+</style>
