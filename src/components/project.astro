@@ -201,13 +201,31 @@ import { Image } from "astro:assets";
 <script>
   import GLightbox from "glightbox";
   import "glightbox/dist/css/glightbox.min.css";
-  console.log("GLightbox initialized");
+
   // Inicializar GLightbox cuando el DOM esté listo
   document.addEventListener("DOMContentLoaded", () => {
     const lightbox = GLightbox({
       touchNavigation: true,
       loop: true,
-      autoplayVideos: true,
+      autoplayVideos: false,
+      openEffect: "zoom",
+      closeEffect: "fade",
+      slideEffect: "slide",
+      moreText: "Ver más",
+      moreLength: 60,
+      closeButton: true,
+      keyboardNavigation: true,
+      closeOnOutsideClick: true,
+      startAt: 0,
+
+      width: "90vw",
+      height: "90vh",
+      zoomable: true,
+      draggable: true,
+      dragToleranceX: 40,
+      dragToleranceY: 65,
+      preload: true,
+      skin: "clean",
     });
   });
 </script>
