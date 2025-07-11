@@ -41,7 +41,8 @@
       "/assets/images/projects/tatem/foto3.webp",
       "/assets/images/projects/tatem/foto4.webp",
       "/assets/images/projects/tatem/foto5.webp",
-      "/assets/images/projects/tatem/foto6.webp"
+      "/assets/images/projects/tatem/foto6.webp",
+      "/assets/images/projects/tatem/foto7.webp"
     ],
     "url": "https://tatem.mx/",
     "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub"],
