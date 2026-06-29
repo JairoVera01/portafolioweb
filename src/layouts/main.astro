@@ -1,4 +1,7 @@
 ---
+import "@fontsource-variable/space-grotesk";
+import "@fontsource-variable/hanken-grotesk";
+import "@fontsource-variable/jetbrains-mono";
 import Footer from "../components/footer.astro";
 import Header from "../components/header.astro";
 import SquareLines from "../components/square-lines.astro";
@@ -16,6 +19,10 @@ const pathname = Astro.url.pathname;
 const isEnglish = pathname.startsWith("/en");
 const lang = isEnglish ? "en" : "es";
 const ogLocale = isEnglish ? "en_US" : "es_ES";
+const jsonLdLang = isEnglish ? "en-US" : "es-ES";
+const socialAlt = isEnglish
+  ? "Jairo Vera - Front-End Developer"
+  : "Jairo Vera - Desarrollador Front-End";
 // Ruta base en español (sin el prefijo /en) para construir las alternas
 const basePath = isEnglish ? pathname.replace(/^\/en/, "") || "/" : pathname;
 const esHref = new URL(basePath, Astro.site).toString();
@@ -59,9 +66,23 @@ const structuredData = {
   },
 };
 
+// Esquema WebSite (idioma dinámico, sin SearchAction inexistente)
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Jairo Vera - Desarrollador Front-End",
+  alternateName: "JairoVera.dev",
+  url: "https://jairovera.dev",
+  description:
+    "Portafolio profesional de Jairo Vera, desarrollador front-end especializado en interfaces web y móviles.",
+  inLanguage: jsonLdLang,
+  isAccessibleForFree: true,
+  creator: { "@type": "Person", name: "Jairo Vera" },
+};
+
 // Meta datos mejorados
 const defaultTitle =
-  "Jairo Vera - Desarrollador Web Full Stack | Sitios Web Modernos y Rápidos";
+  "Jairo Vera - Desarrollador Front-End | Web & Mobile";
 const defaultDescription =
   "Desarrollador web front end especializado en crear sitios web modernos, rápidos y optimizados. Experto en React, NextJs, Astro y tecnologías web modernas. ¡Convierte tu idea en realidad digital!";
 const defaultImage = "https://jairovera.dev/assets/images/openG.png";
@@ -94,20 +115,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     </noscript>
 
     <!-- Preconnect para mejorar rendimiento -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://www.clarity.ms" />
-    <link rel="preconnect" href="https://challenges.cloudflare.com" />
 
-    <!-- Tipografías del rediseño: Space Grotesk, Hanken Grotesk, JetBrains Mono -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- DNS Prefetch -->
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    <!-- Tipografías autoalojadas vía Fontsource (Space Grotesk, Hanken Grotesk,
+         JetBrains Mono) — importadas en el frontmatter, sin CDN externo. -->
 
     <title>{pageTitle}</title>
 
@@ -150,7 +161,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <!-- Geo tags -->
     <meta name="geo.region" content="PE" />
-    <meta name="geo.placename" content="Cajamarca, Perú" />
+    <meta name="geo.placename" content="Lima, Perú" />
 
     <!-- Canonical URL -->
     <link rel="canonical" href={canonicalURL} />
@@ -174,10 +185,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
     <meta property="og:image" content={defaultImage} />
-    <meta
-      property="og:image:alt"
-      content="Jairo Vera - Desarrollador Web Full Stack"
-    />
+    <meta property="og:image:alt" content={socialAlt} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:url" content={canonicalURL} />
@@ -193,10 +201,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={pageDescription} />
     <meta name="twitter:image" content={defaultImage} />
-    <meta
-      name="twitter:image:alt"
-      content="Jairo Vera - Desarrollador Web Front End"
-    />
+    <meta name="twitter:image:alt" content={socialAlt} />
 
     <!-- LinkedIn específico -->
     <meta property="article:author" content="Jairo Vera" />
@@ -213,10 +218,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta http-equiv="X-Frame-Options" content="DENY" />
     <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
 
-    <!-- CSP básico - ajustar según necesidades -->
+    <!-- CSP: fuentes autoalojadas, formulario hacia WhatsApp (sin worker/Turnstile) -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms;"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.clarity.ms; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms;"
     />
 
     <!-- Design tokens y base del rediseño (global) -->
@@ -233,9 +238,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         --muted-3-text: #6c6c75;
         --line: #e4e4e7;
         --line-soft: #ececee;
-        --font-display: "Space Grotesk", sans-serif;
-        --font-body: "Hanken Grotesk", sans-serif;
-        --font-mono: "JetBrains Mono", monospace;
+        --font-display: "Space Grotesk Variable", "Space Grotesk", sans-serif;
+        --font-body: "Hanken Grotesk Variable", "Hanken Grotesk", sans-serif;
+        --font-mono: "JetBrains Mono Variable", "JetBrains Mono", monospace;
       }
 
       *,
@@ -396,13 +401,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       requestAnimationFrame(raf);
     </script>
 
-    <!-- Cloudflare Turnstile -->
-    <script
-      is:inline
-      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-      async
-      defer></script>
-
     <!-- Microsoft Clarity -->
     <script type="text/javascript">
       (function (c, l, a, r, i, t, y) {
@@ -498,46 +496,27 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       }
     </style>
 
-    <!-- Script para título dinámico mejorado -->
+    <!-- Título dinámico al cambiar de pestaña (según idioma de la página) -->
     <script>
-      let originalTitle = document.title;
+      const originalTitle = document.title;
+      const awayTitle =
+        document.documentElement.lang === "en"
+          ? "Come back soon · Jairo Vera"
+          : "¡Vuelve pronto! · Jairo Vera";
 
       document.addEventListener("visibilitychange", function () {
-        if (document.hidden) {
-          document.title =
-            "¡Vuelve pronto! 🚀 | Jairo Vera - Desarrollador Web";
-        } else {
-          document.title = originalTitle;
-        }
+        document.title = document.hidden ? awayTitle : originalTitle;
       });
 
-      // Restaurar título original al hacer focus en la ventana
       window.addEventListener("focus", function () {
         document.title = originalTitle;
       });
     </script>
 
-    <!-- Schema markup adicional para mejor SEO -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Jairo Vera - Desarrollador Web",
-        "alternateName": "JairoVera.dev",
-        "url": "https://jairovera.dev",
-        "description": "Portfolio profesional de Jairo Vera, desarrollador web front end especializado en tecnologías modernas",
-        "inLanguage": "es-ES",
-        "isAccessibleForFree": true,
-        "creator": {
-          "@type": "Person",
-          "name": "Jairo Vera"
-        },
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://jairovera.dev/search?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
-      }
-    </script>
+    <!-- Schema markup WebSite (idioma dinámico) -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(websiteSchema)}
+    />
   </body>
 </html>

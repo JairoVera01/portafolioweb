@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components";
+
 const { lang = "es" } = Astro.props;
 const isEn = lang === "en";
 
@@ -6,45 +8,45 @@ const t = isEn
   ? {
       h2a: "Systems Engineer, ",
       h2hl: "focused on front-end.",
-      lead: "I build fast, responsive, well-crafted interfaces. I enjoy the technical detail as much as the design, and I'm always learning something new in this world. 🚀",
+      lead: "I build fast, responsive, well-crafted interfaces. I enjoy the technical detail as much as the design, and I'm always learning something new in this world.",
       expTitle: "Work experience",
       eduTitle: "Education",
       experience: [
-        { dates: "NOV 2024 · PRESENT", role: "Front-End Developer", company: "Tatem · 🇲🇽 Mexico", accent: true, desc: "Admin portal and platform with Next.js, Astro and Tailwind. Google Maps reviews and self-invoicing for hotels." },
-        { dates: "SEP 2024 · PRESENT", role: "Mobile Developer · React Native", company: "NCAS Tech · 🇨🇱 Chile", accent: true, desc: "SIPEC Puentes and SIRIAOF apps with offline-first architecture. Development, debugging and API integration." },
-        { dates: "NOV 2023 · SEP 2024", role: "Front-End Developer", company: "Smart Hiring · 🇵🇷 Puerto Rico", accent: false, desc: "Sites and systems for the Puerto Rican market with Astro, Next.js, React and Sass. Animations and SEO optimization." },
-        { dates: "SEP 2023 · OCT 2023", role: "Web Developer · Angular", company: "Vision Games Corporation · 🇵🇪 Peru", accent: false, desc: "Internal HR system with Angular, Angular Material and API consumption." },
-        { dates: "APR 2023 · JUL 2023", role: "Jr. Frontend Web Developer", company: "VEVIG · 🇵🇪 Peru", accent: false, desc: "Landing pages and ecommerce with Astro, React and Sass (BEM methodology)." },
-        { dates: "MAR 2022 · DEC 2022", role: "Intern · Systems Engineering", company: "Grupo Peruano de Capitales · 🇵🇪 Peru", accent: false, desc: "Front-end and automation of the client onboarding process with Firebase." },
+        { dates: "NOV 2024 · PRESENT", role: "Front-End Developer", company: "Tatem", flag: "mx", place: "Mexico", accent: true, desc: "Admin portal and platform with Next.js, Astro and Tailwind. Google Maps reviews and self-invoicing for hotels." },
+        { dates: "SEP 2024 · PRESENT", role: "Mobile Developer · React Native", company: "NCAS Tech", flag: "cl", place: "Chile", accent: true, desc: "SIPEC Puentes and SIRIAOF apps with offline-first architecture. Development, debugging and API integration." },
+        { dates: "NOV 2023 · SEP 2024", role: "Front-End Developer", company: "Smart Hiring", flag: "pr", place: "Puerto Rico", accent: false, desc: "Sites and systems for the Puerto Rican market with Astro, Next.js, React and Sass. Animations and SEO optimization." },
+        { dates: "SEP 2023 · OCT 2023", role: "Web Developer · Angular", company: "Vision Games Corporation", flag: "pe", place: "Peru", accent: false, desc: "Internal HR system with Angular, Angular Material and API consumption." },
+        { dates: "APR 2023 · JUL 2023", role: "Jr. Frontend Web Developer", company: "VEVIG", flag: "pe", place: "Peru", accent: false, desc: "Landing pages and ecommerce with Astro, React and Sass (BEM methodology)." },
+        { dates: "MAR 2022 · DEC 2022", role: "Intern · Systems Engineering", company: "Grupo Peruano de Capitales", flag: "pe", place: "Peru", accent: false, desc: "Front-end and automation of the client onboarding process with Firebase." },
       ],
       education: [
-        { dates: "2017 · 2023 · GRADUATED 2026", role: "Computer Systems Engineering", company: "Universidad Privada del Norte · 🇵🇪 Peru", accent: true, desc: "Professional degree in Computer Systems Engineering." },
-        { dates: "MAY 2023", role: "Innovation & Digital Transformation", company: "Universidad Andrés Bello · 🇨🇱 Chile", accent: false, desc: "Intensive course on digital innovation trends and technologies." },
-        { dates: "2022 · 2023", role: "ReactJS · JavaScript · Cybersecurity", company: "CoderHouse · 🇦🇷 Argentina", accent: false, desc: "Web development and cybersecurity program." },
-        { dates: "2022", role: "Design Thinking", company: "Instituto Europeo de Postgrado", accent: false, desc: "User-centered design methodology." },
-        { dates: "CERTIFICATE", role: "English A2+", company: "Euroidiomas", accent: false, desc: "English proficiency certification." },
+        { dates: "2017 · 2023 · GRADUATED 2026", role: "Computer Systems Engineering", company: "Universidad Privada del Norte", flag: "pe", place: "Peru", accent: true, desc: "Professional degree in Computer Systems Engineering." },
+        { dates: "MAY 2023", role: "Innovation & Digital Transformation", company: "Universidad Andrés Bello", flag: "cl", place: "Chile", accent: false, desc: "Intensive course on digital innovation trends and technologies." },
+        { dates: "2022 · 2023", role: "ReactJS · JavaScript · Cybersecurity", company: "CoderHouse", flag: "ar", place: "Argentina", accent: false, desc: "Web development and cybersecurity program." },
+        { dates: "2022", role: "Design Thinking", company: "Instituto Europeo de Postgrado", flag: "", place: "", accent: false, desc: "User-centered design methodology." },
+        { dates: "CERTIFICATE", role: "English A2+", company: "Euroidiomas", flag: "", place: "", accent: false, desc: "English proficiency certification." },
       ],
     }
   : {
       h2a: "Ingeniero de Sistemas, ",
       h2hl: "enfocado en front-end.",
-      lead: "Me dedico a construir interfaces rápidas, responsivas y bien cuidadas. Disfruto el detalle técnico tanto como el diseño, y siempre estoy aprendiendo algo nuevo en este mundo. 🚀",
+      lead: "Me dedico a construir interfaces rápidas, responsivas y bien cuidadas. Disfruto el detalle técnico tanto como el diseño, y siempre estoy aprendiendo algo nuevo en este mundo.",
       expTitle: "Experiencia laboral",
       eduTitle: "Formación",
       experience: [
-        { dates: "NOV 2024 · PRESENTE", role: "Desarrollador Front-End", company: "Tatem · 🇲🇽 México", accent: true, desc: "Portal y plataforma administrativa con Next.js, Astro y Tailwind. Reseñas con Google Maps y autofacturación para hoteles." },
-        { dates: "SEPT 2024 · PRESENTE", role: "Desarrollador Mobile · React Native", company: "NCAS Tech · 🇨🇱 Chile", accent: true, desc: "Apps SIPEC Puentes y SIRIAOF con arquitectura offline-first. Desarrollo, debugging e integración de APIs." },
-        { dates: "NOV 2023 · SEPT 2024", role: "Desarrollador Front-End", company: "Smart Hiring · 🇵🇷 Puerto Rico", accent: false, desc: "Webs y sistemas para el mercado puertorriqueño con Astro, Next.js, React y Sass. Animaciones y optimización SEO." },
-        { dates: "SEPT 2023 · OCT 2023", role: "Desarrollador Web · Angular", company: "Vision Games Corporation · 🇵🇪 Perú", accent: false, desc: "Sistema interno de RR. HH. con Angular, Angular Material y consumo de APIs." },
-        { dates: "ABR 2023 · JUL 2023", role: "Desarrollador Web Frontend Jr.", company: "VEVIG · 🇵🇪 Perú", accent: false, desc: "Landing pages y ecommerce con Astro, React y Sass (metodología BEM)." },
-        { dates: "MAR 2022 · DIC 2022", role: "Practicante · Ing. de Sistemas", company: "Grupo Peruano de Capitales · 🇵🇪 Perú", accent: false, desc: "Front-end y automatización del proceso de inscripción de clientes con Firebase." },
+        { dates: "NOV 2024 · PRESENTE", role: "Desarrollador Front-End", company: "Tatem", flag: "mx", place: "México", accent: true, desc: "Portal y plataforma administrativa con Next.js, Astro y Tailwind. Reseñas con Google Maps y autofacturación para hoteles." },
+        { dates: "SEPT 2024 · PRESENTE", role: "Desarrollador Mobile · React Native", company: "NCAS Tech", flag: "cl", place: "Chile", accent: true, desc: "Apps SIPEC Puentes y SIRIAOF con arquitectura offline-first. Desarrollo, debugging e integración de APIs." },
+        { dates: "NOV 2023 · SEPT 2024", role: "Desarrollador Front-End", company: "Smart Hiring", flag: "pr", place: "Puerto Rico", accent: false, desc: "Webs y sistemas para el mercado puertorriqueño con Astro, Next.js, React y Sass. Animaciones y optimización SEO." },
+        { dates: "SEPT 2023 · OCT 2023", role: "Desarrollador Web · Angular", company: "Vision Games Corporation", flag: "pe", place: "Perú", accent: false, desc: "Sistema interno de RR. HH. con Angular, Angular Material y consumo de APIs." },
+        { dates: "ABR 2023 · JUL 2023", role: "Desarrollador Web Frontend Jr.", company: "VEVIG", flag: "pe", place: "Perú", accent: false, desc: "Landing pages y ecommerce con Astro, React y Sass (metodología BEM)." },
+        { dates: "MAR 2022 · DIC 2022", role: "Practicante · Ing. de Sistemas", company: "Grupo Peruano de Capitales", flag: "pe", place: "Perú", accent: false, desc: "Front-end y automatización del proceso de inscripción de clientes con Firebase." },
       ],
       education: [
-        { dates: "2017 · 2023 · TITULADO 2026", role: "Ing. de Sistemas Computacionales", company: "Universidad Privada del Norte · 🇵🇪 Perú", accent: true, desc: "Título profesional de Ingeniero de Sistemas Computacionales." },
-        { dates: "MAY 2023", role: "Innovación y Transformación Digital", company: "Universidad Andrés Bello · 🇨🇱 Chile", accent: false, desc: "Curso intensivo sobre tendencias y tecnologías de innovación digital." },
-        { dates: "2022 · 2023", role: "ReactJS · JavaScript · Ciberseguridad", company: "CoderHouse · 🇦🇷 Argentina", accent: false, desc: "Programa de desarrollo web y ciberseguridad." },
-        { dates: "2022", role: "Design Thinking", company: "Instituto Europeo de Postgrado", accent: false, desc: "Metodología de diseño centrado en el usuario." },
-        { dates: "CERTIFICADO", role: "Inglés A2+", company: "Euroidiomas", accent: false, desc: "Certificación de competencia en inglés." },
+        { dates: "2017 · 2023 · TITULADO 2026", role: "Ing. de Sistemas Computacionales", company: "Universidad Privada del Norte", flag: "pe", place: "Perú", accent: true, desc: "Título profesional de Ingeniero de Sistemas Computacionales." },
+        { dates: "MAY 2023", role: "Innovación y Transformación Digital", company: "Universidad Andrés Bello", flag: "cl", place: "Chile", accent: false, desc: "Curso intensivo sobre tendencias y tecnologías de innovación digital." },
+        { dates: "2022 · 2023", role: "ReactJS · JavaScript · Ciberseguridad", company: "CoderHouse", flag: "ar", place: "Argentina", accent: false, desc: "Programa de desarrollo web y ciberseguridad." },
+        { dates: "2022", role: "Design Thinking", company: "Instituto Europeo de Postgrado", flag: "", place: "", accent: false, desc: "Metodología de diseño centrado en el usuario." },
+        { dates: "CERTIFICADO", role: "Inglés A2+", company: "Euroidiomas", flag: "", place: "", accent: false, desc: "Certificación de competencia en inglés." },
       ],
     };
 ---
@@ -77,6 +79,14 @@ const t = isEn
                 class:list={["tl-company", { "tl-company--accent": item.accent }]}
               >
                 {item.company}
+                {item.flag && (
+                  <>
+                    {" · "}
+                    <Icon name={`circle-flags:${item.flag}`} class="tl-flag" />
+                    {" "}
+                    {item.place}
+                  </>
+                )}
               </div>
               <p class="tl-desc">{item.desc}</p>
             </div>
@@ -106,6 +116,14 @@ const t = isEn
                 class:list={["tl-company", { "tl-company--accent": item.accent }]}
               >
                 {item.company}
+                {item.flag && (
+                  <>
+                    {" · "}
+                    <Icon name={`circle-flags:${item.flag}`} class="tl-flag" />
+                    {" "}
+                    {item.place}
+                  </>
+                )}
               </div>
               <p class="tl-desc">{item.desc}</p>
             </div>
@@ -216,6 +234,12 @@ const t = isEn
   }
   .tl-company--accent {
     color: var(--accent);
+  }
+  .tl-flag {
+    width: 13px;
+    height: 13px;
+    display: inline-block;
+    vertical-align: -2px;
   }
   .tl-desc {
     font-size: 13.5px;

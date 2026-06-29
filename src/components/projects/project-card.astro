@@ -1,12 +1,15 @@
 ---
+import { Icon } from "astro-icon/components";
+
 const { project, lang = "es" } = Astro.props;
 const isEn = lang === "en";
-const { title, host, url, country, category, tags, summary, status, portada } =
+const { title, host, url, flag, place, category, tags, summary, status, portada } =
   project;
 
 const hasLink = Boolean(url);
 const Tag = hasLink ? "a" : "div";
 const openLabel = isEn ? `Open ${title}` : `Abrir ${title}`;
+const flagIcon = flag === "own" ? "tabler:settings" : `circle-flags:${flag}`;
 ---
 
 <Tag
@@ -39,7 +42,13 @@ const openLabel = isEn ? `Open ${title}` : `Abrir ${title}`;
   <div class="proj__body">
     <div class="proj__top">
       <h3 class="proj__name">{title}</h3>
-      <span class="proj__flag">{country}</span>
+      <span class="proj__flag">
+        <Icon
+          name={flagIcon}
+          class:list={["proj__flag-icon", { "proj__flag-icon--own": flag === "own" }]}
+        />
+        {place}
+      </span>
     </div>
     <p class="proj__desc">{summary}</p>
     <div class="proj__tags">
@@ -137,10 +146,22 @@ const openLabel = isEn ? `Open ${title}` : `Abrir ${title}`;
     margin: 0;
   }
   .proj__flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     font-family: var(--font-mono);
     font-size: 11px;
     color: var(--muted-3-text);
     white-space: nowrap;
+  }
+  .proj__flag-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+  /* La rueda "Propio" toma el color de acento; las banderas van a color propio */
+  .proj__flag-icon--own {
+    color: var(--accent);
   }
   .proj__desc {
     font-size: 13px;

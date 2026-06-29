@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components";
+
 const { lang = "es" } = Astro.props;
 const isEn = lang === "en";
 
@@ -11,14 +13,14 @@ const t = isEn
       h2a: "Have a project",
       h2b: "in mind?",
       lead: "I'm available for new web and mobile projects. Drop me a line and let's talk about how to bring your idea to life.",
-      email: "✉ Send email",
+      email: "Send email",
     }
   : {
       label: "// HABLEMOS",
       h2a: "¿Tienes un proyecto",
       h2b: "en mente?",
       lead: "Estoy disponible para nuevos proyectos web y móviles. Escríbeme y conversemos cómo darle vida a tu idea.",
-      email: "✉ Enviar correo",
+      email: "Enviar correo",
     };
 ---
 
@@ -30,7 +32,9 @@ const t = isEn
       <h2 class="contact__title">{t.h2a}<br />{t.h2b}</h2>
       <p class="contact__lead">{t.lead}</p>
       <div class="contact__btns">
-        <a href={`mailto:${email}`} class="cbtn cbtn--accent">{t.email}</a>
+        <a href={`mailto:${email}`} class="cbtn cbtn--accent"
+          ><Icon name="tabler:mail" class="cbtn__icon" /> {t.email}</a
+        >
         <a
           href="https://www.linkedin.com/in/frank-jairo-vera/"
           target="_blank"
@@ -114,6 +118,11 @@ const t = isEn
     font-size: 15px;
     color: #fff;
     transition: transform 0.2s ease, filter 0.2s ease, background 0.2s ease;
+  }
+  .cbtn__icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
   }
   .cbtn--accent {
     padding: 14px 24px;

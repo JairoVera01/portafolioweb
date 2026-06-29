@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components";
+
 const { lang = "es" } = Astro.props;
 const isEn = lang === "en";
 
@@ -22,10 +24,10 @@ const t = isEn
       intlText: "I've built products for teams across four countries.",
       years: "YEARS",
       countries: [
-        "🇵🇪 Peru",
-        "🇲🇽 Mexico",
-        "🇨🇱 Chile",
-        "🇵🇷 P. Rico",
+        { flag: "pe", name: "Peru" },
+        { flag: "mx", name: "Mexico" },
+        { flag: "cl", name: "Chile" },
+        { flag: "pr", name: "P. Rico" },
       ],
     }
   : {
@@ -47,10 +49,10 @@ const t = isEn
       intlText: "He construido productos para equipos en cuatro países.",
       years: "AÑOS",
       countries: [
-        "🇵🇪 Perú",
-        "🇲🇽 México",
-        "🇨🇱 Chile",
-        "🇵🇷 P. Rico",
+        { flag: "pe", name: "Perú" },
+        { flag: "mx", name: "México" },
+        { flag: "cl", name: "Chile" },
+        { flag: "pr", name: "P. Rico" },
       ],
     };
 ---
@@ -93,7 +95,9 @@ const t = isEn
     <!-- Mobile -->
     <article class="tile tile--dark tile--mobile" data-reveal>
       <div class="tile__row">
-        <span class="tile__icon tile__icon--ghost">📱</span>
+        <span class="tile__icon tile__icon--ghost"
+          ><Icon name="tabler:device-mobile" /></span
+        >
         <h3 class="tile__title">{t.mobileTitle}</h3>
       </div>
       <p class="tile__text tile__text--inv" set:html={t.mobileText} />
@@ -139,7 +143,7 @@ const t = isEn
     <!-- Landings -->
     <article class="tile tile--light tile--landings" data-reveal>
       <div class="seo">
-        <span class="tile__icon tile__icon--soft">◳</span>
+        <span class="tile__icon tile__icon--soft"><Icon name="tabler:layout" /></span>
         <div>
           <h3 class="tile__title tile__title--sm">{t.landTitle}</h3>
           <p class="tile__sub">{t.landText}</p>
@@ -160,7 +164,14 @@ const t = isEn
         </div>
         <div class="stats__div"></div>
         <div class="stats__flags">
-          {t.countries.map((c) => <span>{c}</span>)}
+          {
+            t.countries.map((c) => (
+              <span class="stats__flag">
+                <Icon name={`circle-flags:${c.flag}`} class="stats__flag-icon" />
+                {c.name}
+              </span>
+            ))
+          }
         </div>
       </div>
     </article>
@@ -485,6 +496,20 @@ const t = isEn
     font-size: 13px;
     color: #3f3f46;
     flex-wrap: wrap;
+  }
+  .stats__flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .stats__flag-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+  .tile__icon :global(svg) {
+    width: 1em;
+    height: 1em;
   }
 
   @media (max-width: 760px) {

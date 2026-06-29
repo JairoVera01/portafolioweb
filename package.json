@@ -18,13 +18,11 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@astrojs/react": "^4.2.0",
     "@astrojs/sitemap": "^3.2.1",
     "@fancyapps/ui": "^6.0.11",
     "@fontsource-variable/hanken-grotesk": "^5.2.8",
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
     "@fontsource-variable/space-grotesk": "^5.2.10",
-    "@fontsource/poppins": "^5.1.0",
     "@iconify-json/circle-flags": "^1.2.10",
     "@iconify-json/tabler": "^1.2.35",
     "@studio-freight/lenis": "^1.0.42",

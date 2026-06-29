@@ -90,6 +90,7 @@ const contactUrl = isEn ? "/en/contacto" : "/contacto";
         type="button"
         class:list={["chip", { "is-active": i === 0 }]}
         data-filter={f.key}
+        aria-pressed={i === 0 ? "true" : "false"}
       >
         {f.label}
       </button>

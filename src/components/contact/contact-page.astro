@@ -1,10 +1,12 @@
 ---
+import { Icon } from "astro-icon/components";
+
 const { lang = "es" } = Astro.props;
 const isEn = lang === "en";
 
 const email = "fj.verachamorro@gmail.com";
 const phone = "+51 965 816 742";
-const whatsapp = "https://wa.me/51965816742";
+const waPhone = "51965816742";
 
 const t = isEn
   ? {
@@ -14,7 +16,7 @@ const t = isEn
       emailLabel: "EMAIL",
       phoneLabel: "PHONE · WHATSAPP",
       locLabel: "LOCATION",
-      location: "Cajamarca, Peru · Remote",
+      location: "Lima, Peru · Remote",
       note: "I usually reply in <strong>under 24 hours</strong>. If it's urgent, message me on WhatsApp.",
       fName: "NAME",
       fEmail: "EMAIL",
@@ -25,16 +27,18 @@ const t = isEn
       phEmail: "you@email.com",
       phSubject: "What do you want to talk about?",
       phMessage: "Tell me about your project or idea...",
-      send: "Send message",
-      sending: "Sending...",
+      send: "Send via WhatsApp",
       helperA: "You can also email me directly at",
-      successTitle: "Message sent!",
-      successText: "Thanks for reaching out, I'll reply soon.",
+      successTitle: "Opening WhatsApp…",
+      successText:
+        "Continue the conversation there. If it didn't open, check your browser's pop-up settings.",
       errName: "› Enter your name.",
       errEmail: "› Enter a valid email.",
       errMessage: "› Write a message.",
-      errTurnstile: "› Complete the verification.",
-      errGeneric: "› There was a problem sending the message.",
+      waIntro: "Hi Jairo, I'm {name}.",
+      waEmail: "Email",
+      waSubject: "Subject",
+      waMessage: "Message",
     }
   : {
       kicker: "// CONTACTO",
@@ -43,7 +47,7 @@ const t = isEn
       emailLabel: "EMAIL",
       phoneLabel: "TELÉFONO · WHATSAPP",
       locLabel: "UBICACIÓN",
-      location: "Cajamarca, Perú · Remoto",
+      location: "Lima, Perú · Remoto",
       note: "Suelo responder en <strong>menos de 24 horas</strong>. Si es urgente, escríbeme por WhatsApp.",
       fName: "NOMBRE",
       fEmail: "CORREO",
@@ -54,16 +58,18 @@ const t = isEn
       phEmail: "tu@correo.com",
       phSubject: "¿Sobre qué quieres hablar?",
       phMessage: "Cuéntame sobre tu proyecto o idea...",
-      send: "Enviar mensaje",
-      sending: "Enviando...",
+      send: "Enviar por WhatsApp",
       helperA: "También puedes escribirme directo a",
-      successTitle: "¡Mensaje enviado!",
-      successText: "Gracias por escribir, te responderé pronto.",
+      successTitle: "Abriendo WhatsApp…",
+      successText:
+        "Continúa la conversación allí. Si no se abrió, revisa los bloqueos de ventanas emergentes del navegador.",
       errName: "› Ingresa tu nombre.",
       errEmail: "› Ingresa un correo válido.",
       errMessage: "› Escribe un mensaje.",
-      errTurnstile: "› Completa la verificación.",
-      errGeneric: "› Hubo un problema al enviar el mensaje.",
+      waIntro: "Hola Jairo, soy {name}.",
+      waEmail: "Correo",
+      waSubject: "Asunto",
+      waMessage: "Mensaje",
     };
 ---
 
@@ -79,7 +85,7 @@ const t = isEn
   <!-- Columna izquierda: datos -->
   <div class="cinfo">
     <a class="cinfo__card" data-card data-reveal href={`mailto:${email}`}>
-      <span class="cinfo__icon">✉</span>
+      <span class="cinfo__icon"><Icon name="tabler:mail" /></span>
       <div class="cinfo__body">
         <div class="cinfo__label">{t.emailLabel}</div>
         <div class="cinfo__value cinfo__value--trunc">{email}</div>
@@ -90,11 +96,11 @@ const t = isEn
       class="cinfo__card"
       data-card
       data-reveal
-      href={whatsapp}
+      href={`https://wa.me/${waPhone}`}
       target="_blank"
       rel="noopener"
     >
-      <span class="cinfo__icon">☎</span>
+      <span class="cinfo__icon"><Icon name="tabler:brand-whatsapp" /></span>
       <div class="cinfo__body">
         <div class="cinfo__label">{t.phoneLabel}</div>
         <div class="cinfo__value">{phone}</div>
@@ -102,7 +108,7 @@ const t = isEn
     </a>
 
     <div class="cinfo__card cinfo__card--static" data-card data-reveal>
-      <span class="cinfo__icon">⌖</span>
+      <span class="cinfo__icon"><Icon name="tabler:map-pin" /></span>
       <div class="cinfo__body">
         <div class="cinfo__label">{t.locLabel}</div>
         <div class="cinfo__value">{t.location}</div>
@@ -125,15 +131,15 @@ const t = isEn
     </div>
 
     <div class="cinfo__note" data-reveal>
-      <span class="cinfo__bolt">⚡</span>
+      <span class="cinfo__bolt"><Icon name="tabler:bolt" /></span>
       <p set:html={t.note}></p>
     </div>
   </div>
 
   <!-- Columna derecha: formulario -->
   <div class="cform" data-reveal>
-    <div class="cform__status" id="jvFormStatus" hidden>
-      <span class="cform__check">✓</span>
+    <div class="cform__status" id="jvFormStatus" role="status" hidden>
+      <span class="cform__check"><Icon name="tabler:check" /></span>
       <div>
         <div class="cform__status-title">{t.successTitle}</div>
         <div class="cform__status-text">{t.successText}</div>
@@ -146,10 +152,11 @@ const t = isEn
       data-msg-name={t.errName}
       data-msg-email={t.errEmail}
       data-msg-message={t.errMessage}
-      data-msg-turnstile={t.errTurnstile}
-      data-msg-generic={t.errGeneric}
-      data-send={t.send}
-      data-sending={t.sending}
+      data-wa-phone={waPhone}
+      data-wa-intro={t.waIntro}
+      data-wa-email={t.waEmail}
+      data-wa-subject={t.waSubject}
+      data-wa-message={t.waMessage}
     >
       <div class="cform__row">
         <div class="cform__field">
@@ -197,20 +204,11 @@ const t = isEn
           placeholder={t.phMessage}></textarea>
       </div>
 
-      <div
-        class="cf-turnstile"
-        data-sitekey="0x4AAAAAAAwmjYdGGjEprZat"
-        id="jvTurnstile"
-        data-language={isEn ? "en" : "es"}
-      >
-      </div>
+      <div class="cform__err" id="jvFormErr" role="alert" hidden></div>
 
-      <div class="cform__err" id="jvFormErr" hidden></div>
-
-      <button type="submit" class="cform__btn" id="jvFormBtn">
-        <span class="cform__spinner" id="jvFormSpinner" hidden></span>
-        <span id="jvFormBtnText">{t.send}</span>
-        <span class="cform__btn-arrow" id="jvFormBtnArrow">→</span>
+      <button type="submit" class="cform__btn">
+        <Icon name="tabler:brand-whatsapp" class="cform__btn-icon" />
+        <span>{t.send}</span>
       </button>
 
       <p class="cform__helper">
@@ -300,7 +298,11 @@ const t = isEn
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 19px;
+    font-size: 20px;
+  }
+  .cinfo__icon :global(svg) {
+    width: 1em;
+    height: 1em;
   }
   .cinfo__body {
     min-width: 0;
@@ -366,8 +368,14 @@ const t = isEn
     border: 1px dashed var(--line);
   }
   .cinfo__bolt {
+    display: inline-flex;
     font-size: 16px;
-    line-height: 1.4;
+    line-height: 1;
+    color: var(--accent);
+  }
+  .cinfo__bolt :global(svg) {
+    width: 1em;
+    height: 1em;
   }
   .cinfo__note p {
     font-size: 13px;
@@ -413,6 +421,10 @@ const t = isEn
     align-items: center;
     justify-content: center;
     font-size: 16px;
+  }
+  .cform__check :global(svg) {
+    width: 1em;
+    height: 1em;
   }
   .cform__status-title {
     font-family: var(--font-display);
@@ -475,6 +487,11 @@ const t = isEn
     box-shadow: 0 0 0 3px var(--accent-soft);
     background: #fff;
   }
+  .cform__field input[aria-invalid="true"],
+  .cform__field textarea[aria-invalid="true"] {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+  }
 
   .cform__err {
     font-size: 13px;
@@ -506,27 +523,10 @@ const t = isEn
     transform: translateY(-2px);
     background: var(--accent);
   }
-  .cform__btn:disabled {
-    opacity: 0.75;
-    cursor: default;
-    transform: none;
-  }
-  .cform__spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: jv-spin-slow 0.7s linear infinite;
-  }
-  .cform__spinner[hidden] {
-    display: none;
-  }
-  .cform__btn-arrow {
-    font-family: var(--font-mono);
-  }
-  .cform__btn-arrow[hidden] {
-    display: none;
+  .cform__btn-icon {
+    width: 19px;
+    height: 19px;
+    flex-shrink: 0;
   }
   .cform__helper {
     font-size: 12px;
@@ -563,71 +563,61 @@ const t = isEn
     ) as HTMLFormElement | null;
     if (!form) return;
 
-    const WORKER_URL =
-      "https://resend-email-worker.fj-verachamorro.workers.dev/";
     const statusBox = document.getElementById("jvFormStatus");
     const errBox = document.getElementById("jvFormErr");
-    const btn = document.getElementById("jvFormBtn") as HTMLButtonElement;
-    const spinner = document.getElementById("jvFormSpinner");
-    const btnText = document.getElementById("jvFormBtnText");
-    const btnArrow = document.getElementById("jvFormBtnArrow");
-    const turnstile = (window as any).turnstile;
+    const nameEl = document.getElementById("jv-name");
+    const emailEl = document.getElementById("jv-email");
+    const messageEl = document.getElementById("jv-message");
+    const fields = [nameEl, emailEl, messageEl];
     const d = form.dataset;
 
-    const showErr = (msg: string | undefined) => {
-      if (!errBox) return;
-      errBox.textContent = msg ?? "";
-      errBox.hidden = false;
+    const clearInvalid = () =>
+      fields.forEach((f) => f && f.removeAttribute("aria-invalid"));
+
+    const fail = (msg: string | undefined, el: HTMLElement | null) => {
+      if (errBox) {
+        errBox.textContent = msg ?? "";
+        errBox.hidden = false;
+      }
+      if (el) {
+        el.setAttribute("aria-invalid", "true");
+        el.focus();
+      }
     };
 
-    form.addEventListener("submit", async (e) => {
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
+      clearInvalid();
+
       const data = new FormData(form);
       const name = (data.get("name") || "").toString().trim();
       const email = (data.get("email") || "").toString().trim();
+      const subject = (data.get("subject") || "").toString().trim();
       const message = (data.get("message") || "").toString().trim();
       const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-      if (!name) return showErr(d.msgName);
-      if (!emailOk) return showErr(d.msgEmail);
-      if (!message) return showErr(d.msgMessage);
-
-      const token = data.get("cf-turnstile-response");
-      if (!token) return showErr(d.msgTurnstile);
-
+      if (!name) return fail(d.msgName, nameEl);
+      if (!emailOk) return fail(d.msgEmail, emailEl);
+      if (!message) return fail(d.msgMessage, messageEl);
       if (errBox) errBox.hidden = true;
-      btn.disabled = true;
-      if (spinner) spinner.hidden = false;
-      if (btnArrow) btnArrow.hidden = true;
-      if (btnText) btnText.textContent = d.sending ?? "";
 
-      try {
-        const res = await fetch(WORKER_URL, {
-          method: "POST",
-          body: data,
-          credentials: "include",
-        });
-        let result: any = {};
-        try {
-          result = await res.json();
-        } catch {}
-        if (res.ok) {
-          form.reset();
-          if (statusBox) statusBox.hidden = false;
-          if (errBox) errBox.hidden = true;
-          if (turnstile) turnstile.reset("#jvTurnstile");
-        } else {
-          showErr(result.error || d.msgGeneric);
-          if (turnstile) turnstile.reset("#jvTurnstile");
-        }
-      } catch {
-        showErr(d.msgGeneric);
-      } finally {
-        btn.disabled = false;
-        if (spinner) spinner.hidden = true;
-        if (btnArrow) btnArrow.hidden = false;
-        if (btnText) btnText.textContent = d.send ?? "";
-      }
+      const lines = [(d.waIntro || "").replace("{name}", name)];
+      lines.push(`${d.waEmail}: ${email}`);
+      if (subject) lines.push(`${d.waSubject}: ${subject}`);
+      lines.push(`${d.waMessage}: ${message}`);
+
+      const url =
+        "https://wa.me/" +
+        d.waPhone +
+        "?text=" +
+        encodeURIComponent(lines.join("\n"));
+
+      const win = window.open(url, "_blank", "noopener");
+      if (!win) window.location.href = url;
+
+      form.reset();
+      clearInvalid();
+      if (statusBox) statusBox.hidden = false;
     });
   }
 

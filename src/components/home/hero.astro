@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
 
 const { lang = "es" } = Astro.props;
 const isEn = lang === "en";
@@ -73,12 +74,12 @@ const t = isEn
       />
       <div class="hero__shade"></div>
       <div class="hero__caption">
-        <span>JAIRO_VERA.webp</span><span>// CAJAMARCA, PE</span>
+        <span>JAIRO_VERA.webp</span><span>// LIMA, PE</span>
       </div>
       <span class="hero__corner hero__corner--tl"></span>
       <span class="hero__corner hero__corner--tr"></span>
     </div>
-    <div class="hero__wave">👋</div>
+    <div class="hero__wave"><Icon name="tabler:hand-stop" /></div>
     <div class="hero__chip">
       <span class="hero__chip-dot"></span> React · Next · Astro · RN
     </div>

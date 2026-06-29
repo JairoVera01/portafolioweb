@@ -97,9 +97,11 @@ function setupProjectFilters() {
 	const empty = document.querySelector("[data-empty]");
 
 	const apply = (filter) => {
-		chips.forEach((c) =>
-			c.classList.toggle("is-active", c.getAttribute("data-filter") === filter),
-		);
+		chips.forEach((c) => {
+			const on = c.getAttribute("data-filter") === filter;
+			c.classList.toggle("is-active", on);
+			c.setAttribute("aria-pressed", on ? "true" : "false");
+		});
 		let visible = 0;
 		cards.forEach((card) => {
 			const match =

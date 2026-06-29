@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components";
+
 const { lang = "es" } = Astro.props;
 const isEn = lang === "en";
 
@@ -17,9 +19,9 @@ const t = isEn
       ],
       stack: [
         { icon: "&lt;/&gt;", mono: true, title: "Frontend", tags: ["React", "Next.js", "Astro", "JavaScript", "TypeScript", "HTML5"] },
-        { icon: "📱", mono: false, title: "Mobile", tags: ["React Native", "iOS", "Android", "Offline-first"] },
-        { icon: "🎨", mono: false, title: "Styles", tags: ["Tailwind CSS", "Sass", "CSS3", "BEM", "Responsive"] },
-        { icon: "🛠", mono: false, title: "Tools", tags: ["GitHub", "Bitbucket", "Postman", "APIs", "Figma", "Vite"] },
+        { icon: "tabler:device-mobile", mono: false, title: "Mobile", tags: ["React Native", "iOS", "Android", "Offline-first"] },
+        { icon: "tabler:palette", mono: false, title: "Styles", tags: ["Tailwind CSS", "Sass", "CSS3", "BEM", "Responsive"] },
+        { icon: "tabler:tools", mono: false, title: "Tools", tags: ["GitHub", "Bitbucket", "Postman", "APIs", "Figma", "Vite"] },
       ],
     }
   : {
@@ -36,9 +38,9 @@ const t = isEn
       ],
       stack: [
         { icon: "&lt;/&gt;", mono: true, title: "Frontend", tags: ["React", "Next.js", "Astro", "JavaScript", "TypeScript", "HTML5"] },
-        { icon: "📱", mono: false, title: "Mobile", tags: ["React Native", "iOS", "Android", "Offline-first"] },
-        { icon: "🎨", mono: false, title: "Estilos", tags: ["Tailwind CSS", "Sass", "CSS3", "BEM", "Responsive"] },
-        { icon: "🛠", mono: false, title: "Herramientas", tags: ["GitHub", "Bitbucket", "Postman", "APIs", "Figma", "Vite"] },
+        { icon: "tabler:device-mobile", mono: false, title: "Mobile", tags: ["React Native", "iOS", "Android", "Offline-first"] },
+        { icon: "tabler:palette", mono: false, title: "Estilos", tags: ["Tailwind CSS", "Sass", "CSS3", "BEM", "Responsive"] },
+        { icon: "tabler:tools", mono: false, title: "Herramientas", tags: ["GitHub", "Bitbucket", "Postman", "APIs", "Figma", "Vite"] },
       ],
     };
 ---
@@ -76,12 +78,10 @@ const t = isEn
         <div class="tile tile--light scard" data-reveal>
           <div class="scard__head">
             <span
-              class:list={[
-                "scard__icon",
-                { "scard__icon--mono": card.mono },
-              ]}
-              set:html={card.icon}
-            />
+              class:list={["scard__icon", { "scard__icon--mono": card.mono }]}
+            >
+              {card.mono ? <Fragment set:html={card.icon} /> : <Icon name={card.icon} />}
+            </span>
             <h3 class="scard__title">{card.title}</h3>
           </div>
           <div class="scard__tags">
@@ -250,6 +250,10 @@ const t = isEn
     font-family: var(--font-mono);
     font-weight: 600;
     font-size: 14px;
+  }
+  .scard__icon :global(svg) {
+    width: 1em;
+    height: 1em;
   }
   .scard__title {
     font-family: var(--font-display);
