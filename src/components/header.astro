@@ -1,171 +1,257 @@
 ---
 import { Image } from "astro:assets";
-import menus from "../collections/menu.json";
-import Logo from "../components/logo.astro";
 
-const isSpanish =
-  Astro.url.pathname === "/" ||
-  Astro.url.pathname === "/contacto/" ||
-  Astro.url.pathname === "/projects/";
-console.log("Estamos en español", isSpanish);
+const pathname = Astro.url.pathname;
+const isEnglish = pathname.startsWith("/en");
 
-const isEnglish =
-  Astro.url.pathname === "/en/" ||
-  Astro.url.pathname === "/en/contacto/" ||
-  Astro.url.pathname === "/en/projects/";
-console.log("We are in English", isEnglish);
+const nav = [
+  { name: "Inicio", nameEn: "Home", url: "/", urlEn: "/en/" },
+  { name: "Proyectos", nameEn: "Projects", url: "/projects", urlEn: "/en/projects" },
+  { name: "Contacto", nameEn: "Contact", url: "/contacto", urlEn: "/en/contacto" },
+];
+
+const normalize = (p: string) => (p.length > 1 ? p.replace(/\/$/, "") : p);
+const current = normalize(pathname);
+const isActive = (item: (typeof nav)[number]) =>
+  normalize(isEnglish ? item.urlEn : item.url) === current;
 ---
 
-<!-- This is an invisible div with relative position so that it takes up the height of the menu (because menu is absolute/fixed) -->
-<div class="relative w-full h-20 opacity-0 pointer-events-none"></div>
-<header id="header" class="absolute top-0 z-50 w-full h-20">
-  <div
-    class="flex items-center justify-between h-full max-w-5xl pl-6 pr-4 mx-auto border-b border-l-0 border-r-0 border-transparent select-none lg:border-r lg:border-l lg:rounded-b-xl"
-  >
-    <Logo />
-    <div
-      id="mobileMenuBackground"
-      onclick="closeMobileMenu()"
-      class="fixed inset-0 z-20 hidden w-screen h-screen duration-300 ease-out bg-white/90 dark:bg-neutral-950/90"
+<header class="site-header" id="siteHeader">
+  <div class="jv-container site-header__inner">
+    <a href={isEnglish ? "/en/" : "/"} class="brand">
+      <span class="brand__avatar">
+        <Image
+          src="/assets/images/port2.webp"
+          alt="Jairo Vera"
+          width={76}
+          height={76}
+          format="webp"
+          quality={90}
+          loading="eager"
+        />
+      </span>
+      <span class="brand__name">Jairo Vera</span>
+    </a>
+
+    <button
+      type="button"
+      class="nav-toggle"
+      id="jvMenuToggle"
+      aria-label={isEnglish ? "Open menu" : "Abrir menú"}
+      aria-expanded="false"
+      aria-controls="jvNav"
     >
-    </div>
-    <nav
-      class="relative z-30 flex flex-row-reverse justify-start w-full text-sm sm:justify-end text-neutral-500 dark:text-neutral-400 sm:flex-row mr-4 items-center"
-    >
-      <div
-        id="openMenu"
-        class="flex flex-col items-end justify-center w-6 h-6 ml-4 cursor-pointer sm:hidden"
-      >
-        <svg
-          class="w-8 h-8 dark:text-neutral-200"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          stroke="currentColor"><path d="M4 8h16M4 16h16"></path></svg
-        >
-      </div>
-      <div
-        id="closeMenu"
-        class="flex flex-col items-end justify-center hidden w-6 h-6 ml-4 -translate-x-1 cursor-pointer sm:hidden"
-      >
-        <svg
-          class="w-6 h-6 text-neutral-600 dark:text-neutral-200"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          stroke="currentColor"><path d="M6 18L18 6M6 6l12 12"></path></svg
-        >
-      </div>
-      <div
-        id="menu"
-        class="fixed top-[75px] ease-out duration-300 sm:top-0 w-full left-0 sm:py-0 pt-7 pb-4 dm:mx-0 left-0 z-40 flex-col items-end justify-start hidden w-full h-auto text-sm sm:text-base sm:h-auto sm:relative sm:flex-row sm:flex sm:text-sm sm:w-auto sm:pr-0 sm:pt-0"
-      >
-        <div
-          class="absolute inset-0 top-0 right-0 block w-full h-full px-3 sm:hidden"
-        >
-          <div
-            class="relative w-full h-full bg-white border border-dashed border-neutral-300 dark:border-neutral-700 backdrop-blur-sm rounded-xl dark:bg-neutral-950"
+      <span></span><span></span>
+    </button>
+
+    <nav class="nav" id="jvNav">
+      {
+        nav.map((item) => (
+          <a
+            href={isEnglish ? item.urlEn : item.url}
+            class:list={["nav__link", { "nav__link--active": isActive(item) }]}
           >
-          </div>
-        </div>
-        {
-          menus.map((menu) => {
-            // const isActive = Astro.url.pathname === menu.url;
-            const isEnglish = Astro.url.pathname.startsWith("/en"); // Verifica si la URL es en inglés
-            const isActive = isEnglish
-              ? Astro.url.pathname === menu.urlEn
-              : Astro.url.pathname === menu.url;
-            return (
-              <a
-                href={isEnglish ? menu.urlEn : menu.url}
-                class={`relative flex items-center justify-center w-full px-3 py-2 font-medium tracking-wide text-center duration-200 ease-out mx-auto my-auto h-full sm:py-0 sm:mb-0 md:w-auto hover:text-neutral-900 dark:hover:text-white ${isActive ? "text-black dark:text-black" : ""}`}
-              >
-                {isEnglish ? menu.nameEn : menu.name}
-              </a>
-            );
-          })
-        }
-      </div>
-      <div
-        id="darkToggle"
-        class="relative flex items-center pl-6 ml-4 font-medium tracking-wide cursor-pointer text-neutral-800 group dark:text-white"
+            {isEnglish ? item.nameEn : item.name}
+          </a>
+        ))
+      }
+
+      <span class="status">
+        <span class="status__dot"></span>
+        {isEnglish ? "Available" : "Disponible"}
+      </span>
+
+      <a
+        href={isEnglish ? "/" : "/en/"}
+        class="lang"
+        aria-label={isEnglish ? "Cambiar a español" : "Switch to English"}
       >
-        <div
-          class="absolute left-0 flex items-center justify-center w-6 h-6 overflow-hidden border-b border-transparent horizon group-hover:border-neutral-600"
-        >
-          <svg
-            class="absolute w-6 h-6 transition duration-700 transform ease"
-            id="sun"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            ><path
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-            ></path></svg
-          >
-          <svg
-            class="absolute hidden w-6 h-6 transition duration-700 transform ease"
-            id="moon"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            ><path
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-            ></path></svg
-          >
-        </div>
-        <span class="hidden sm:inline-block">
-          <span id="dayText" class="ml-2">
-            {isSpanish ? "Modo claro" : "Light mode"}
-          </span>
-          <span id="nightText" class="hidden ml-2">
-            {isSpanish ? "Modo Oscuro" : "Dark mode"}
-          </span>
-        </span>
-      </div>
-      <div class="ml-4">
-        {
-          isSpanish ? (
-            <a
-              href="/en"
-              class=" flex items-center justify-center w-full px-1 py-1 font-medium tracking-wide text-center duration-200 ease-out sm:py-1 sm:mb-0 md:w-auto hover:text-neutral-900 dark:hover:text-white border border-neutral-300 dark:border-neutral-700 rounded-md bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-900 shadow-md transition-all"
-            >
-              <Image
-                width={25}
-                height={25}
-                format="webp"
-                quality={80}
-                src="/assets/icons/spain.svg"
-                alt="Logo de Estados Unidos"
-              />
-            </a>
-          ) : (
-            <a
-              href="/"
-              class=" flex items-center justify-center w-full px-1 py-1 font-medium tracking-wide text-center duration-200 ease-out sm:py-1 sm:mb-0 md:w-auto hover:text-neutral-900 dark:hover:text-white border border-neutral-300 dark:border-neutral-700 rounded-md bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-900 shadow-md transition-all"
-            >
-              <Image
-                width={25}
-                height={25}
-                format="webp"
-                quality={80}
-                src="/assets/icons/eeuu.svg"
-                alt="Logo de España"
-              />
-            </a>
-          )
-        }
-      </div>
+        <Image
+          width={20}
+          height={20}
+          format="webp"
+          quality={80}
+          src={isEnglish ? "/assets/icons/spain.svg" : "/assets/icons/eeuu.svg"}
+          alt={isEnglish ? "Español" : "English"}
+        />
+      </a>
     </nav>
   </div>
 </header>
+
+<style>
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 84px;
+    gap: 16px;
+  }
+
+  /* Marca */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .brand__avatar {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    overflow: hidden;
+    border: 1px solid #e7e7e9;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    display: block;
+    flex-shrink: 0;
+  }
+  .brand__avatar :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 22%;
+    filter: grayscale(0.2);
+  }
+  .brand__name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: -0.01em;
+  }
+
+  /* Navegación */
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14.5px;
+    color: var(--muted);
+  }
+  .nav__link {
+    padding: 8px 14px;
+    border-radius: 9px;
+    text-decoration: none;
+    color: var(--ink);
+    font-weight: 500;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+  .nav__link:hover {
+    background: #f4f4f5;
+  }
+  .nav__link--active {
+    background: #f4f4f5;
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-left: 10px;
+    padding: 7px 13px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: #3f3f46;
+    background: #fff;
+    white-space: nowrap;
+  }
+  .status__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #16a34a;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.16);
+  }
+
+  .lang {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: #fff;
+    transition: border-color 0.18s ease, transform 0.18s ease;
+  }
+  .lang:hover {
+    border-color: #18181b;
+    transform: translateY(-1px);
+  }
+
+  /* Botón móvil */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 42px;
+    height: 38px;
+    padding: 0 9px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+    cursor: pointer;
+  }
+  .nav-toggle span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: #18181b;
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+  }
+  .nav-toggle[aria-expanded="true"] span:first-child {
+    transform: translateY(3.5px) rotate(45deg);
+  }
+  .nav-toggle[aria-expanded="true"] span:last-child {
+    transform: translateY(-3.5px) rotate(-45deg);
+  }
+
+  @media (max-width: 760px) {
+    .nav-toggle {
+      display: flex;
+    }
+    .nav {
+      position: absolute;
+      top: 76px;
+      left: 16px;
+      right: 16px;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 6px;
+      padding: 14px;
+      border: 1px solid var(--line-soft);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 22px 50px -28px rgba(20, 30, 80, 0.4);
+      opacity: 0;
+      transform: translateY(-10px) scale(0.98);
+      transform-origin: top right;
+      pointer-events: none;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+    .nav.is-open {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+    .nav__link {
+      padding: 11px 14px;
+      font-size: 15px;
+    }
+    .status {
+      margin-left: 0;
+      align-self: flex-start;
+    }
+    .lang {
+      margin-left: 0;
+      width: 100%;
+      height: 40px;
+    }
+  }
+</style>

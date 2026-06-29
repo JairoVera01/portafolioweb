@@ -1,0 +1,316 @@
+---
+import ProjectCard from "./project-card.astro";
+import projectsEs from "../../collections/projects.json";
+import projectsEn from "../../collections/projectsen.json";
+
+const { lang = "es" } = Astro.props;
+const isEn = lang === "en";
+const projects = isEn ? projectsEn : projectsEs;
+
+const t = isEn
+  ? {
+      kicker: "// PROJECTS",
+      h1a: "Things I've ",
+      h1hl: "built",
+      h1b: ".",
+      lead: "Sites, platforms and tools for real clients in Peru, Mexico and Puerto Rico. A sample of my work as a front-end developer.",
+      statProjects: "PROJECTS",
+      statCountries: "COUNTRIES",
+      statYears: "YEARS",
+      empty: "// no projects in this category",
+      ctaTitle: "Want to be next?",
+      ctaText: "Tell me about your project and let's make it real.",
+      ctaBtn: "Contact me",
+      filters: [
+        { key: "todos", label: "All" },
+        { key: "Web", label: "Web" },
+        { key: "Landing", label: "Landing" },
+        { key: "App", label: "App" },
+        { key: "Herramienta", label: "Tool" },
+      ],
+    }
+  : {
+      kicker: "// PROYECTOS",
+      h1a: "Cosas que he ",
+      h1hl: "construido",
+      h1b: ".",
+      lead: "Sitios, plataformas y herramientas para clientes reales en Perú, México y Puerto Rico. Una muestra de mi trabajo como desarrollador front-end.",
+      statProjects: "PROYECTOS",
+      statCountries: "PAÍSES",
+      statYears: "AÑOS",
+      empty: "// sin proyectos en esta categoría",
+      ctaTitle: "¿Te gustaría ser el próximo?",
+      ctaText: "Cuéntame tu proyecto y lo hacemos realidad.",
+      ctaBtn: "Contáctame",
+      filters: [
+        { key: "todos", label: "Todos" },
+        { key: "Web", label: "Web" },
+        { key: "Landing", label: "Landing" },
+        { key: "App", label: "App" },
+        { key: "Herramienta", label: "Herramienta" },
+      ],
+    };
+
+const contactUrl = isEn ? "/en/contacto" : "/contacto";
+---
+
+<!-- Hero -->
+<section id="proyectos" class="phero">
+  <div class="kicker" data-reveal>{t.kicker}</div>
+  <h1 class="phero__title" data-reveal>
+    {t.h1a}<span class="hl">{t.h1hl}</span>{t.h1b}
+  </h1>
+  <p class="phero__lead" data-reveal>{t.lead}</p>
+  <div class="phero__stats" data-reveal>
+    <div class="stat">
+      <span class="stat__num">{projects.length}</span><span class="stat__label"
+        >{t.statProjects}</span
+      >
+    </div>
+    <div class="stat__div"></div>
+    <div class="stat">
+      <span class="stat__num">4</span><span class="stat__label"
+        >{t.statCountries}</span
+      >
+    </div>
+    <div class="stat__div"></div>
+    <div class="stat">
+      <span class="stat__num">4+</span><span class="stat__label"
+        >{t.statYears}</span
+      >
+    </div>
+  </div>
+</section>
+
+<!-- Filtros -->
+<div class="board__filters" data-reveal>
+  {
+    t.filters.map((f, i) => (
+      <button
+        type="button"
+        class:list={["chip", { "is-active": i === 0 }]}
+        data-filter={f.key}
+      >
+        {f.label}
+      </button>
+    ))
+  }
+</div>
+
+<!-- Grid -->
+<section class="board__grid">
+  {projects.map((project) => <ProjectCard project={project} lang={lang} />)}
+</section>
+
+<div class="board__empty" data-empty>{t.empty}</div>
+
+<!-- CTA -->
+<section class="pcta">
+  <div class="pcta__card" data-reveal>
+    <div class="pcta__grid" aria-hidden="true"></div>
+    <div class="pcta__copy">
+      <h2 class="pcta__title">{t.ctaTitle}</h2>
+      <p class="pcta__text">{t.ctaText}</p>
+    </div>
+    <a href={contactUrl} class="pcta__btn">
+      {t.ctaBtn} <span class="pcta__arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+  }
+
+  /* Hero */
+  .phero {
+    padding: 56px 0 36px;
+  }
+  .phero__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(40px, 5vw, 62px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin: 0 0 18px;
+    color: var(--ink-strong);
+  }
+  .hl {
+    color: var(--accent);
+  }
+  .phero__lead {
+    font-size: 17.5px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin: 0 0 22px;
+    max-width: 580px;
+  }
+  .phero__stats {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+  }
+  .stat {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+  }
+  .stat__num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--accent);
+  }
+  .stat__label {
+    font-size: 11.5px;
+    color: var(--muted-3-text);
+  }
+  .stat__div {
+    width: 1px;
+    height: 22px;
+    background: var(--line);
+  }
+
+  /* Filtros */
+  .board__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    padding: 14px 0 30px;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.92) 60%,
+      rgba(255, 255, 255, 0)
+    );
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .chip {
+    padding: 9px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 13px;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  .chip:hover {
+    border-color: #c4c4cc;
+  }
+  .chip.is-active {
+    border-color: var(--ink-strong);
+    background: var(--ink-strong);
+    color: #fff;
+  }
+
+  /* Grid */
+  .board__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    padding-bottom: 30px;
+  }
+  .board__empty {
+    display: none;
+    text-align: center;
+    padding: 48px 0 20px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--muted-3-text);
+  }
+
+  /* CTA */
+  .pcta {
+    padding: 40px 0 56px;
+  }
+  .pcta__card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 22px;
+    background: linear-gradient(160deg, #0b0d18 0%, #15182b 60%, #1a1d36 100%);
+    color: #fff;
+    padding: 44px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 22px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .pcta__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 30px 60px -30px rgba(20, 30, 80, 0.55);
+  }
+  .pcta__grid {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cpath d='M72 0H0V72' fill='none' stroke='%23ffffff' stroke-opacity='0.05' stroke-width='1' stroke-dasharray='4 5'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .pcta__copy {
+    position: relative;
+    z-index: 1;
+  }
+  .pcta__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(24px, 3vw, 34px);
+    letter-spacing: -0.02em;
+    margin: 0 0 8px;
+  }
+  .pcta__text {
+    font-size: 15.5px;
+    color: #b8bdd0;
+    margin: 0;
+  }
+  .pcta__btn {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 14px 26px;
+    border-radius: 12px;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    font-family: var(--font-display);
+    transition: transform 0.2s ease, filter 0.2s ease;
+  }
+  .pcta__btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+  }
+  .pcta__arrow {
+    font-family: var(--font-mono);
+  }
+
+  @media (max-width: 920px) {
+    .board__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 600px) {
+    .board__grid {
+      grid-template-columns: 1fr;
+    }
+    .pcta__card {
+      padding: 34px 26px;
+    }
+  }
+</style>

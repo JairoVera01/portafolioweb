@@ -1,0 +1,146 @@
+---
+const { lang = "es" } = Astro.props;
+const isEn = lang === "en";
+
+const email = "fj.verachamorro@gmail.com";
+const phone = "+51 965 816 742";
+
+const t = isEn
+  ? {
+      label: "// LET'S TALK",
+      h2a: "Have a project",
+      h2b: "in mind?",
+      lead: "I'm available for new web and mobile projects. Drop me a line and let's talk about how to bring your idea to life.",
+      email: "✉ Send email",
+    }
+  : {
+      label: "// HABLEMOS",
+      h2a: "¿Tienes un proyecto",
+      h2b: "en mente?",
+      lead: "Estoy disponible para nuevos proyectos web y móviles. Escríbeme y conversemos cómo darle vida a tu idea.",
+      email: "✉ Enviar correo",
+    };
+---
+
+<section id="contacto" class="contact">
+  <div class="contact__card" data-reveal>
+    <div class="contact__grid" aria-hidden="true"></div>
+    <div class="contact__inner">
+      <div class="contact__label">{t.label}</div>
+      <h2 class="contact__title">{t.h2a}<br />{t.h2b}</h2>
+      <p class="contact__lead">{t.lead}</p>
+      <div class="contact__btns">
+        <a href={`mailto:${email}`} class="cbtn cbtn--accent">{t.email}</a>
+        <a
+          href="https://www.linkedin.com/in/frank-jairo-vera/"
+          target="_blank"
+          rel="noopener"
+          class="cbtn cbtn--ghost">LinkedIn ↗</a
+        >
+        <a
+          href="https://github.com/JairoVera01"
+          target="_blank"
+          rel="noopener"
+          class="cbtn cbtn--ghost">GitHub ↗</a
+        >
+      </div>
+      <div class="contact__meta">{email} · {phone}</div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    padding: 96px 0 40px;
+  }
+  .contact__card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 26px;
+    background: linear-gradient(160deg, #0b0d18 0%, #15182b 60%, #1a1d36 100%);
+    color: #fff;
+    padding: 56px 48px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .contact__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 30px 60px -30px rgba(20, 30, 80, 0.55);
+  }
+  .contact__grid {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cpath d='M72 0H0V72' fill='none' stroke='%23ffffff' stroke-opacity='0.05' stroke-width='1' stroke-dasharray='4 5'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .contact__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 620px;
+  }
+  .contact__label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: #7e8bd6;
+    letter-spacing: 0.08em;
+    margin-bottom: 18px;
+  }
+  .contact__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(30px, 4vw, 48px);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin: 0 0 18px;
+  }
+  .contact__lead {
+    font-size: 16.5px;
+    line-height: 1.6;
+    color: #b8bdd0;
+    margin: 0 0 32px;
+  }
+  .contact__btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .cbtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 14px 22px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    color: #fff;
+    transition: transform 0.2s ease, filter 0.2s ease, background 0.2s ease;
+  }
+  .cbtn--accent {
+    padding: 14px 24px;
+    background: var(--accent);
+  }
+  .cbtn--accent:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+  }
+  .cbtn--ghost {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+  }
+  .cbtn--ghost:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.14);
+  }
+  .contact__meta {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: #6f76a0;
+    margin-top: 28px;
+  }
+
+  @media (max-width: 560px) {
+    .contact__card {
+      padding: 40px 26px;
+    }
+  }
+</style>

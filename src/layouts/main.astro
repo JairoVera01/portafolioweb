@@ -1,5 +1,4 @@
 ---
-import { ViewTransitions } from "astro:transitions";
 import Footer from "../components/footer.astro";
 import Header from "../components/header.astro";
 import SquareLines from "../components/square-lines.astro";
@@ -10,41 +9,53 @@ const {
   type = "website",
   noindex = false,
 } = Astro.props;
-import "@fontsource/poppins";
 import { SEO } from "astro-seo";
+
+// i18n: idioma y rutas alternas según el path
+const pathname = Astro.url.pathname;
+const isEnglish = pathname.startsWith("/en");
+const lang = isEnglish ? "en" : "es";
+const ogLocale = isEnglish ? "en_US" : "es_ES";
+// Ruta base en español (sin el prefijo /en) para construir las alternas
+const basePath = isEnglish ? pathname.replace(/^\/en/, "") || "/" : pathname;
+const esHref = new URL(basePath, Astro.site).toString();
+const enHref = new URL(
+  "/en" + (basePath === "/" ? "/" : basePath),
+  Astro.site
+).toString();
 
 // Datos estructurados por defecto
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Jairo Vera",
-  jobTitle: "Desarrollador Web Full Stack",
+  jobTitle: "Desarrollador Front-End",
   description:
-    "Desarrollador web especializado en crear sitios web rápidos, eficientes y modernos usando las últimas tecnologías",
+    "Desarrollador front-end con más de 4 años de experiencia creando interfaces web y móviles rápidas, limpias y bien construidas.",
   url: "https://jairovera.dev",
   image: "https://jairovera.dev/assets/images/openG.png",
   sameAs: [
-    "https://twitter.com/jairoveradev",
-    "https://github.com/jairovera",
-    "https://linkedin.com/in/jairovera",
+    "https://www.linkedin.com/in/frank-jairo-vera/",
+    "https://github.com/JairoVera01",
   ],
   knowsAbout: [
     "JavaScript",
     "TypeScript",
     "React",
-    "Vue.js",
+    "Next.js",
     "Astro",
-    "Node.js",
-    "Python",
+    "React Native",
+    "Tailwind CSS",
+    "Sass",
     "Desarrollo Web",
     "Frontend Development",
-    "Backend Development",
+    "Mobile Development",
   ],
   offers: {
     "@type": "Service",
-    name: "Desarrollo Web Profesional",
+    name: "Desarrollo Front-End Web y Móvil",
     description:
-      "Servicios de desarrollo web full stack para empresas y emprendedores",
+      "Servicios de desarrollo front-end para web y aplicaciones móviles para empresas y emprendedores.",
   },
 };
 
@@ -62,11 +73,25 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
-<html lang="es" prefix="og: https://ogp.me/ns#">
+<html lang={lang} prefix="og: https://ogp.me/ns#">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Marca JS disponible antes de pintar: las animaciones de reveal solo se
+         ocultan cuando hay JS, así el contenido nunca queda invisible sin él. -->
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
+    <noscript>
+      <style>
+        [data-reveal] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
 
     <!-- Preconnect para mejorar rendimiento -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -74,23 +99,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="preconnect" href="https://www.clarity.ms" />
     <link rel="preconnect" href="https://challenges.cloudflare.com" />
 
+    <!-- Tipografías del rediseño: Space Grotesk, Hanken Grotesk, JetBrains Mono -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- DNS Prefetch -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
 
     <title>{pageTitle}</title>
-
-    <!-- Prevenir FOUC con dark mode -->
-    <script is:inline>
-      if (typeof Storage !== "undefined") {
-        if (
-          localStorage.getItem("dark_mode") &&
-          localStorage.getItem("dark_mode") == "true"
-        ) {
-          document.documentElement.classList.add("dark");
-        }
-      }
-    </script>
 
     <!-- Favicons optimizados -->
     <link
@@ -130,11 +149,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="bingbot" content="index, follow" />
 
     <!-- Geo tags -->
-    <meta name="geo.region" content="ES" />
-    <meta name="geo.placename" content="España" />
+    <meta name="geo.region" content="PE" />
+    <meta name="geo.placename" content="Cajamarca, Perú" />
 
     <!-- Canonical URL -->
     <link rel="canonical" href={canonicalURL} />
+
+    <!-- Alternativas de idioma (hreflang) -->
+    <link rel="alternate" hreflang="es" href={esHref} />
+    <link rel="alternate" hreflang="en" href={enHref} />
+    <link rel="alternate" hreflang="x-default" href={esHref} />
 
     <!-- Sitemap -->
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -158,7 +182,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:image:height" content="630" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:site_name" content="Jairo Vera - Desarrollador Web" />
-    <meta property="og:locale" content="es_ES" />
+    <meta property="og:locale" content={ogLocale} />
+    <meta
+      property="og:locale:alternate"
+      content={isEnglish ? "es_ES" : "en_US"}
+    />
 
     <!-- Twitter Cards mejorado -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -177,8 +205,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:image:type" content="image/png" />
 
     <!-- Tema color para navegadores móviles -->
-    <meta name="theme-color" content="#000000" />
-    <meta name="msapplication-TileColor" content="#000000" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
 
     <!-- Security headers -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
@@ -191,29 +219,153 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       content="default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms;"
     />
 
-    <style>
-      .prose img {
-        border-radius: 20px;
-      }
-      body {
-        font-family: "Poppins", sans-serif;
+    <!-- Design tokens y base del rediseño (global) -->
+    <style is:global>
+      :root {
+        --accent: #2455ff;
+        --accent-soft: #eef1ff;
+        --ink: #18181b;
+        --ink-strong: #0a0a0b;
+        --muted: #52525b;
+        --muted-2: #71717a;
+        --muted-3: #a1a1aa;
+        /* Variante accesible (>= AA en blanco) para texto pequeño informativo */
+        --muted-3-text: #6c6c75;
+        --line: #e4e4e7;
+        --line-soft: #ececee;
+        --font-display: "Space Grotesk", sans-serif;
+        --font-body: "Hanken Grotesk", sans-serif;
+        --font-mono: "JetBrains Mono", monospace;
       }
 
-      /* Critical CSS para mejor Core Web Vitals */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
       html {
         scroll-behavior: smooth;
       }
 
-      /* Prevenir layout shifts */
+      body {
+        font-family: var(--font-body);
+        color: var(--ink);
+        background: #ffffff;
+        -webkit-font-smoothing: antialiased;
+        /* Espejo del root overflow:hidden del diseño: evita scroll horizontal
+           por las decoraciones del hero que sobresalen del recorte. */
+        overflow-x: clip;
+      }
+
+      ::selection {
+        background: var(--accent);
+        color: #fff;
+      }
+
       img {
         height: auto;
         max-width: 100%;
       }
 
-      /* Optimización de fuentes */
-      @font-face {
-        font-family: "Poppins";
-        font-display: swap;
+      .prose img {
+        border-radius: 20px;
+      }
+
+      /* Contenedor central del rediseño */
+      .jv-container {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 0 28px;
+      }
+
+      /* Stacking: chrome y contenido por encima del fondo fijo */
+      .site-header {
+        position: relative;
+        z-index: 50;
+      }
+      main {
+        position: relative;
+        z-index: 1;
+      }
+      .site-footer {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Animaciones del rediseño */
+      @keyframes jv-marquee {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+      @keyframes jv-blink {
+        0%,
+        49% {
+          opacity: 1;
+        }
+        50%,
+        100% {
+          opacity: 0;
+        }
+      }
+      @keyframes jv-float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-7px);
+        }
+      }
+      @keyframes jv-spin-slow {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Reveal on scroll — solo se oculta cuando hay JS (html.js). Sin JS el
+         contenido permanece visible (ver script is:inline y noscript en head). */
+      html.js [data-reveal] {
+        opacity: 0;
+        transform: translateY(22px);
+        transition:
+          opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+          transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+        will-change: opacity, transform;
+      }
+      html.js [data-reveal].is-visible {
+        opacity: 1;
+        transform: none;
+      }
+
+      @media (max-width: 640px) {
+        .jv-container {
+          padding: 0 20px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+        }
+        [data-reveal] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
       }
     </style>
 
@@ -268,7 +420,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     </script>
   </head>
 
-  <body class="antialiased bg-white dark:bg-neutral-950">
+  <body class="antialiased bg-white">
     <!-- Skip to main content para accesibilidad -->
     <a
       href="#main-content"

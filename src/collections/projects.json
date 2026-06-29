@@ -1,39 +1,15 @@
 [
   {
-    "name": "MDP Solutions - Perú",
-    "description": "Página web que brinda soluciones en VOIP, seguridad y redes.",
-    "portada": "/assets/images/projects/mdpsolutions/portada.webp",
-    "galeria": [
-      "/assets/images/projects/mdpsolutions/foto1.webp",
-      "/assets/images/projects/mdpsolutions/foto2.webp",
-      "/assets/images/projects/mdpsolutions/foto3.webp",
-      "/assets/images/projects/mdpsolutions/foto4.webp",
-      "/assets/images/projects/mdpsolutions/foto5.webp"
-    ],
-    "url": "https://www.mdpsolutions.com.pe/",
-    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub"],
-    "proyectoPersonal": true,
-    "autoria": "Desarrollo Freelance - Perú",
-    "nameGallery": "mdpsolutions"
-  },
-  {
-    "name": "Rosario Zolezzi - Perú",
-    "description": "Página web para psicóloga peruana especializada en terapia individual y pareja.",
-    "portada": "/assets/images/projects/rosariozolezzi/portada.webp",
-    "galeria": [
-      "/assets/images/projects/rosariozolezzi/foto1.webp",
-      "/assets/images/projects/rosariozolezzi/foto2.webp",
-      "/assets/images/projects/rosariozolezzi/foto3.webp"
-    ],
-    "url": "https://rosariozolezzi.com/",
-    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub"],
-    "proyectoPersonal": true,
-    "autoria": "Desarrollo Freelance - Perú",
-    "nameGallery": "rosariozolezzi"
-  },
-  {
+    "id": "tatem",
+    "title": "Tatem",
     "name": "Tatem - México",
-    "description": "Página web para empresa mexicana que brinda soluciones de software para empresas.",
+    "host": "tatem.mx",
+    "url": "https://tatem.mx/",
+    "country": "🇲🇽 México",
+    "category": "Web",
+    "tags": ["Next.js", "Astro", "Tailwind"],
+    "summary": "Portal, plataforma administrativa, reseñas y autofacturación para hoteles.",
+    "featured": true,
     "portada": "/assets/images/projects/tatem/portada.webp",
     "galeria": [
       "/assets/images/projects/tatem/foto1.webp",
@@ -44,15 +20,80 @@
       "/assets/images/projects/tatem/foto6.webp",
       "/assets/images/projects/tatem/foto7.webp"
     ],
-    "url": "https://tatem.mx/",
-    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub"],
-    "proyectoPersonal": true,
-    "autoria": "Desarrollo Freelance - México",
     "nameGallery": "tatem"
   },
   {
+    "id": "mdpsolutions",
+    "title": "MDP Solutions",
+    "name": "MDP Solutions - Perú",
+    "host": "mdpsolutions.com.pe",
+    "url": "https://www.mdpsolutions.com.pe/",
+    "country": "🇵🇪 Perú",
+    "category": "Web",
+    "tags": ["Astro", "Tailwind", "GSAP"],
+    "summary": "Sitio B2B de servicios VoIP, redes y seguridad TI con animaciones GSAP.",
+    "featured": true,
+    "portada": "/assets/images/projects/mdpsolutions/portada.webp",
+    "galeria": [
+      "/assets/images/projects/mdpsolutions/foto1.webp",
+      "/assets/images/projects/mdpsolutions/foto2.webp",
+      "/assets/images/projects/mdpsolutions/foto3.webp",
+      "/assets/images/projects/mdpsolutions/foto4.webp",
+      "/assets/images/projects/mdpsolutions/foto5.webp"
+    ],
+    "nameGallery": "mdpsolutions"
+  },
+  {
+    "id": "ubilex",
+    "title": "Ubilex",
+    "name": "UBILEX - Perú",
+    "host": "ubilex.pe",
+    "url": "https://www.ubilex.pe/",
+    "country": "🇵🇪 Perú",
+    "category": "Web",
+    "tags": ["Astro", "Tailwind", "Cloudflare"],
+    "summary": "Web de asesoría legal con Calendly integrado para gestión de citas.",
+    "featured": true,
+    "portada": "/assets/images/projects/ubilex/portada.webp",
+    "galeria": [
+      "/assets/images/projects/ubilex/foto1.webp",
+      "/assets/images/projects/ubilex/foto2.webp",
+      "/assets/images/projects/ubilex/foto3.webp",
+      "/assets/images/projects/ubilex/foto4.webp",
+      "/assets/images/projects/ubilex/foto5.webp"
+    ],
+    "nameGallery": "ubilex"
+  },
+  {
+    "id": "rosariozolezzi",
+    "title": "Rosario Zolezzi",
+    "name": "Rosario Zolezzi - Perú",
+    "host": "rosariozolezzi.com",
+    "url": "https://rosariozolezzi.com/",
+    "country": "🇵🇪 Perú",
+    "category": "Web",
+    "tags": ["Astro", "Tailwind", "Preline"],
+    "summary": "Sitio profesional para terapeuta, con enfoque limpio y cercano.",
+    "featured": true,
+    "portada": "/assets/images/projects/rosariozolezzi/portada.webp",
+    "galeria": [
+      "/assets/images/projects/rosariozolezzi/foto1.webp",
+      "/assets/images/projects/rosariozolezzi/foto2.webp",
+      "/assets/images/projects/rosariozolezzi/foto3.webp"
+    ],
+    "nameGallery": "rosariozolezzi"
+  },
+  {
+    "id": "estudioshaddai",
+    "title": "Estudio Shaddai",
     "name": "Estudio Shaddai - Perú",
-    "description": "Proyecto desarrollado para empresa que brinda servicios de contabilidad.",
+    "host": "estudioshaddai.com",
+    "url": "https://estudioshaddai.com/",
+    "country": "🇵🇪 Perú",
+    "category": "Web",
+    "tags": ["Astro", "Tailwind", "Cloudflare"],
+    "summary": "Web corporativa para estudio contable, rápida y orientada a servicios.",
+    "featured": true,
     "portada": "/assets/images/projects/estudioshaddai/portada.webp",
     "galeria": [
       "/assets/images/projects/estudioshaddai/foto1.webp",
@@ -62,105 +103,113 @@
       "/assets/images/projects/estudioshaddai/foto5.webp",
       "/assets/images/projects/estudioshaddai/foto6.webp"
     ],
-    "url": "https://estudioshaddai.com/",
-    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub", "Cloudflare"],
-    "proyectoPersonal": true,
-    "autoria": "Desarrollo Freelance - Perú",
     "nameGallery": "estudioshaddai"
   },
   {
-    "name": "UBILEX - Perú",
-    "description": "Proyecto desarrollado para empresa que brinda servicios de asesoría legal.",
-    "portada": "/assets/images/projects/ubilex/portada.webp",
-    "galeria": [
-      "/assets/images/projects/ubilex/foto1.webp",
-      "/assets/images/projects/ubilex/foto2.webp",
-      "/assets/images/projects/ubilex/foto3.webp",
-      "/assets/images/projects/ubilex/foto4.webp",
-      "/assets/images/projects/ubilex/foto5.webp"
-    ],
-    "url": "https://www.ubilex.pe/",
-    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub", "Cloudflare"],
-    "proyectoPersonal": true,
-    "autoria": "Desarrollo Freelance - Perú",
-    "nameGallery": "ubilex"
-  },
-  {
-    "name": "Dr. Carlos Mao (en desarrollo)",
-    "description": "Landing page para médico especialista en neurocirugía en Perú.",
+    "id": "drmao",
+    "title": "Dr. Carlos Mao",
+    "name": "Dr. Carlos Mao - Perú",
+    "host": "drmaowebpage.vercel.app",
+    "url": "https://drmaowebpage.vercel.app/",
+    "country": "🇵🇪 Perú",
+    "category": "Landing",
+    "tags": ["Astro", "Tailwind"],
+    "summary": "Landing para médico especialista en neurocirugía.",
+    "status": "en desarrollo",
+    "featured": false,
     "portada": "/assets/images/projects/drmao/portada.webp",
     "galeria": [
       "/assets/images/projects/drmao/foto1.webp",
       "/assets/images/projects/drmao/foto2.webp",
       "/assets/images/projects/drmao/foto3.webp"
     ],
-    "url": "https://drmaowebpage.vercel.app/",
-    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub", "Cloudflare"],
-    "proyectoPersonal": true,
-    "autoria": "Desarrollo Freelance - Perú",
-    "nameGallery": "carlosmao"
+    "nameGallery": "drmao"
   },
   {
+    "id": "generadoroverlay",
+    "title": "Generador de Overlays",
     "name": "Generador de Overlays CSS",
-    "description": "Herramienta para generar overlays en CSS.",
+    "host": "htmlcssoverlay.xyz",
+    "url": "https://www.htmlcssoverlay.xyz/",
+    "country": "⚙ Propio",
+    "category": "Herramienta",
+    "tags": ["Next.js", "React", "shadcn"],
+    "summary": "Herramienta para generar overlays en CSS, de uso libre.",
+    "featured": true,
     "portada": "/assets/images/projects/generadoroverlay/portada.webp",
     "galeria": [
       "/assets/images/projects/generadoroverlay/foto1.webp",
       "/assets/images/projects/generadoroverlay/foto2.webp"
     ],
-    "url": "https://www.htmlcssoverlay.xyz/",
-    "tecnologies": ["Nextjs", "React", "Shadcn", "GitHub"],
-    "proyectoPersonal": true,
-    "autoria": "Desarrollo Propio",
-    "nameGallery": "generadordeoverlays"
+    "nameGallery": "generadoroverlay"
   },
   {
+    "id": "quiebras",
+    "title": "Quiebras Ahora",
     "name": "Quiebras Ahora - Puerto Rico",
-    "description": "Empresa de abogados especializados en quiebras para Puerto Rico.",
+    "host": "quiebrasahora.com",
+    "url": "https://www.quiebrasahora.com/",
+    "country": "🇵🇷 P. Rico",
+    "category": "Web",
+    "tags": ["Astro", "Tailwind", "Flowbite"],
+    "summary": "Sitio para bufete de abogados especializado en quiebras.",
+    "featured": false,
     "portada": "/assets/images/projects/quiebras/portada.webp",
     "galeria": [
       "/assets/images/projects/quiebras/foto1.webp",
       "/assets/images/projects/quiebras/foto2.webp",
       "/assets/images/projects/quiebras/foto3.webp"
     ],
-    "url": "https://www.quiebrasahora.com/",
-    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub"],
-    "proyectoPersonal": true,
-    "autoria": "Desarrollo para SmartHiring - PR",
     "nameGallery": "quiebras"
   },
   {
+    "id": "tulicencialanding",
+    "title": "Tu Licencia Web",
     "name": "Tu Licencia Web - PR",
-    "description": "Landing page para sistema de gestiones de licencias en Puerto Rico.",
+    "host": "tulicenciapr.com",
+    "url": "http://tulicenciapr.com/",
+    "country": "🇵🇷 P. Rico",
+    "category": "Landing",
+    "tags": ["Astro", "Tailwind", "React"],
+    "summary": "Landing para sistema de gestión de licencias en Puerto Rico.",
+    "featured": false,
     "portada": "/assets/images/projects/tulicencialanding/portada.webp",
     "galeria": [
       "/assets/images/projects/tulicencialanding/foto1.webp",
       "/assets/images/projects/tulicencialanding/foto2.webp",
       "/assets/images/projects/tulicencialanding/foto3.webp"
     ],
-    "url": "http://tulicenciapr.com/",
-    "tecnologies": ["Astro", "Tailwind", "Flowbite", "GitHub", "React"],
-    "proyectoPersonal": true,
-    "autoria": "Desarrollo para SmartHiring - PR",
     "nameGallery": "tulicencialanding"
   },
   {
+    "id": "tulicenciaapp",
+    "title": "Tu Licencia App",
     "name": "Tu Licencia App Web - PR",
-    "description": "Sistema de gestiones de licencias en Puerto Rico.",
+    "host": "app.tulicenciapr.com",
+    "url": "http://app.tulicenciapr.com/",
+    "country": "🇵🇷 P. Rico",
+    "category": "App",
+    "tags": ["Next.js", "React", "Tailwind"],
+    "summary": "Aplicación web para la gestión de licencias en Puerto Rico.",
+    "featured": false,
     "portada": "/assets/images/projects/tulicenciaapp/portada.webp",
     "galeria": [
       "/assets/images/projects/tulicenciaapp/foto1.webp",
       "/assets/images/projects/tulicenciaapp/foto2.webp"
     ],
-    "url": "http://app.tulicenciapr.com/",
-    "tecnologies": ["Nextjs", "Tailwind", "GitHub", "React"],
-    "proyectoPersonal": true,
-    "autoria": "Desarrollo para SmartHiring - PR",
     "nameGallery": "tulicenciaapp"
   },
   {
+    "id": "drrecetas",
+    "title": "Dr. Recetas",
     "name": "Dr. Recetas (Rediseño) - PR",
-    "description": "Rediseño de la página web de Doctor Recetas.",
+    "host": "doctorrecetas.com",
+    "url": "https://doctorrecetas.com/",
+    "country": "🇵🇷 P. Rico",
+    "category": "Web",
+    "tags": ["HTML5", "JavaScript", "Tailwind"],
+    "summary": "Rediseño de la plataforma de compra de recetas médicas.",
+    "featured": false,
     "portada": "/assets/images/projects/drrecetas/portada.webp",
     "galeria": [
       "/assets/images/projects/drrecetas/foto1.webp",
@@ -169,15 +218,19 @@
       "/assets/images/projects/drrecetas/foto4.webp",
       "/assets/images/projects/drrecetas/foto5.webp"
     ],
-    "url": "https://doctorrecetas.com/",
-    "tecnologies": ["HTML5", "Javascript", "Tailwind", "Flowbite"],
-    "proyectoPersonal": true,
-    "autoria": "Desarrollo para SmartHiring - PR",
-    "nameGallery": "doctorrecetas"
+    "nameGallery": "drrecetas"
   },
   {
+    "id": "islanmed",
+    "title": "Islanmed",
     "name": "Islanmed (Rediseño) - PR",
-    "description": "Rediseño de la página web de Doctor Recetas.",
+    "host": "islandmedpr.com",
+    "url": "https://islandmedpr.com/",
+    "country": "🇵🇷 P. Rico",
+    "category": "Web",
+    "tags": ["HTML5", "JavaScript", "Tailwind"],
+    "summary": "Rediseño de sitio web de servicios médicos.",
+    "featured": false,
     "portada": "/assets/images/projects/islanmed/portada.webp",
     "galeria": [
       "/assets/images/projects/islanmed/foto1.webp",
@@ -186,15 +239,19 @@
       "/assets/images/projects/islanmed/foto4.webp",
       "/assets/images/projects/islanmed/foto5.webp"
     ],
-    "url": "https://islandmedpr.com/",
-    "tecnologies": ["HTML5", "Javascript", "Tailwind", "Flowbite"],
-    "proyectoPersonal": true,
-    "autoria": "Desarrollo para SmartHiring - PR",
     "nameGallery": "islanmed"
   },
   {
+    "id": "checkit",
+    "title": "CheckIt",
     "name": "CheckIt - PR",
-    "description": "Página de venta de servicios de backgraund check para Puerto Rico.",
+    "host": "checkit · PR",
+    "url": null,
+    "country": "🇵🇷 P. Rico",
+    "category": "Landing",
+    "tags": ["HTML5", "JavaScript", "Tailwind"],
+    "summary": "Venta de servicios de background check para Puerto Rico.",
+    "featured": false,
     "portada": "/assets/images/projects/checkit/portada.webp",
     "galeria": [
       "/assets/images/projects/checkit/foto1.webp",
@@ -202,10 +259,6 @@
       "/assets/images/projects/checkit/foto3.webp",
       "/assets/images/projects/checkit/foto4.webp"
     ],
-    "url": "https://islandmedpr.com/",
-    "tecnologies": ["HTML5", "Javascript", "Tailwind", "Flowbite"],
-    "proyectoPersonal": true,
-    "autoria": "Desarrollo para SmartHiring - PR",
     "nameGallery": "checkit"
   }
 ]

@@ -1,0 +1,506 @@
+---
+const { lang = "es" } = Astro.props;
+const isEn = lang === "en";
+
+const t = isEn
+  ? {
+      label: "// WHAT I DO",
+      h2a: "Front-end development services,",
+      h2b: "end to end.",
+      lead: "Technical design, clean code and real performance. For web and for mobile.",
+      webTitle: "Web Development",
+      webText:
+        "Modern sites and platforms with <strong>Astro, Next.js and React</strong>. Landing pages that load instantly and scalable systems.",
+      mobileTitle: "Mobile Development",
+      mobileText:
+        "Native apps for <strong>iOS and Android</strong> with <strong>React Native</strong>, offline-first architecture.",
+      seoTitle: "Performance & SEO",
+      seoText: "Fast loads, Core Web Vitals and search ranking.",
+      landTitle: "Landings & Systems",
+      landText: "Pages that convert and custom dashboards.",
+      intlTitle: "International experience",
+      intlText: "I've built products for teams across four countries.",
+      years: "YEARS",
+      countries: [
+        "🇵🇪 Peru",
+        "🇲🇽 Mexico",
+        "🇨🇱 Chile",
+        "🇵🇷 P. Rico",
+      ],
+    }
+  : {
+      label: "// QUÉ HAGO",
+      h2a: "Servicios de desarrollo",
+      h2b: "front-end, de punta a punta.",
+      lead: "Diseño técnico, código limpio y rendimiento real. Para web y para móvil.",
+      webTitle: "Desarrollo Web",
+      webText:
+        "Sitios y plataformas modernas con <strong>Astro, Next.js y React</strong>. Landings que cargan al instante y sistemas escalables.",
+      mobileTitle: "Desarrollo Mobile",
+      mobileText:
+        "Apps nativas para <strong>iOS y Android</strong> con <strong>React Native</strong>, arquitectura offline-first.",
+      seoTitle: "Rendimiento & SEO",
+      seoText: "Carga rápida, Core Web Vitals y posicionamiento.",
+      landTitle: "Landings & Sistemas",
+      landText: "Páginas que convierten y paneles a medida.",
+      intlTitle: "Experiencia internacional",
+      intlText: "He construido productos para equipos en cuatro países.",
+      years: "AÑOS",
+      countries: [
+        "🇵🇪 Perú",
+        "🇲🇽 México",
+        "🇨🇱 Chile",
+        "🇵🇷 P. Rico",
+      ],
+    };
+---
+
+<section id="servicios" class="services">
+  <div class="services__head" data-reveal>
+    <div>
+      <div class="kicker">{t.label}</div>
+      <h2 class="h2">{t.h2a}<br />{t.h2b}</h2>
+    </div>
+    <p class="services__lead">{t.lead}</p>
+  </div>
+
+  <div class="bento">
+    <!-- Web -->
+    <article class="tile tile--light tile--web" data-reveal>
+      <div class="tile__row">
+        <span class="tile__icon tile__icon--mono">&lt;/&gt;</span>
+        <h3 class="tile__title">{t.webTitle}</h3>
+      </div>
+      <p class="tile__text" set:html={t.webText} />
+      <div class="code">
+        <div>
+          <span class="code__kw">const</span>
+          <span class="code__fn">stack</span> = [<span class="code__str"
+            >'astro'</span
+          >, <span class="code__str">'next'</span>, <span class="code__str"
+            >'react'</span
+          >]
+        </div>
+        <div>
+          <span class="code__kw">export</span>
+          <span class="code__kw">default</span>
+          <span class="code__fn">fast</span>(<span class="code__fn">stack</span
+          >)<span class="code__caret">▋</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Mobile -->
+    <article class="tile tile--dark tile--mobile" data-reveal>
+      <div class="tile__row">
+        <span class="tile__icon tile__icon--ghost">📱</span>
+        <h3 class="tile__title">{t.mobileTitle}</h3>
+      </div>
+      <p class="tile__text tile__text--inv" set:html={t.mobileText} />
+      <div class="phone">
+        <div class="phone__notch"></div>
+        <div class="phone__hero"></div>
+        <div class="phone__cols">
+          <div class="phone__box"></div>
+          <div class="phone__box"></div>
+        </div>
+        <div class="phone__line"></div>
+        <div class="phone__line phone__line--short"></div>
+      </div>
+      <div class="phone__caption">SIPEC · SIRIAOF · NCAS Tech</div>
+    </article>
+
+    <!-- SEO -->
+    <article class="tile tile--light tile--seo" data-reveal>
+      <div class="seo">
+        <div class="seo__gauge">
+          <svg width="64" height="64" viewBox="0 0 64 64" class="seo__svg">
+            <circle cx="32" cy="32" r="27" fill="none" stroke="#eef0f3" stroke-width="7"></circle>
+            <circle
+              class="seo__arc"
+              cx="32"
+              cy="32"
+              r="27"
+              fill="none"
+              stroke-width="7"
+              stroke-linecap="round"
+              stroke-dasharray="169.6"
+              stroke-dashoffset="6.8"></circle>
+          </svg>
+          <span class="seo__num">98</span>
+        </div>
+        <div>
+          <h3 class="tile__title tile__title--sm">{t.seoTitle}</h3>
+          <p class="tile__sub">{t.seoText}</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Landings -->
+    <article class="tile tile--light tile--landings" data-reveal>
+      <div class="seo">
+        <span class="tile__icon tile__icon--soft">◳</span>
+        <div>
+          <h3 class="tile__title tile__title--sm">{t.landTitle}</h3>
+          <p class="tile__sub">{t.landText}</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Internacional -->
+    <article class="tile tile--soft tile--intl" data-reveal>
+      <div>
+        <h3 class="tile__title tile__title--md">{t.intlTitle}</h3>
+        <p class="tile__sub tile__sub--lg">{t.intlText}</p>
+      </div>
+      <div class="stats">
+        <div class="stats__num">
+          <div class="stats__val">4+</div>
+          <div class="stats__unit">{t.years}</div>
+        </div>
+        <div class="stats__div"></div>
+        <div class="stats__flags">
+          {t.countries.map((c) => <span>{c}</span>)}
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<style>
+  .services {
+    padding: 72px 0 8px;
+  }
+  .services__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(28px, 3.4vw, 40px);
+    letter-spacing: -0.025em;
+    margin: 0;
+    color: var(--ink-strong);
+    line-height: 1.1;
+  }
+  .services__lead {
+    font-size: 15px;
+    color: var(--muted-2);
+    max-width: 280px;
+    margin: 0;
+  }
+
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    grid-auto-rows: minmax(0, auto);
+  }
+
+  /* Tile base */
+  .tile {
+    position: relative;
+    overflow: hidden;
+    padding: 28px;
+    border-radius: 20px;
+    border: 1px solid var(--line-soft);
+    background: #fff;
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      border-color 0.25s ease;
+  }
+  .tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 44px -24px rgba(20, 30, 80, 0.35);
+  }
+  .tile--light:hover,
+  .tile--soft:hover {
+    border-color: #d4d4d8;
+  }
+  .tile--web {
+    grid-column: span 2;
+  }
+  .tile--mobile {
+    grid-column: 3;
+    grid-row: span 2;
+    background: linear-gradient(165deg, #0b0d18 0%, #15182b 100%);
+    color: #fff;
+  }
+  .tile--seo {
+    grid-column: 1;
+    padding: 26px;
+  }
+  .tile--landings {
+    grid-column: 2;
+    padding: 26px;
+  }
+  .tile--intl {
+    grid-column: span 3;
+    padding: 26px 28px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .tile__row {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 16px;
+  }
+  .tile__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+  }
+  .tile__icon--mono {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .tile__icon--ghost {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-size: 19px;
+  }
+  .tile__icon--soft {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 20px;
+  }
+  .tile__title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 21px;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .tile__title--sm {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  .tile__title--md {
+    font-size: 19px;
+    margin-bottom: 6px;
+  }
+  .tile__text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin: 0 0 18px;
+    max-width: 380px;
+  }
+  .tile__text--inv {
+    color: #b8bdd0;
+    margin-bottom: 22px;
+    max-width: none;
+  }
+  .tile__text :global(strong) {
+    color: #18181b;
+    font-weight: 600;
+  }
+  .tile__text--inv :global(strong) {
+    color: #fff;
+  }
+  .tile__sub {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--muted-2);
+    margin: 0;
+  }
+  .tile__sub--lg {
+    font-size: 14px;
+  }
+
+  /* Code block */
+  .code {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    background: #0b0d18;
+    border-radius: 12px;
+    padding: 16px 18px;
+    color: #c9d1e8;
+    overflow: hidden;
+  }
+  .code__kw {
+    color: #7c8bd0;
+  }
+  .code__fn {
+    color: #7ee0c0;
+  }
+  .code__str {
+    color: #f3b562;
+  }
+  .code__caret {
+    color: #fff;
+    animation: jv-blink 1.1s step-end infinite;
+  }
+
+  /* Phone mockup */
+  .phone {
+    position: relative;
+    margin: 0 auto;
+    width: 150px;
+    height: 230px;
+    border-radius: 26px;
+    border: 1.5px solid rgba(255, 255, 255, 0.16);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0.02)
+    );
+    padding: 12px 11px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+  .phone__notch {
+    width: 42px;
+    height: 5px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.22);
+    margin: 0 auto 12px;
+  }
+  .phone__hero {
+    height: 50px;
+    border-radius: 12px;
+    background: var(--accent);
+    opacity: 0.9;
+    margin-bottom: 9px;
+  }
+  .phone__cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 9px;
+  }
+  .phone__box {
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  .phone__line {
+    height: 12px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.14);
+    margin-bottom: 7px;
+  }
+  .phone__line--short {
+    width: 70%;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  .phone__caption {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #8b91ad;
+    text-align: center;
+    margin-top: 16px;
+  }
+
+  /* SEO + Landings inner */
+  .seo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .seo__gauge {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+  }
+  .seo__svg {
+    transform: rotate(-90deg);
+  }
+  .seo__arc {
+    stroke: var(--accent);
+  }
+  .seo__num {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 17px;
+  }
+
+  /* Internacional stats */
+  .stats {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    flex-wrap: wrap;
+  }
+  .stats__num {
+    text-align: center;
+  }
+  .stats__val {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 30px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stats__unit {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted-3-text);
+    margin-top: 4px;
+  }
+  .stats__div {
+    width: 1px;
+    height: 34px;
+    background: var(--line);
+  }
+  .stats__flags {
+    display: flex;
+    gap: 16px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #3f3f46;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 760px) {
+    .bento {
+      grid-template-columns: 1fr;
+    }
+    .tile--web,
+    .tile--mobile,
+    .tile--seo,
+    .tile--landings,
+    .tile--intl {
+      grid-column: auto;
+      grid-row: auto;
+    }
+    .services__lead {
+      max-width: none;
+    }
+  }
+</style>

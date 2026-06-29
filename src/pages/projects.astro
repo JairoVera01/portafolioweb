@@ -1,44 +1,13 @@
 ---
-import projects from "../collections/projects.json";
-import FooterContacto from "../components/footer-contacto.astro";
-import PageHeading from "../components/page-heading.astro";
-import Project from "../components/project.astro";
 import Layout from "../layouts/main.astro";
+import ProjectsPage from "../components/projects/projects-page.astro";
 ---
 
-<Layout title="Mis proyectos">
-  <section class="relative z-20 max-w-2xl mx-auto my-12 px-7 lg:px-0">
-    <PageHeading
-      title="Mis proyectos"
-      description="Estos son algunos de los proyectos en los que he trabajado recientemente."
-    />
-
-    <div
-      class="grid items-stretch w-full sm:grid-cols-2 md:grid-cols-2 gap-7 mt-7"
-    >
-      {
-        projects.map((project) => {
-          return (
-            <Project
-              name={project.name}
-              description={project.description}
-              portada={project.portada}
-              galeria={project.galeria}
-              url={project.url}
-              tecnologies={project.tecnologies}
-              proyectoPersonal={project.proyectoPersonal}
-              autoria={project.autoria}
-              nameGallery={project.nameGallery}
-            />
-          );
-        })
-      }
-    </div>
-    <FooterContacto
-      linkedin="https://www.linkedin.com/in/frank-jairo-vera/"
-      github="https://github.com/JairoVera01"
-      correo="mailto:contacto@jairovera.dev"
-      rutaContacto="/contacto"
-    />
-  </section>
+<Layout
+  title="Proyectos · Jairo Vera — Desarrollador Front-End"
+  description="Sitios, plataformas y herramientas que he construido para clientes reales en Perú, México y Puerto Rico. Web, landings y apps con Astro, Next.js, React y React Native."
+>
+  <div class="jv-container">
+    <ProjectsPage lang="es" />
+  </div>
 </Layout>

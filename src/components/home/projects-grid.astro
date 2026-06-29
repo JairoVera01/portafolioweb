@@ -1,0 +1,111 @@
+---
+import ProjectCard from "../projects/project-card.astro";
+import projectsEs from "../../collections/projects.json";
+import projectsEn from "../../collections/projectsen.json";
+
+const { lang = "es" } = Astro.props;
+const isEn = lang === "en";
+
+const all = isEn ? projectsEn : projectsEs;
+const featured = all.filter((p) => p.featured);
+
+const t = isEn
+  ? {
+      title: "Recent projects",
+      lead: "A selection of sites and platforms I've designed and built for real clients.",
+      cta: "See all my projects",
+    }
+  : {
+      title: "Proyectos recientes",
+      lead: "Una selección de sitios y plataformas que he diseñado y construido para clientes reales.",
+      cta: "Ver todos mis proyectos",
+    };
+
+const allUrl = isEn ? "/en/projects" : "/projects";
+---
+
+<section id="proyectos" class="projects">
+  <div class="projects__head" data-reveal>
+    <h2 class="h2">{t.title}</h2>
+    <p class="projects__lead">{t.lead}</p>
+  </div>
+
+  <div class="projects__grid">
+    {featured.map((project) => <ProjectCard project={project} lang={lang} />)}
+  </div>
+
+  <div class="projects__cta" data-reveal>
+    <a href={allUrl} class="ghost-btn">
+      {t.cta} <span class="ghost-btn__arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .projects {
+    padding: 8px 0;
+  }
+  .projects__head {
+    margin-bottom: 30px;
+  }
+  .h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(28px, 3.4vw, 40px);
+    letter-spacing: -0.025em;
+    margin: 0 0 10px;
+    color: var(--ink-strong);
+  }
+  .projects__lead {
+    font-size: 16px;
+    color: var(--muted-2);
+    margin: 0;
+    max-width: 520px;
+  }
+
+  .projects__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+
+  .projects__cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 34px;
+  }
+  .ghost-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 13px 24px;
+    border-radius: 11px;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14.5px;
+    font-family: var(--font-display);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .ghost-btn:hover {
+    transform: translateY(-2px);
+    border-color: #18181b;
+  }
+  .ghost-btn__arrow {
+    font-family: var(--font-mono);
+    color: var(--accent);
+  }
+
+  @media (max-width: 920px) {
+    .projects__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 600px) {
+    .projects__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

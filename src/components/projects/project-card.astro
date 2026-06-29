@@ -1,0 +1,168 @@
+---
+const { project, lang = "es" } = Astro.props;
+const isEn = lang === "en";
+const { title, host, url, country, category, tags, summary, status, portada } =
+  project;
+
+const hasLink = Boolean(url);
+const Tag = hasLink ? "a" : "div";
+const openLabel = isEn ? `Open ${title}` : `Abrir ${title}`;
+---
+
+<Tag
+  class:list={["proj", { "proj--static": !hasLink }]}
+  data-proj
+  data-cat={category}
+  data-reveal
+  {...hasLink
+    ? { href: url, target: "_blank", rel: "noopener", "aria-label": openLabel }
+    : {}}
+>
+  <div class="proj__bar">
+    <span class="proj__dot"></span>
+    <span class="proj__dot"></span>
+    <span class="proj__dot"></span>
+    <span class="proj__host">{host}</span>
+  </div>
+  <div class="proj__shot">
+    <img
+      src={portada}
+      alt={`${title} — ${summary}`}
+      width="640"
+      height="400"
+      loading="lazy"
+      decoding="async"
+      class="proj__img"
+    />
+    {status && <span class="proj__badge">{status}</span>}
+  </div>
+  <div class="proj__body">
+    <div class="proj__top">
+      <h3 class="proj__name">{title}</h3>
+      <span class="proj__flag">{country}</span>
+    </div>
+    <p class="proj__desc">{summary}</p>
+    <div class="proj__tags">
+      {
+        tags.map((tag: string, i: number) => (
+          <span class:list={["ptag", { "ptag--accent": i === 0 }]}>{tag}</span>
+        ))
+      }
+    </div>
+  </div>
+</Tag>
+
+<style>
+  .proj {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid var(--line-soft);
+    border-radius: 18px;
+    overflow: hidden;
+    background: #fff;
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      border-color 0.25s ease;
+  }
+  .proj:not(.proj--static):hover {
+    transform: translateY(-5px);
+    box-shadow: 0 24px 46px -26px rgba(20, 30, 80, 0.4);
+    border-color: #d4d4d8;
+  }
+  .proj__bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 11px 14px;
+    border-bottom: 1px solid #f1f1f3;
+    background: #fafafa;
+  }
+  .proj__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--line);
+  }
+  .proj__host {
+    margin-left: 8px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted-3-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .proj__shot {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: #f5f6f8;
+    overflow: hidden;
+  }
+  .proj__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+  .proj__badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    background: #fff7ed;
+    color: #c2410c;
+    border: 1px solid #fed7aa;
+  }
+  .proj__body {
+    padding: 16px 17px 18px;
+  }
+  .proj__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .proj__name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 16.5px;
+    margin: 0;
+  }
+  .proj__flag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-3-text);
+    white-space: nowrap;
+  }
+  .proj__desc {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted-2);
+    margin: 0 0 12px;
+  }
+  .proj__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .ptag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    padding: 4px 9px;
+    border-radius: 6px;
+    background: #f4f4f5;
+    color: var(--muted);
+  }
+  .ptag--accent {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+</style>

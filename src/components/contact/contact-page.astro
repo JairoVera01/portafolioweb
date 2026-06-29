@@ -1,0 +1,640 @@
+---
+const { lang = "es" } = Astro.props;
+const isEn = lang === "en";
+
+const email = "fj.verachamorro@gmail.com";
+const phone = "+51 965 816 742";
+const whatsapp = "https://wa.me/51965816742";
+
+const t = isEn
+  ? {
+      kicker: "// CONTACT",
+      h1: "Let's talk.",
+      lead: 'Have a project, an idea or a question? Write me and I\'ll get back to you as soon as possible. I\'m available for <strong>web and mobile</strong> work, remote or international.',
+      emailLabel: "EMAIL",
+      phoneLabel: "PHONE · WHATSAPP",
+      locLabel: "LOCATION",
+      location: "Cajamarca, Peru · Remote",
+      note: "I usually reply in <strong>under 24 hours</strong>. If it's urgent, message me on WhatsApp.",
+      fName: "NAME",
+      fEmail: "EMAIL",
+      fSubject: "SUBJECT",
+      fOptional: "(optional)",
+      fMessage: "MESSAGE",
+      phName: "Your name",
+      phEmail: "you@email.com",
+      phSubject: "What do you want to talk about?",
+      phMessage: "Tell me about your project or idea...",
+      send: "Send message",
+      sending: "Sending...",
+      helperA: "You can also email me directly at",
+      successTitle: "Message sent!",
+      successText: "Thanks for reaching out, I'll reply soon.",
+      errName: "› Enter your name.",
+      errEmail: "› Enter a valid email.",
+      errMessage: "› Write a message.",
+      errTurnstile: "› Complete the verification.",
+      errGeneric: "› There was a problem sending the message.",
+    }
+  : {
+      kicker: "// CONTACTO",
+      h1: "Hablemos.",
+      lead: '¿Tienes un proyecto, una idea o una pregunta? Escríbeme y te respondo lo antes posible. Estoy disponible para trabajos <strong>web y móviles</strong>, remoto o internacional.',
+      emailLabel: "EMAIL",
+      phoneLabel: "TELÉFONO · WHATSAPP",
+      locLabel: "UBICACIÓN",
+      location: "Cajamarca, Perú · Remoto",
+      note: "Suelo responder en <strong>menos de 24 horas</strong>. Si es urgente, escríbeme por WhatsApp.",
+      fName: "NOMBRE",
+      fEmail: "CORREO",
+      fSubject: "ASUNTO",
+      fOptional: "(opcional)",
+      fMessage: "MENSAJE",
+      phName: "Tu nombre",
+      phEmail: "tu@correo.com",
+      phSubject: "¿Sobre qué quieres hablar?",
+      phMessage: "Cuéntame sobre tu proyecto o idea...",
+      send: "Enviar mensaje",
+      sending: "Enviando...",
+      helperA: "También puedes escribirme directo a",
+      successTitle: "¡Mensaje enviado!",
+      successText: "Gracias por escribir, te responderé pronto.",
+      errName: "› Ingresa tu nombre.",
+      errEmail: "› Ingresa un correo válido.",
+      errMessage: "› Escribe un mensaje.",
+      errTurnstile: "› Completa la verificación.",
+      errGeneric: "› Hubo un problema al enviar el mensaje.",
+    };
+---
+
+<!-- Hero -->
+<section id="contacto" class="chero">
+  <div class="kicker" data-reveal>{t.kicker}</div>
+  <h1 class="chero__title" data-reveal>{t.h1}</h1>
+  <p class="chero__lead" data-reveal set:html={t.lead} />
+</section>
+
+<!-- Grid -->
+<section class="cgrid">
+  <!-- Columna izquierda: datos -->
+  <div class="cinfo">
+    <a class="cinfo__card" data-card data-reveal href={`mailto:${email}`}>
+      <span class="cinfo__icon">✉</span>
+      <div class="cinfo__body">
+        <div class="cinfo__label">{t.emailLabel}</div>
+        <div class="cinfo__value cinfo__value--trunc">{email}</div>
+      </div>
+    </a>
+
+    <a
+      class="cinfo__card"
+      data-card
+      data-reveal
+      href={whatsapp}
+      target="_blank"
+      rel="noopener"
+    >
+      <span class="cinfo__icon">☎</span>
+      <div class="cinfo__body">
+        <div class="cinfo__label">{t.phoneLabel}</div>
+        <div class="cinfo__value">{phone}</div>
+      </div>
+    </a>
+
+    <div class="cinfo__card cinfo__card--static" data-card data-reveal>
+      <span class="cinfo__icon">⌖</span>
+      <div class="cinfo__body">
+        <div class="cinfo__label">{t.locLabel}</div>
+        <div class="cinfo__value">{t.location}</div>
+      </div>
+    </div>
+
+    <div class="cinfo__social" data-reveal>
+      <a
+        class="cinfo__sbtn"
+        href="https://www.linkedin.com/in/frank-jairo-vera/"
+        target="_blank"
+        rel="noopener">LinkedIn <span class="cinfo__sarrow">↗</span></a
+      >
+      <a
+        class="cinfo__sbtn"
+        href="https://github.com/JairoVera01"
+        target="_blank"
+        rel="noopener">GitHub <span class="cinfo__sarrow">↗</span></a
+      >
+    </div>
+
+    <div class="cinfo__note" data-reveal>
+      <span class="cinfo__bolt">⚡</span>
+      <p set:html={t.note}></p>
+    </div>
+  </div>
+
+  <!-- Columna derecha: formulario -->
+  <div class="cform" data-reveal>
+    <div class="cform__status" id="jvFormStatus" hidden>
+      <span class="cform__check">✓</span>
+      <div>
+        <div class="cform__status-title">{t.successTitle}</div>
+        <div class="cform__status-text">{t.successText}</div>
+      </div>
+    </div>
+
+    <form
+      id="jvContactForm"
+      novalidate
+      data-msg-name={t.errName}
+      data-msg-email={t.errEmail}
+      data-msg-message={t.errMessage}
+      data-msg-turnstile={t.errTurnstile}
+      data-msg-generic={t.errGeneric}
+      data-send={t.send}
+      data-sending={t.sending}
+    >
+      <div class="cform__row">
+        <div class="cform__field">
+          <label for="jv-name">{t.fName}</label>
+          <input
+            id="jv-name"
+            name="name"
+            type="text"
+            required
+            placeholder={t.phName}
+          />
+        </div>
+        <div class="cform__field">
+          <label for="jv-email">{t.fEmail}</label>
+          <input
+            id="jv-email"
+            name="email"
+            type="email"
+            required
+            placeholder={t.phEmail}
+          />
+        </div>
+      </div>
+
+      <div class="cform__field">
+        <label for="jv-subject">
+          {t.fSubject}
+          <span class="cform__opt">{t.fOptional}</span>
+        </label>
+        <input
+          id="jv-subject"
+          name="subject"
+          type="text"
+          placeholder={t.phSubject}
+        />
+      </div>
+
+      <div class="cform__field">
+        <label for="jv-message">{t.fMessage}</label>
+        <textarea
+          id="jv-message"
+          name="message"
+          required
+          rows="5"
+          placeholder={t.phMessage}></textarea>
+      </div>
+
+      <div
+        class="cf-turnstile"
+        data-sitekey="0x4AAAAAAAwmjYdGGjEprZat"
+        id="jvTurnstile"
+        data-language={isEn ? "en" : "es"}
+      >
+      </div>
+
+      <div class="cform__err" id="jvFormErr" hidden></div>
+
+      <button type="submit" class="cform__btn" id="jvFormBtn">
+        <span class="cform__spinner" id="jvFormSpinner" hidden></span>
+        <span id="jvFormBtnText">{t.send}</span>
+        <span class="cform__btn-arrow" id="jvFormBtnArrow">→</span>
+      </button>
+
+      <p class="cform__helper">
+        {t.helperA}
+        <a href={`mailto:${email}`}>{email}</a>
+      </p>
+    </form>
+  </div>
+</section>
+
+<style>
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+  }
+
+  /* Hero */
+  .chero {
+    padding: 56px 0 40px;
+    max-width: 640px;
+  }
+  .chero__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(40px, 5vw, 62px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin: 0 0 18px;
+    color: var(--ink-strong);
+  }
+  .chero__lead {
+    font-size: 17.5px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin: 0;
+  }
+  .chero__lead :global(strong) {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* Grid */
+  .cgrid {
+    display: grid;
+    grid-template-columns: 0.82fr 1.18fr;
+    gap: 28px;
+    padding-bottom: 64px;
+    align-items: start;
+  }
+
+  /* Info column */
+  .cinfo {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .cinfo__card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    border-radius: 16px;
+    border: 1px solid var(--line-soft);
+    background: #fff;
+    text-decoration: none;
+    color: inherit;
+    transition:
+      transform 0.22s ease,
+      box-shadow 0.22s ease,
+      border-color 0.22s ease;
+  }
+  .cinfo__card:not(.cinfo__card--static):hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 38px -22px rgba(20, 30, 80, 0.32);
+    border-color: #d4d4d8;
+  }
+  .cinfo__icon {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+  }
+  .cinfo__body {
+    min-width: 0;
+  }
+  .cinfo__label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted-3-text);
+    letter-spacing: 0.06em;
+    margin-bottom: 3px;
+  }
+  .cinfo__value {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 14.5px;
+    color: var(--ink);
+  }
+  .cinfo__value--trunc {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cinfo__social {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .cinfo__sbtn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px;
+    border-radius: 13px;
+    border: 1px solid var(--line);
+    background: #fff;
+    text-decoration: none;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 14px;
+    font-family: var(--font-display);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .cinfo__sbtn:hover {
+    transform: translateY(-2px);
+    border-color: #18181b;
+  }
+  .cinfo__sarrow {
+    font-family: var(--font-mono);
+    color: var(--accent);
+  }
+
+  .cinfo__note {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    margin-top: 8px;
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: #fafafa;
+    border: 1px dashed var(--line);
+  }
+  .cinfo__bolt {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  .cinfo__note p {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+    margin: 0;
+  }
+  .cinfo__note :global(strong) {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* Form column */
+  .cform {
+    position: relative;
+    border-radius: 22px;
+    border: 1px solid var(--line-soft);
+    background: #fff;
+    box-shadow: 0 24px 60px -36px rgba(20, 30, 80, 0.4);
+    padding: 34px 32px;
+  }
+  .cform__status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    border-radius: 13px;
+    background: #ecfdf3;
+    border: 1px solid #b7ebcb;
+    margin-bottom: 24px;
+  }
+  .cform__status[hidden] {
+    display: none;
+  }
+  .cform__check {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #16a34a;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+  .cform__status-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 14.5px;
+    color: #15803d;
+  }
+  .cform__status-text {
+    font-size: 13px;
+    color: #3f7d52;
+  }
+
+  #jvContactForm {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .cform__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .cform__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cform__field label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+  .cform__opt {
+    color: #c4c4cc;
+  }
+  .cform__field input,
+  .cform__field textarea {
+    width: 100%;
+    padding: 13px 15px;
+    border-radius: 11px;
+    border: 1px solid var(--line);
+    background: #fafafa;
+    font-size: 15px;
+    color: var(--ink);
+    outline: none;
+    transition:
+      border-color 0.18s ease,
+      box-shadow 0.18s ease,
+      background 0.18s ease;
+  }
+  .cform__field textarea {
+    line-height: 1.55;
+    min-height: 130px;
+    resize: vertical;
+  }
+  .cform__field input:focus,
+  .cform__field textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+    background: #fff;
+  }
+
+  .cform__err {
+    font-size: 13px;
+    color: #dc2626;
+    font-family: var(--font-mono);
+  }
+  .cform__err[hidden] {
+    display: none;
+  }
+
+  .cform__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    border: none;
+    background: var(--ink-strong);
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+    font-family: var(--font-display);
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .cform__btn:hover {
+    transform: translateY(-2px);
+    background: var(--accent);
+  }
+  .cform__btn:disabled {
+    opacity: 0.75;
+    cursor: default;
+    transform: none;
+  }
+  .cform__spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: jv-spin-slow 0.7s linear infinite;
+  }
+  .cform__spinner[hidden] {
+    display: none;
+  }
+  .cform__btn-arrow {
+    font-family: var(--font-mono);
+  }
+  .cform__btn-arrow[hidden] {
+    display: none;
+  }
+  .cform__helper {
+    font-size: 12px;
+    color: var(--muted-3-text);
+    text-align: center;
+    margin: 0;
+  }
+  .cform__helper a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  @media (max-width: 820px) {
+    .cgrid {
+      grid-template-columns: 1fr;
+      gap: 22px;
+    }
+  }
+  @media (max-width: 480px) {
+    .cform {
+      padding: 26px 20px;
+    }
+    .cform__row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  function setupContactForm() {
+    const form = document.getElementById(
+      "jvContactForm",
+    ) as HTMLFormElement | null;
+    if (!form) return;
+
+    const WORKER_URL =
+      "https://resend-email-worker.fj-verachamorro.workers.dev/";
+    const statusBox = document.getElementById("jvFormStatus");
+    const errBox = document.getElementById("jvFormErr");
+    const btn = document.getElementById("jvFormBtn") as HTMLButtonElement;
+    const spinner = document.getElementById("jvFormSpinner");
+    const btnText = document.getElementById("jvFormBtnText");
+    const btnArrow = document.getElementById("jvFormBtnArrow");
+    const turnstile = (window as any).turnstile;
+    const d = form.dataset;
+
+    const showErr = (msg: string | undefined) => {
+      if (!errBox) return;
+      errBox.textContent = msg ?? "";
+      errBox.hidden = false;
+    };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const name = (data.get("name") || "").toString().trim();
+      const email = (data.get("email") || "").toString().trim();
+      const message = (data.get("message") || "").toString().trim();
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      if (!name) return showErr(d.msgName);
+      if (!emailOk) return showErr(d.msgEmail);
+      if (!message) return showErr(d.msgMessage);
+
+      const token = data.get("cf-turnstile-response");
+      if (!token) return showErr(d.msgTurnstile);
+
+      if (errBox) errBox.hidden = true;
+      btn.disabled = true;
+      if (spinner) spinner.hidden = false;
+      if (btnArrow) btnArrow.hidden = true;
+      if (btnText) btnText.textContent = d.sending ?? "";
+
+      try {
+        const res = await fetch(WORKER_URL, {
+          method: "POST",
+          body: data,
+          credentials: "include",
+        });
+        let result: any = {};
+        try {
+          result = await res.json();
+        } catch {}
+        if (res.ok) {
+          form.reset();
+          if (statusBox) statusBox.hidden = false;
+          if (errBox) errBox.hidden = true;
+          if (turnstile) turnstile.reset("#jvTurnstile");
+        } else {
+          showErr(result.error || d.msgGeneric);
+          if (turnstile) turnstile.reset("#jvTurnstile");
+        }
+      } catch {
+        showErr(d.msgGeneric);
+      } finally {
+        btn.disabled = false;
+        if (spinner) spinner.hidden = true;
+        if (btnArrow) btnArrow.hidden = false;
+        if (btnText) btnText.textContent = d.send ?? "";
+      }
+    });
+  }
+
+  document.addEventListener("astro:page-load", setupContactForm);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupContactForm);
+  } else {
+    setupContactForm();
+  }
+</script>

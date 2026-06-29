@@ -1,175 +1,135 @@
-// Add your javascript here
+// Interacciones del rediseño: menú móvil del header + reveal on scroll.
+// La navegación es por carga completa (no hay ClientRouter montado), así que el
+// init corre en cada carga vía el fallback de más abajo. El listener de
+// astro:page-load se mantiene por si se habilitan View Transitions en el futuro.
 
-window.darkMode = false;
+let revealObserver = null;
 
-const stickyClasses = ["fixed", "h-14"];
-const unstickyClasses = ["absolute", "h-20"];
-const stickyClassesContainer = [
-	"border-neutral-300/50",
-	"bg-white/80",
-	"dark:border-neutral-600/40",
-	"dark:bg-neutral-900/60",
-	"backdrop-blur-2xl",
-];
-const unstickyClassesContainer = ["border-transparent"];
-let headerElement = null;
+function setupHeader() {
+	const toggle = document.getElementById("jvMenuToggle");
+	const nav = document.getElementById("jvNav");
+	if (!toggle || !nav) return;
 
-document.addEventListener("DOMContentLoaded", () => {
-	headerElement = document.getElementById("header");
+	const close = () => {
+		nav.classList.remove("is-open");
+		toggle.setAttribute("aria-expanded", "false");
+	};
+	const open = () => {
+		nav.classList.add("is-open");
+		toggle.setAttribute("aria-expanded", "true");
+	};
 
-	if (
-		localStorage.getItem("dark_mode") &&
-		localStorage.getItem("dark_mode") === "true"
-	) {
-		window.darkMode = true;
-		showNight();
-	} else {
-		showDay();
-	}
-	stickyHeaderFuncionality();
-	applyMenuItemClasses();
-	evaluateHeaderPosition();
-	mobileMenuFunctionality();
-});
+	// onclick reemplaza el handler anterior (idempotente entre navegaciones)
+	toggle.onclick = (e) => {
+		e.stopPropagation();
+		nav.classList.contains("is-open") ? close() : open();
+	};
 
-// window.toggleDarkMode = function(){
-//     document.documentElement.classList.toggle('dark');
-//     if(document.documentElement.classList.contains('dark')){
-//         localStorage.setItem('dark_mode', true);
-//         window.darkMode = true;
-//     } else {
-//         window.darkMode = false;
-//         localStorage.setItem('dark_mode', false);
-//     }
-// }
-
-window.stickyHeaderFuncionality = () => {
-	window.addEventListener("scroll", () => {
-		evaluateHeaderPosition();
+	nav.querySelectorAll("a").forEach((a) => {
+		a.onclick = () => close();
 	});
-};
 
-window.evaluateHeaderPosition = () => {
-	if (window.scrollY > 16) {
-		headerElement.firstElementChild.classList.add(...stickyClassesContainer);
-		headerElement.firstElementChild.classList.remove(
-			...unstickyClassesContainer,
+	if (window.__jvHeaderDocClick) {
+		document.removeEventListener("click", window.__jvHeaderDocClick);
+	}
+	window.__jvHeaderDocClick = (e) => {
+		if (!nav.contains(e.target) && !toggle.contains(e.target)) close();
+	};
+	document.addEventListener("click", window.__jvHeaderDocClick);
+
+	if (window.__jvHeaderEsc) {
+		document.removeEventListener("keydown", window.__jvHeaderEsc);
+	}
+	window.__jvHeaderEsc = (e) => {
+		if (e.key === "Escape") close();
+	};
+	document.addEventListener("keydown", window.__jvHeaderEsc);
+}
+
+function setupReveal() {
+	const els = Array.from(document.querySelectorAll("[data-reveal]"));
+	if (!els.length) return;
+
+	if (revealObserver) revealObserver.disconnect();
+
+	const reduce = window.matchMedia(
+		"(prefers-reduced-motion: reduce)",
+	).matches;
+	if (reduce) {
+		els.forEach((el) => el.classList.add("is-visible"));
+		return;
+	}
+
+	els.forEach((el) => el.classList.remove("is-visible"));
+
+	const vh = window.innerHeight || 800;
+
+	revealObserver = new IntersectionObserver(
+		(entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					entry.target.classList.add("is-visible");
+					revealObserver.unobserve(entry.target);
+				}
+			});
+		},
+		{ threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
+	);
+
+	els.forEach((el, idx) => {
+		const top = el.getBoundingClientRect().top;
+		if (top < vh * 0.92) {
+			// ya visible: revelar con un pequeño stagger
+			setTimeout(() => el.classList.add("is-visible"), 60 + idx * 70);
+		} else {
+			revealObserver.observe(el);
+		}
+	});
+
+	// red de seguridad: nunca dejar nada oculto
+	setTimeout(() => els.forEach((el) => el.classList.add("is-visible")), 1800);
+}
+
+function setupProjectFilters() {
+	const chips = Array.from(document.querySelectorAll("[data-filter]"));
+	if (!chips.length) return;
+	const cards = Array.from(document.querySelectorAll("[data-proj][data-cat]"));
+	const empty = document.querySelector("[data-empty]");
+
+	const apply = (filter) => {
+		chips.forEach((c) =>
+			c.classList.toggle("is-active", c.getAttribute("data-filter") === filter),
 		);
-		headerElement.classList.add(...stickyClasses);
-		headerElement.classList.remove(...unstickyClasses);
-		document.getElementById("menu").classList.add("top-[56px]");
-		document.getElementById("menu").classList.remove("top-[75px]");
-	} else {
-		headerElement.firstElementChild.classList.remove(...stickyClassesContainer);
-		headerElement.firstElementChild.classList.add(...unstickyClassesContainer);
-		headerElement.classList.add(...unstickyClasses);
-		headerElement.classList.remove(...stickyClasses);
-		document.getElementById("menu").classList.remove("top-[56px]");
-		document.getElementById("menu").classList.add("top-[75px]");
-	}
-};
+		let visible = 0;
+		cards.forEach((card) => {
+			const match =
+				filter === "todos" || card.getAttribute("data-cat") === filter;
+			card.style.display = match ? "" : "none";
+			if (match) {
+				visible++;
+				card.classList.add("is-visible");
+			}
+		});
+		if (empty) empty.style.display = visible === 0 ? "block" : "none";
+	};
 
-document.getElementById("darkToggle").addEventListener("click", () => {
-	document.documentElement.classList.add("duration-300");
-
-	if (document.documentElement.classList.contains("dark")) {
-		localStorage.removeItem("dark_mode");
-		showDay(true);
-	} else {
-		localStorage.setItem("dark_mode", true);
-		showNight(true);
-	}
-});
-
-function showDay(animate) {
-	document.getElementById("sun").classList.remove("setting");
-	document.getElementById("moon").classList.remove("rising");
-
-	let timeout = 0;
-
-	if (animate) {
-		timeout = 500;
-
-		document.getElementById("moon").classList.add("setting");
-	}
-
-	setTimeout(() => {
-		document.getElementById("dayText").classList.remove("hidden");
-		document.getElementById("nightText").classList.add("hidden");
-
-		document.getElementById("moon").classList.add("hidden");
-		document.getElementById("sun").classList.remove("hidden");
-
-		if (animate) {
-			document.documentElement.classList.remove("dark");
-			document.getElementById("sun").classList.add("rising");
-		}
-	}, timeout);
-}
-
-function showNight(animate) {
-	document.getElementById("moon").classList.remove("setting");
-	document.getElementById("sun").classList.remove("rising");
-
-	let timeout = 0;
-
-	if (animate) {
-		timeout = 500;
-
-		document.getElementById("sun").classList.add("setting");
-	}
-
-	setTimeout(() => {
-		document.getElementById("nightText").classList.remove("hidden");
-		document.getElementById("dayText").classList.add("hidden");
-
-		document.getElementById("sun").classList.add("hidden");
-		document.getElementById("moon").classList.remove("hidden");
-
-		if (animate) {
-			document.documentElement.classList.add("dark");
-			document.getElementById("moon").classList.add("rising");
-		}
-	}, timeout);
-}
-
-window.applyMenuItemClasses = () => {
-	const menuItems = document.querySelectorAll("#menu a");
-	for (let i = 0; i < menuItems.length; i++) {
-		if (menuItems[i].pathname === window.location.pathname) {
-			menuItems[i].classList.add("text-neutral-900", "dark:text-white");
-		}
-	}
-	//:class="{ 'text-neutral-900 dark:text-white': window.location.pathname == '{menu.url}', 'text-neutral-700 dark:text-neutral-400': window.location.pathname != '{menu.url}' }"
-};
-
-function mobileMenuFunctionality() {
-	document.getElementById("openMenu").addEventListener("click", () => {
-		openMobileMenu();
-	});
-
-	document.getElementById("closeMenu").addEventListener("click", () => {
-		closeMobileMenu();
+	chips.forEach((c) => {
+		c.onclick = () => apply(c.getAttribute("data-filter"));
 	});
 }
 
-window.openMobileMenu = () => {
-	document.getElementById("openMenu").classList.add("hidden");
-	document.getElementById("closeMenu").classList.remove("hidden");
-	document.getElementById("menu").classList.remove("hidden");
-	document.getElementById("mobileMenuBackground").classList.add("opacity-0");
-	document.getElementById("mobileMenuBackground").classList.remove("hidden");
+function init() {
+	setupHeader();
+	setupReveal();
+	setupProjectFilters();
+}
 
-	setTimeout(() => {
-		document
-			.getElementById("mobileMenuBackground")
-			.classList.remove("opacity-0");
-	}, 1);
-};
+// Si en el futuro se monta ClientRouter, este evento reinicializa tras cada swap
+document.addEventListener("astro:page-load", init);
 
-window.closeMobileMenu = () => {
-	document.getElementById("closeMenu").classList.add("hidden");
-	document.getElementById("openMenu").classList.remove("hidden");
-	document.getElementById("menu").classList.add("hidden");
-	document.getElementById("mobileMenuBackground").classList.add("hidden");
-};
+// Camino actual: init en cada carga completa de página
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", init);
+} else {
+	init();
+}

@@ -1,0 +1,70 @@
+---
+const items = [
+  "React",
+  "Next.js",
+  "Astro",
+  "React Native",
+  "TypeScript",
+  "Tailwind CSS",
+  "Sass",
+  "GSAP",
+];
+---
+
+<div class="marquee" data-reveal>
+  <div class="marquee__track">
+    {
+      [0, 1].map(() => (
+        <span class="marquee__group">
+          {items.map((item) => (
+            <Fragment>
+              <span>{item}</span>
+              <span class="marquee__sep">/</span>
+            </Fragment>
+          ))}
+        </span>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .marquee {
+    margin: 22px 0 8px;
+    padding: 16px 0;
+    border-top: 1px dashed var(--line);
+    border-bottom: 1px dashed var(--line);
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 9%,
+      #000 91%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 9%,
+      #000 91%,
+      transparent
+    );
+  }
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    gap: 0;
+    animation: jv-marquee 26s linear infinite;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--muted-2);
+  }
+  .marquee__group {
+    display: inline-flex;
+    gap: 38px;
+    padding-right: 38px;
+  }
+  .marquee__sep {
+    color: var(--accent);
+  }
+</style>

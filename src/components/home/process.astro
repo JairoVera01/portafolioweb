@@ -1,0 +1,296 @@
+---
+const { lang = "es" } = Astro.props;
+const isEn = lang === "en";
+
+const t = isEn
+  ? {
+      label: "// HOW I WORK",
+      h2a: "From idea to ",
+      h2hl: "production",
+      lead: "A clear process from start to finish, with a modern stack I choose based on each project's needs.",
+      steps: [
+        { n: "01", title: "Discovery", text: "I map goals, users and scope." },
+        { n: "02", title: "Design & UI", text: "Structure, interface and prototype." },
+        { n: "03", title: "Development", text: "Clean code in React, Next, Astro or RN." },
+        { n: "04", title: "Optimization", text: "Performance, SEO and responsive." },
+        { n: "05", title: "Delivery", text: "Deployment, testing and support." },
+      ],
+      stack: [
+        { icon: "&lt;/&gt;", mono: true, title: "Frontend", tags: ["React", "Next.js", "Astro", "JavaScript", "TypeScript", "HTML5"] },
+        { icon: "📱", mono: false, title: "Mobile", tags: ["React Native", "iOS", "Android", "Offline-first"] },
+        { icon: "🎨", mono: false, title: "Styles", tags: ["Tailwind CSS", "Sass", "CSS3", "BEM", "Responsive"] },
+        { icon: "🛠", mono: false, title: "Tools", tags: ["GitHub", "Bitbucket", "Postman", "APIs", "Figma", "Vite"] },
+      ],
+    }
+  : {
+      label: "// CÓMO TRABAJO",
+      h2a: "De la idea a ",
+      h2hl: "producción",
+      lead: "Un proceso claro de principio a fin, con un stack moderno que elijo según las necesidades de cada proyecto.",
+      steps: [
+        { n: "01", title: "Descubrimiento", text: "Entiendo objetivos, usuarios y alcance." },
+        { n: "02", title: "Diseño & UI", text: "Estructura, interfaz y prototipo." },
+        { n: "03", title: "Desarrollo", text: "Código limpio en React, Next, Astro o RN." },
+        { n: "04", title: "Optimización", text: "Rendimiento, SEO y responsive." },
+        { n: "05", title: "Entrega", text: "Despliegue, pruebas y soporte." },
+      ],
+      stack: [
+        { icon: "&lt;/&gt;", mono: true, title: "Frontend", tags: ["React", "Next.js", "Astro", "JavaScript", "TypeScript", "HTML5"] },
+        { icon: "📱", mono: false, title: "Mobile", tags: ["React Native", "iOS", "Android", "Offline-first"] },
+        { icon: "🎨", mono: false, title: "Estilos", tags: ["Tailwind CSS", "Sass", "CSS3", "BEM", "Responsive"] },
+        { icon: "🛠", mono: false, title: "Herramientas", tags: ["GitHub", "Bitbucket", "Postman", "APIs", "Figma", "Vite"] },
+      ],
+    };
+---
+
+<section id="proceso" class="process">
+  <div class="process__head" data-reveal>
+    <div class="kicker">{t.label}</div>
+    <h2 class="h2">{t.h2a}<span class="hl">{t.h2hl}</span></h2>
+    <p class="process__lead">{t.lead}</p>
+  </div>
+
+  <div class="stepper" data-reveal>
+    <div class="stepper__line" aria-hidden="true"></div>
+    {
+      t.steps.map((s, i) => (
+        <div class="step">
+          <div class:list={["step__num", { "step__num--active": i === 0 }]}>
+            {s.n}
+          </div>
+          <div class="step__title">{s.title}</div>
+          <div class="step__text">{s.text}</div>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="stack-label" data-reveal>
+    <span class="kicker">// STACK</span>
+    <span class="stack-label__rule"></span>
+  </div>
+
+  <div class="stack">
+    {
+      t.stack.map((card) => (
+        <div class="tile tile--light scard" data-reveal>
+          <div class="scard__head">
+            <span
+              class:list={[
+                "scard__icon",
+                { "scard__icon--mono": card.mono },
+              ]}
+              set:html={card.icon}
+            />
+            <h3 class="scard__title">{card.title}</h3>
+          </div>
+          <div class="scard__tags">
+            {card.tags.map((tag) => (
+              <span class="chip">{tag}</span>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .process {
+    padding: 84px 0 8px;
+  }
+  .process__head {
+    margin-bottom: 44px;
+  }
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+  .h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(28px, 3.4vw, 40px);
+    letter-spacing: -0.025em;
+    margin: 0 0 12px;
+    color: var(--ink-strong);
+    line-height: 1.08;
+  }
+  .hl {
+    color: var(--accent);
+  }
+  .process__lead {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin: 0;
+    max-width: 480px;
+  }
+
+  /* Stepper */
+  .stepper {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
+    margin-bottom: 56px;
+  }
+  .stepper__line {
+    position: absolute;
+    top: 21px;
+    left: 10%;
+    right: 10%;
+    height: 0;
+    border-top: 2px dashed var(--line);
+    z-index: 0;
+  }
+  .step {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 0 4px;
+  }
+  .step__num {
+    width: 42px;
+    height: 42px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--accent);
+    border: 2px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: 0 0 0 5px #fff;
+  }
+  .step__num--active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 5px #fff, 0 6px 16px -6px var(--accent);
+  }
+  .step__title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--ink);
+    margin-bottom: 5px;
+  }
+  .step__text {
+    font-size: 12.5px;
+    color: var(--muted-2);
+    line-height: 1.5;
+  }
+
+  /* Stack label */
+  .stack-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .stack-label .kicker {
+    margin-bottom: 0;
+  }
+  .stack-label__rule {
+    flex: 1;
+    height: 1px;
+    border-top: 1px dashed var(--line);
+  }
+
+  /* Stack grid */
+  .stack {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .tile {
+    border-radius: 18px;
+    border: 1px solid var(--line-soft);
+    background: #fff;
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      border-color 0.25s ease;
+  }
+  .tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 44px -24px rgba(20, 30, 80, 0.35);
+  }
+  .tile--light:hover {
+    border-color: #d4d4d8;
+  }
+  .scard {
+    padding: 22px;
+  }
+  .scard__head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .scard__icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+  .scard__icon--mono {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .scard__title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 16px;
+    margin: 0;
+  }
+  .scard__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    padding: 5px 10px;
+    border-radius: 7px;
+    background: #f4f4f5;
+    color: #3f3f46;
+  }
+
+  @media (max-width: 920px) {
+    .stack {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 760px) {
+    .stepper {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 26px 18px;
+    }
+    .stepper__line {
+      display: none;
+    }
+  }
+  @media (max-width: 480px) {
+    .stepper {
+      grid-template-columns: 1fr;
+    }
+    .stack {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

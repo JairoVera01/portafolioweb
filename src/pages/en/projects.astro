@@ -1,46 +1,13 @@
 ---
-import projects from "../../collections/projectsen.json";
-import projectsen from "../../collections/projectsen.json";
-import FooterContacto from "../../components/footer-contacto.astro";
-import FooterContactoEN from "../../components/footer-contactoEN.astro";
-import PageHeading from "../../components/page-heading.astro";
-import Project from "../../components/project.astro";
 import Layout from "../../layouts/main.astro";
+import ProjectsPage from "../../components/projects/projects-page.astro";
 ---
 
-<Layout title="My Projects">
-  <section class="relative z-20 max-w-2xl mx-auto my-12 px-7 lg:px-0">
-    <PageHeading
-      title="My Projects"
-      description="These are some of the projects I have worked on recently."
-    />
-
-    <div
-      class="grid items-stretch w-full sm:grid-cols-2 md:grid-cols-2 gap-7 mt-7"
-    >
-      {
-        projectsen.map((project: any) => {
-          return (
-            <Project
-              name={project.name}
-              description={project.description}
-              portada={project.portada}
-              galeria={project.galeria}
-              url={project.url}
-              tecnologies={project.tecnologies}
-              proyectoPersonal={project.proyectoPersonal}
-              autoria={project.autoria}
-              nameGallery={project.nameGallery}
-            />
-          );
-        })
-      }
-    </div>
-    <FooterContactoEN
-      linkedin="https://www.linkedin.com/in/frank-jairo-vera/"
-      github="https://github.com/JairoVera01"
-      correo="mailto:contacto@jairovera.dev"
-      rutaContacto="/contacto"
-    />
-  </section>
+<Layout
+  title="Projects · Jairo Vera — Front-End Developer"
+  description="Sites, platforms and tools I've built for real clients in Peru, Mexico and Puerto Rico. Web, landings and apps with Astro, Next.js, React and React Native."
+>
+  <div class="jv-container">
+    <ProjectsPage lang="en" />
+  </div>
 </Layout>

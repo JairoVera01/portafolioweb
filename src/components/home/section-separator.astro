@@ -1,0 +1,49 @@
+---
+const { text, margin = "88px 0 36px" } = Astro.props;
+---
+
+<div class="sep" data-reveal style={`--sep-margin: ${margin}`}>
+  <div class="sep__line" aria-hidden="true"></div>
+  <span class="sep__pill">{text} <span class="sep__arrow">↓</span></span>
+</div>
+
+<style>
+  .sep {
+    position: relative;
+    margin: var(--sep-margin, 88px 0 36px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sep__line {
+    position: absolute;
+    inset: 0 0 auto;
+    top: 50%;
+    height: 1px;
+    border-top: 1px dashed var(--line);
+  }
+  .sep__pill {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 16px;
+    background: #fff;
+    border: 1px solid var(--line-soft);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--muted-3-text);
+    text-align: center;
+  }
+  .sep__arrow {
+    color: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    .sep {
+      margin: 64px 0 28px;
+    }
+  }
+</style>
