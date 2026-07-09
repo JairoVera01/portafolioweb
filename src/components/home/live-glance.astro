@@ -1,0 +1,922 @@
+---
+import { Icon } from "astro-icon/components";
+// Sección "En vivo" / De un vistazo — bento dinámico.
+// Reutiliza los tokens globales (:root en layouts/main.astro) y el reveal /
+// comportamiento de src/assets/js/main.js (reloj, contadores, tilt). Mantiene
+// todos los atributos data-* que usa el JS.
+const { lang = "es" } = Astro.props;
+const isEn = lang === "en";
+
+// CV real, copiado a public/ (fuera del handoff para que sobreviva su borrado).
+const cvHref = "/CV_FrankJairoVeraChamorro_2026.pdf";
+const cvDownload = "Jairo_Vera_CV_2026.pdf";
+
+// Logos del marquee (Simple Icons CDN). Ojo: el slug de CSS es "css" (no "css3").
+const row1 = [
+  { slug: "react", label: "React" },
+  { slug: "nextdotjs", label: "Next.js" },
+  { slug: "astro", label: "Astro" },
+  { slug: "tailwindcss", label: "Tailwind CSS" },
+  { slug: "typescript", label: "TypeScript" },
+  { slug: "sass", label: "Sass" },
+  { slug: "greensock", label: "GSAP" },
+  { slug: "figma", label: "Figma" },
+];
+const row2 = [
+  { slug: "javascript", label: "JavaScript" },
+  { slug: "git", label: "Git" },
+  { slug: "github", label: "GitHub" },
+  { slug: "vite", label: "Vite" },
+  { slug: "postman", label: "Postman" },
+  { slug: "html5", label: "HTML5" },
+  { slug: "css", label: "CSS" },
+  { slug: "npm", label: "npm" },
+];
+const iconUrl = (slug: string) => `https://cdn.simpleicons.org/${slug}/52525b`;
+
+const countries = [
+  { code: "pe", name: isEn ? "Peru" : "Perú", meta: "Base · Lima", delay: "0s" },
+  { code: "mx", name: isEn ? "Mexico" : "México", meta: "Tatem", delay: ".35s" },
+  { code: "cl", name: "Chile", meta: "NCAS Tech", delay: ".7s" },
+  { code: "pr", name: "Puerto Rico", meta: "Smart Hiring", delay: "1.05s" },
+];
+
+const counters = [
+  { target: 4, suffix: "+", label: isEn ? "YEARS" : "AÑOS" },
+  { target: 13, suffix: "+", label: isEn ? "PROJECTS" : "PROYECTOS" },
+  { target: 4, suffix: "", label: isEn ? "COUNTRIES" : "PAÍSES" },
+];
+
+const t = isEn
+  ? {
+      kicker: "// LIVE",
+      titleA: "A quick glance,",
+      titleB: "always up to date.",
+      lead: "Availability, reach, tools and credentials — in real time.",
+      darkKicker: "// NO BORDERS",
+      darkTitleA: "Remote for teams across ",
+      darkHighlight: "4 countries",
+      darkFooter: "// 100% remote · GMT-5",
+      available: "AVAILABLE",
+      localTime: "LOCAL TIME",
+      clockFooter: "Lima, Peru · GMT-5",
+      cvChip: "PDF · 2026",
+      cvPages: "1 page",
+      cvTitle: "My résumé",
+      cvDesc: "Experience, stack and education, summarized.",
+      cvBtn: "Download CV",
+      toolsTitle: "Everyday tools",
+      toolsSub: "MY STACK, IN MOTION",
+      numbersKicker: "// BY THE NUMBERS",
+      numbersTitle: "The numbers behind the work.",
+    }
+  : {
+      kicker: "// EN VIVO",
+      titleA: "Un vistazo rápido,",
+      titleB: "siempre al día.",
+      lead: "Disponibilidad, alcance, herramientas y credenciales — en tiempo real.",
+      darkKicker: "// SIN FRONTERAS",
+      darkTitleA: "Remoto para equipos en ",
+      darkHighlight: "4 países",
+      darkFooter: "// 100% remoto · GMT-5",
+      available: "DISPONIBLE",
+      localTime: "HORA LOCAL",
+      clockFooter: "Lima, Perú · GMT-5",
+      cvChip: "PDF · 2026",
+      cvPages: "1 pág.",
+      cvTitle: "Mi currículum",
+      cvDesc: "Experiencia, stack y formación, resumidos.",
+      cvBtn: "Descargar CV",
+      toolsTitle: "Herramientas del día a día",
+      toolsSub: "MI STACK, EN MOVIMIENTO",
+      numbersKicker: "// EN NÚMEROS",
+      numbersTitle: "Los números detrás del trabajo.",
+    };
+---
+
+<section id="vistazo" class="lg">
+  <div class="lg__head" data-reveal>
+    <div>
+      <div class="lg__kicker">{t.kicker}</div>
+      <h2 class="lg__title">{t.titleA}<br />{t.titleB}</h2>
+    </div>
+    <p class="lg__lead">{t.lead}</p>
+  </div>
+
+  <div class="lg__bento">
+    <!-- Tarjeta oscura: sin fronteras -->
+    <article
+      class="lg-dark"
+      data-reveal
+      data-tilt="5"
+      data-glow-color="rgba(255,255,255,0.16)"
+    >
+      <div class="lg-dark__dots" aria-hidden="true"></div>
+      <div class="lg-dark__glow" aria-hidden="true"></div>
+      <div class="lg-glow" data-glow aria-hidden="true"></div>
+      <div class="lg-dark__body">
+        <div class="lg-dark__kicker">{t.darkKicker}</div>
+        <h3 class="lg-dark__h3">
+          {t.darkTitleA}<span class="lg-dark__hl"
+            >{t.darkHighlight}<span class="lg-dark__underline" aria-hidden="true"
+            ></span></span
+          >.
+        </h3>
+
+        <div class="lg-dark__list">
+          <div class="lg-dark__connector" aria-hidden="true"></div>
+          {
+            countries.map((c) => (
+              <div class="lg-node">
+                <span
+                  class="lg-node__dot"
+                  style={`animation-delay:${c.delay};`}
+                  aria-hidden="true"
+                />
+                <Icon
+                  name={`circle-flags:${c.code}`}
+                  class="lg-node__flag"
+                  aria-hidden="true"
+                />
+                <div class="lg-node__text">
+                  <div class="lg-node__name">{c.name}</div>
+                  <div class="lg-node__meta">{c.meta}</div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        <div class="lg-dark__footer">{t.darkFooter}</div>
+      </div>
+    </article>
+
+    <!-- Estado + reloj en vivo -->
+    <article class="lg-clock" data-reveal data-tile>
+      <div class="lg-clock__top">
+        <span class="lg-clock__dot" aria-hidden="true"></span>
+        <span class="lg-clock__status">{t.available}</span>
+        <span class="lg-clock__hint">{t.localTime}</span>
+      </div>
+      <div class="lg-clock__time" data-clock>--:--:--</div>
+      <div class="lg-clock__date" data-date>—</div>
+      <div class="lg-clock__footer">
+        <Icon name="tabler:map-pin" class="lg-clock__pin" aria-hidden="true" />
+        {t.clockFooter}
+      </div>
+    </article>
+
+    <!-- CV -->
+    <article
+      class="lg-cv"
+      data-reveal
+      data-tilt="7"
+      data-glow-color="color-mix(in srgb, var(--accent) 22%, transparent)"
+    >
+      <div class="lg-glow" data-glow aria-hidden="true"></div>
+      <div class="lg-cv__body">
+        <div class="lg-cv__head">
+          <span class="lg-cv__chip"
+            ><Icon
+              name="tabler:file-text"
+              class="lg-cv__chip-ic"
+              aria-hidden="true"
+            />
+            {t.cvChip}</span
+          >
+          <span class="lg-cv__pages">{t.cvPages}</span>
+        </div>
+        <div class="lg-cv__bottom">
+          <h3 class="lg-cv__title">{t.cvTitle}</h3>
+          <p class="lg-cv__desc">{t.cvDesc}</p>
+          <a
+            class="lg-cv__btn"
+            data-liquid
+            href={cvHref}
+            download={cvDownload}
+          >
+            <span class="lg-cv__sheen" data-sheen aria-hidden="true"></span>
+            <span class="lg-cv__btn-txt">{t.cvBtn}</span>
+            <span class="lg-cv__btn-ic" aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Marquee de herramientas -->
+    <article class="lg-tools" data-reveal data-tile>
+      <div class="lg-tools__head">
+        <span class="lg-tools__ic" aria-hidden="true"
+          ><Icon name="tabler:tools" /></span
+        >
+        <div>
+          <h3 class="lg-tools__title">{t.toolsTitle}</h3>
+          <p class="lg-tools__sub">{t.toolsSub}</p>
+        </div>
+      </div>
+
+      <div class="lg-marquee lg-marquee--top">
+        <div class="lg-marquee__track">
+          {
+            [0, 1].map((i) => (
+              <div
+                class="lg-marquee__group"
+                aria-hidden={i === 1 ? "true" : undefined}
+              >
+                {row1.map((it) => (
+                  <span class="lg-tool">
+                    <img
+                      src={iconUrl(it.slug)}
+                      alt={it.label}
+                      width="26"
+                      height="26"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </span>
+                ))}
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="lg-marquee">
+        <div class="lg-marquee__track lg-marquee__track--rev">
+          {
+            [0, 1].map((i) => (
+              <div
+                class="lg-marquee__group"
+                aria-hidden={i === 1 ? "true" : undefined}
+              >
+                {row2.map((it) => (
+                  <span class="lg-tool">
+                    <img
+                      src={iconUrl(it.slug)}
+                      alt={it.label}
+                      width="26"
+                      height="26"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </span>
+                ))}
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </article>
+
+    <!-- Contadores -->
+    <article class="lg-numbers" data-reveal data-tile>
+      <div>
+        <div class="lg-numbers__kicker">{t.numbersKicker}</div>
+        <h3 class="lg-numbers__title">{t.numbersTitle}</h3>
+      </div>
+      <div class="lg-numbers__stats">
+        {
+          counters.map((c, i) => (
+            <Fragment>
+              {i > 0 && <div class="lg-numbers__div" aria-hidden="true" />}
+              <div class="lg-stat">
+                <div class="lg-stat__num">
+                  <span
+                    data-counter
+                    data-target={c.target}
+                    data-suffix={c.suffix}
+                  >
+                    0
+                  </span>
+                </div>
+                <div class="lg-stat__label">{c.label}</div>
+              </div>
+            </Fragment>
+          ))
+        }
+      </div>
+    </article>
+  </div>
+</section>
+
+<style>
+  .lg {
+    padding: 84px 0 8px;
+  }
+  .lg__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+  .lg__kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .lg__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(28px, 3.4vw, 40px);
+    letter-spacing: -0.025em;
+    margin: 0;
+    color: var(--ink-strong);
+    line-height: 1.1;
+  }
+  .lg__lead {
+    font-size: 15px;
+    color: var(--muted-2);
+    max-width: 290px;
+    margin: 0;
+  }
+
+  .lg__bento {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    grid-auto-rows: minmax(0, auto);
+  }
+
+  /* Levantar tarjetas claras al pasar el mouse (data-tile) */
+  [data-tile] {
+    transition: transform 0.25s ease, box-shadow 0.25s ease,
+      border-color 0.25s ease;
+  }
+  @media (hover: hover) {
+    [data-tile]:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 44px -24px rgba(20, 30, 80, 0.35);
+      border-color: #d4d4d8;
+    }
+  }
+
+  .lg-glow {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  /* --- Tarjeta oscura "Sin fronteras" --- */
+  .lg-dark {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    position: relative;
+    overflow: hidden;
+    padding: 28px;
+    border-radius: 20px;
+    border: 1px solid #15182b;
+    background: linear-gradient(160deg, #0b0d18 0%, #15182b 62%, #1a1d36 100%);
+    color: #fff;
+    will-change: transform;
+  }
+  .lg-dark__dots {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cpath d='M72 0H0V72' fill='none' stroke='%23ffffff' stroke-opacity='0.05' stroke-width='1' stroke-dasharray='4 5'/%3E%3C/svg%3E");
+  }
+  .lg-dark__glow {
+    position: absolute;
+    top: -46px;
+    right: -46px;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--accent) 60%, transparent),
+      transparent 70%
+    );
+    opacity: 0.32;
+    pointer-events: none;
+  }
+  .lg-dark__body {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .lg-dark__kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: #7e8bd6;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+  .lg-dark__h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 23px;
+    letter-spacing: -0.02em;
+    margin: 0 0 26px;
+    line-height: 1.22;
+  }
+  .lg-dark__hl {
+    position: relative;
+    white-space: nowrap;
+  }
+  .lg-dark__underline {
+    position: absolute;
+    left: 0;
+    bottom: 3px;
+    width: 100%;
+    height: 8px;
+    background: var(--accent);
+    opacity: 0.4;
+    z-index: -1;
+    border-radius: 2px;
+  }
+  .lg-dark__list {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+    flex: 1;
+  }
+  .lg-dark__connector {
+    position: absolute;
+    left: 5px;
+    top: 8px;
+    bottom: 8px;
+    width: 0;
+    border-left: 1.5px dashed rgba(255, 255, 255, 0.18);
+  }
+  .lg-node {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+  }
+  .lg-node__dot {
+    flex-shrink: 0;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+    animation: jv-nodepulse 2.6s ease-in-out infinite;
+  }
+  .lg-node__flag {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    border-radius: 50%;
+  }
+  .lg-node__text {
+    min-width: 0;
+  }
+  .lg-node__name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 14.5px;
+    color: #fff;
+  }
+  .lg-node__meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #8b91ad;
+  }
+  .lg-dark__footer {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #8b91ad;
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  }
+
+  /* --- Estado + reloj --- */
+  .lg-clock {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+    overflow: hidden;
+    padding: 26px;
+    border-radius: 20px;
+    border: 1px solid #ececee;
+    background: #fff;
+  }
+  .lg-clock__top {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 22px;
+  }
+  .lg-clock__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #16a34a;
+    animation: jv-pulse 2s infinite;
+  }
+  .lg-clock__status {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: #16a34a;
+    font-weight: 600;
+  }
+  .lg-clock__hint {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted-3-text);
+    margin-left: auto;
+    letter-spacing: 0.04em;
+  }
+  .lg-clock__time {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(34px, 4vw, 46px);
+    letter-spacing: -0.02em;
+    color: var(--ink-strong);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .lg-clock__date {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--muted-2);
+    margin-top: 12px;
+  }
+  .lg-clock__footer {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--line);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--muted);
+  }
+  .lg-clock__pin {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: var(--accent);
+  }
+
+  /* --- CV --- */
+  .lg-cv {
+    grid-column: 3;
+    grid-row: 1;
+    position: relative;
+    overflow: hidden;
+    padding: 26px;
+    border-radius: 20px;
+    border: 1px solid #ececee;
+    background: #fff;
+    will-change: transform;
+  }
+  .lg-cv__body {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .lg-cv__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .lg-cv__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    padding: 5px 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .lg-cv__chip-ic {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+    color: var(--accent);
+  }
+  .lg-cv__pages {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted-3-text);
+  }
+  .lg-cv__bottom {
+    margin-top: auto;
+  }
+  .lg-cv__title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 19px;
+    margin: 0 0 5px;
+  }
+  .lg-cv__desc {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--muted-2);
+    margin: 0 0 18px;
+  }
+  .lg-cv__btn {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: 100%;
+    padding: 13px 18px;
+    border-radius: 12px;
+    background: var(--ink-strong);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    font-family: var(--font-display);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    transition: transform 0.2s ease;
+  }
+  .lg-cv__btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.3px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.12) 26%,
+      rgba(255, 255, 255, 0) 50%,
+      rgba(255, 255, 255, 0.12) 74%,
+      rgba(255, 255, 255, 0.5)
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  .lg-cv__btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  @media (hover: hover) {
+    .lg-cv__btn:hover {
+      transform: translateY(-2px);
+    }
+  }
+  .lg-cv__sheen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    transform: translateX(-160%) skewX(-18deg);
+    animation: jv-shine 4.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .lg-cv__btn-txt,
+  .lg-cv__btn-ic {
+    position: relative;
+  }
+  .lg-cv__btn-ic {
+    font-family: var(--font-mono);
+  }
+
+  /* --- Marquee de herramientas --- */
+  .lg-tools {
+    grid-column: 2 / span 2;
+    grid-row: 2;
+    position: relative;
+    overflow: hidden;
+    padding: 24px 0;
+    border-radius: 20px;
+    border: 1px solid #ececee;
+    background: #fff;
+  }
+  .lg-tools__head {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 0 26px;
+    margin-bottom: 20px;
+  }
+  .lg-tools__ic {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .lg-tools__ic :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+  .lg-tools__title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 17px;
+    margin: 0;
+  }
+  .lg-tools__sub {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted-3-text);
+    margin: 2px 0 0;
+    letter-spacing: 0.04em;
+  }
+  .lg-marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 7%,
+      #000 93%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 7%,
+      #000 93%,
+      transparent
+    );
+  }
+  .lg-marquee--top {
+    margin-bottom: 12px;
+  }
+  .lg-marquee__track {
+    display: flex;
+    width: max-content;
+    animation: jv-marquee 32s linear infinite;
+  }
+  .lg-marquee__track--rev {
+    animation: jv-marquee 38s linear infinite reverse;
+  }
+  @media (hover: hover) {
+    .lg-marquee__track:hover {
+      animation-play-state: paused;
+    }
+  }
+  .lg-marquee__group {
+    display: flex;
+    gap: 12px;
+    padding-right: 12px;
+  }
+  .lg-tool {
+    flex-shrink: 0;
+    width: 58px;
+    height: 58px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.62);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(24, 24, 27, 0.07);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 3px 8px -4px rgba(20, 30, 80, 0.18);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lg-tool img {
+    width: 26px;
+    height: 26px;
+    display: block;
+  }
+
+  /* --- Contadores --- */
+  .lg-numbers {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    position: relative;
+    overflow: hidden;
+    padding: 28px 30px;
+    border-radius: 20px;
+    border: 1px solid #ececee;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 26px;
+  }
+  .lg-numbers__kicker {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .lg-numbers__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: var(--ink-strong);
+  }
+  .lg-numbers__stats {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .lg-numbers__div {
+    width: 1px;
+    height: 40px;
+    background: var(--line);
+  }
+  .lg-stat {
+    text-align: center;
+  }
+  .lg-stat__num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(30px, 3.4vw, 42px);
+    color: var(--accent);
+    line-height: 1;
+  }
+  .lg-stat__label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted-3-text);
+    margin-top: 7px;
+    letter-spacing: 0.06em;
+  }
+
+  /* --- Responsive --- */
+  @media (max-width: 900px) {
+    .lg__bento {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .lg-dark {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+    }
+    .lg-clock {
+      grid-column: 2;
+      grid-row: 1;
+    }
+    .lg-cv {
+      grid-column: 2;
+      grid-row: 2;
+    }
+    .lg-tools {
+      grid-column: 1 / -1;
+      grid-row: 3;
+    }
+    .lg-numbers {
+      grid-column: 1 / -1;
+      grid-row: 4;
+    }
+    .lg__lead {
+      max-width: none;
+    }
+  }
+  @media (max-width: 600px) {
+    .lg {
+      padding: 64px 0 8px;
+    }
+    .lg__bento {
+      grid-template-columns: 1fr;
+    }
+    .lg-dark,
+    .lg-clock,
+    .lg-cv,
+    .lg-tools,
+    .lg-numbers {
+      grid-column: auto;
+      grid-row: auto;
+    }
+    .lg-numbers {
+      padding: 24px 22px;
+    }
+    .lg-numbers__stats {
+      gap: 18px;
+    }
+    .lg-numbers__div {
+      display: none;
+    }
+  }
+</style>

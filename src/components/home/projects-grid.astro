@@ -1,5 +1,9 @@
 ---
-import ProjectCard from "../projects/project-card.astro";
+// Sección "Proyectos" (case studies) — rediseño de la grilla de la home.
+// Datos reales desde las colecciones (featured), con portadas reales del repo.
+// Interactividad (parallax, pixel-dissolve, magnéticos, CTA) en main.js; mantiene
+// todos los atributos data-*.
+import { Icon } from "astro-icon/components";
 import projectsEs from "../../collections/projects.json";
 import projectsEn from "../../collections/projectsen.json";
 
@@ -9,103 +13,527 @@ const isEn = lang === "en";
 const all = isEn ? projectsEn : projectsEs;
 const featured = all.filter((p) => p.featured);
 
-const t = isEn
+// Categoría "case study" + país mostrado por proyecto (dato real, 1:1 con el
+// prototipo). Se superpone sobre la categoría genérica de la colección.
+const caseMeta: Record<
+  string,
+  { category: string; flag: string | null; place: string }
+> = isEn
   ? {
-      title: "Recent projects",
-      lead: "A selection of sites and platforms I've designed and built for real clients.",
-      cta: "See all my projects",
+      tatem: { category: "Portal & platform", flag: "mx", place: "Mexico" },
+      mdpsolutions: { category: "B2B website", flag: "pe", place: "Peru" },
+      ubilex: { category: "Legal advisory", flag: "pe", place: "Peru" },
+      rosariozolezzi: { category: "Professional website", flag: "pe", place: "Peru" },
+      estudioshaddai: { category: "Corporate website", flag: "pe", place: "Peru" },
+      generadoroverlay: { category: "CSS tool", flag: null, place: "Own" },
     }
   : {
-      title: "Proyectos recientes",
-      lead: "Una selección de sitios y plataformas que he diseñado y construido para clientes reales.",
-      cta: "Ver todos mis proyectos",
+      tatem: { category: "Portal & plataforma", flag: "mx", place: "México" },
+      mdpsolutions: { category: "Sitio B2B", flag: "pe", place: "Perú" },
+      ubilex: { category: "Asesoría legal", flag: "pe", place: "Perú" },
+      rosariozolezzi: { category: "Web profesional", flag: "pe", place: "Perú" },
+      estudioshaddai: { category: "Web corporativa", flag: "pe", place: "Perú" },
+      generadoroverlay: { category: "Herramienta CSS", flag: null, place: "Propio" },
     };
 
+const fallbackMeta = (p: {
+  category: string;
+  place: string;
+  flag?: string;
+}) => ({
+  category: p.category,
+  flag: p.flag && p.flag !== "own" ? p.flag : null,
+  place: p.place,
+});
+
+// Cuadros flotantes (parallax) del encabezado — 8 cuadros, 3 variantes.
+const squares = [
+  { left: "6%", top: "20%", size: 12, depth: 80, variant: "ink", dur: "3s", delay: "0s" },
+  { left: "12%", top: "33%", size: 8, depth: 110, variant: "accent", dur: "3.4s", delay: "0.3s" },
+  { left: "8%", top: "46%", size: 6, depth: 140, variant: "outline", dur: "3.8s", delay: "0.6s" },
+  { left: "88%", top: "17%", size: 10, depth: 170, variant: "ink", dur: "4.2s", delay: "0.9s" },
+  { left: "93%", top: "30%", size: 14, depth: 200, variant: "accent", dur: "4.6s", delay: "1.2s" },
+  { left: "85%", top: "43%", size: 7, depth: 230, variant: "outline", dur: "5s", delay: "1.5s" },
+  { left: "91%", top: "54%", size: 5, depth: 260, variant: "ink", dur: "5.4s", delay: "1.8s" },
+  { left: "14%", top: "58%", size: 5, depth: 290, variant: "outline", dur: "5.8s", delay: "2.1s" },
+];
+
 const allUrl = isEn ? "/en/projects" : "/projects";
+
+const t = isEn
+  ? {
+      badge: "PROJECTS",
+      titleA: "Recent projects,",
+      titleB: "hand-picked.",
+      lead: "A selection of sites and platforms I designed and built for real clients in Peru, Mexico, Chile and Puerto Rico.",
+      view: "View project",
+      ctaText:
+        "I work with teams and brands that want to leave the generic behind — and turn their website, product and message into something fast, crafted and intentional.",
+      cta: "Let's work together",
+      all: "See all",
+    }
+  : {
+      badge: "PROYECTOS",
+      titleA: "Proyectos recientes,",
+      titleB: "seleccionados a mano.",
+      lead: "Una selección de sitios y plataformas que diseñé y construí para clientes reales en Perú, México, Chile y Puerto Rico.",
+      view: "Ver proyecto",
+      ctaText:
+        "Trabajo con equipos y marcas que quieren dejar atrás lo genérico — y convertir su web, su producto y su mensaje en algo rápido, cuidado y con intención.",
+      cta: "Trabajemos juntos",
+      all: "Ver todos",
+    };
 ---
 
-<section id="proyectos" class="projects">
-  <div class="projects__head" data-reveal>
-    <h2 class="h2">{t.title}</h2>
-    <p class="projects__lead">{t.lead}</p>
+<section id="proyectos" class="pj" data-projects>
+  <div class="pj-squares" aria-hidden="true">
+    {
+      squares.map((s) => (
+        <div
+          class="pj-sq"
+          data-sq
+          data-depth={s.depth}
+          style={`left:${s.left};top:${s.top};width:${s.size}px;height:${s.size}px;`}
+        >
+          <div
+            class={`pj-sq__inner pj-sq__inner--${s.variant}`}
+            style={`animation-duration:${s.dur};animation-delay:${s.delay};`}
+          />
+        </div>
+      ))
+    }
   </div>
 
-  <div class="projects__grid">
-    {featured.map((project) => <ProjectCard project={project} lang={lang} />)}
+  <div class="pj-head" data-reveal>
+    <span class="pj-badge">{t.badge}</span>
+    <h2 class="pj-title">
+      {t.titleA}<br /><span class="pj-title__muted">{t.titleB}</span>
+    </h2>
+    <p class="pj-lead">{t.lead}</p>
   </div>
 
-  <div class="projects__cta" data-reveal>
-    <a href={allUrl} class="ghost-btn">
-      {t.cta} <span class="ghost-btn__arrow">→</span>
+  <div class="pj-grid">
+    {
+      featured.map((p) => {
+        const meta = caseMeta[p.id] || fallbackMeta(p);
+        return (
+          <a
+            class="pj-card"
+            data-reveal
+            data-proj-card
+            href={p.url}
+            target="_blank"
+            rel="noopener"
+            aria-label={isEn
+              ? `${p.title} — ${meta.category} (opens in a new tab)`
+              : `${p.title} — ${meta.category} (se abre en una pestaña nueva)`}
+          >
+            <img
+              class="pj-card__img"
+              src={p.portada}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="pj-card__pixels" data-pixels aria-hidden="true" />
+            <div class="pj-card__magnets" data-magnets aria-hidden="true" />
+            <div class="pj-card__hover" data-hover>
+              <div class="pj-card__tags">
+                {(p.tags || []).map((tag) => (
+                  <span class="pj-tag">{tag}</span>
+                ))}
+              </div>
+              <span class="pj-card__view">
+                {t.view} <span class="pj-card__view-ic">↗</span>
+              </span>
+            </div>
+            <span class="pj-card__plus" aria-hidden="true">+</span>
+            <div class="pj-card__plate">
+              <h3 class="pj-card__name">{p.title}</h3>
+              <div class="pj-card__meta">
+                <span>{meta.category}</span>
+                <span class="pj-card__dot">·</span>
+                <span class="pj-card__country">
+                  {
+                    meta.flag && (
+                      <Icon
+                        name={`circle-flags:${meta.flag}`}
+                        class="pj-flag"
+                        aria-hidden="true"
+                      />
+                    )
+                  }
+                  {meta.place}
+                </span>
+              </div>
+            </div>
+          </a>
+        );
+      })
+    }
+  </div>
+
+  <div class="pj-foot" data-reveal>
+    <div class="pj-foot__left">
+      <span class="pj-foot__plus" aria-hidden="true">+</span>
+      <p class="pj-foot__p">{t.ctaText}</p>
+      <a class="pj-cta" data-cta href="#contacto">
+        <span class="pj-cta__label">{t.cta}</span>
+        <span class="pj-cta__badge" data-cta-badge aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M18.75 6V15.75C18.75 15.949 18.671 16.14 18.53 16.28C18.39 16.421 18.199 16.5 18 16.5C17.801 16.5 17.61 16.421 17.47 16.28C17.329 16.14 17.25 15.949 17.25 15.75V7.81L6.53 18.53C6.39 18.671 6.199 18.75 6 18.75C5.801 18.75 5.61 18.671 5.47 18.53C5.329 18.39 5.25 18.199 5.25 18C5.25 17.801 5.329 17.61 5.47 17.47L16.19 6.75H8.25C8.051 6.75 7.86 6.671 7.72 6.53C7.579 6.39 7.5 6.199 7.5 6C7.5 5.801 7.579 5.61 7.72 5.47C7.86 5.329 8.051 5.25 8.25 5.25H18C18.199 5.25 18.39 5.329 18.53 5.47C18.671 5.61 18.75 5.801 18.75 6Z"
+              fill="#ffffff"></path>
+          </svg>
+        </span>
+      </a>
+    </div>
+    <a class="pj-foot__all" href={allUrl}>
+      {t.all} <span class="pj-foot__all-ic">→</span>
     </a>
   </div>
 </section>
 
 <style>
-  .projects {
-    padding: 8px 0;
+  .pj {
+    position: relative;
+    padding: 24px 0 8px;
   }
-  .projects__head {
-    margin-bottom: 30px;
+
+  /* Cuadros flotantes (parallax) */
+  .pj-squares {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
   }
-  .h2 {
+  .pj-sq {
+    position: absolute;
+    will-change: transform;
+  }
+  .pj-sq__inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 2px;
+    animation: jv-bob 3s ease-in-out infinite;
+  }
+  .pj-sq__inner--ink {
+    background: #0a0a0b;
+    opacity: 0.13;
+  }
+  .pj-sq__inner--accent {
+    background: var(--accent);
+    opacity: 0.5;
+  }
+  .pj-sq__inner--outline {
+    background: transparent;
+    border: 1.5px solid rgba(24, 24, 27, 0.22);
+    opacity: 0.9;
+  }
+
+  /* Encabezado */
+  .pj-head {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 32px;
+  }
+  .pj-badge {
+    display: inline-block;
+    background: var(--ink-strong);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    padding: 6px 13px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+  .pj-title {
     font-family: var(--font-display);
     font-weight: 700;
     font-size: clamp(28px, 3.4vw, 40px);
     letter-spacing: -0.025em;
-    margin: 0 0 10px;
+    line-height: 1.12;
+    margin: 0 0 12px;
     color: var(--ink-strong);
   }
-  .projects__lead {
+  .pj-title__muted {
+    color: rgba(24, 24, 27, 0.55);
+  }
+  .pj-lead {
     font-size: 16px;
+    line-height: 1.6;
     color: var(--muted-2);
     margin: 0;
     max-width: 520px;
   }
 
-  .projects__grid {
+  /* Grilla */
+  .pj-grid {
+    position: relative;
+    z-index: 1;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 
-  .projects__cta {
-    display: flex;
-    justify-content: center;
-    margin-top: 34px;
+  .pj-card {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #ececee;
+    background: var(--ink-strong);
+    text-decoration: none;
+    color: inherit;
   }
-  .ghost-btn {
+  .pj-card__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+  .pj-card__pixels {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .pj-card__magnets {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .pj-card__hover {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 14px;
+    padding: 26px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .pj-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+  .pj-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .pj-card__view {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 15px;
+    color: #fff;
+  }
+  .pj-card__view-ic {
+    font-family: var(--font-mono);
+  }
+  .pj-card__plus {
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(10, 10, 11, 0.4);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #fff;
+    font-size: 16px;
+    line-height: 1;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      background 0.2s ease;
+  }
+  @media (hover: hover) {
+    .pj-card:hover .pj-card__plus {
+      transform: rotate(90deg);
+      background: var(--accent);
+    }
+  }
+  .pj-card__plate {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 20;
+    max-width: 78%;
+    background: #fff;
+    padding: 11px 16px 12px;
+    border-radius: 0 14px 0 0;
+  }
+  .pj-card__name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.1;
+    margin: 0;
+    color: var(--ink-strong);
+  }
+  .pj-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 5px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-2);
+  }
+  .pj-card__dot {
+    color: #d4d4d8;
+  }
+  .pj-card__country {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--muted);
+  }
+  .pj-flag {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    border-radius: 50%;
+  }
+
+  /* Footer */
+  .pj-foot {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px dashed var(--line);
+  }
+  .pj-foot__left {
+    max-width: 470px;
+  }
+  .pj-foot__plus {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid #d4d4d8;
+    color: var(--ink);
+    font-size: 15px;
+    margin-bottom: 16px;
+    border-radius: 7px;
+  }
+  .pj-foot__p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--muted-2);
+    margin: 0 0 22px;
+  }
+  .pj-cta {
+    display: inline-flex;
+    align-items: flex-end;
+    text-decoration: none;
+  }
+  .pj-cta__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 44px;
+    background: var(--ink-strong);
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 0 18px;
+    border-radius: 9px 0 0 9px;
+    transition: background 0.2s ease;
+  }
+  @media (hover: hover) {
+    .pj-cta:hover .pj-cta__label {
+      background: #1a1a1f;
+    }
+  }
+  .pj-cta__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: var(--accent);
+    border-radius: 0 9px 9px 0;
+    margin-bottom: 0;
+    transition: margin-bottom 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .pj-foot__all {
     display: inline-flex;
     align-items: center;
     gap: 9px;
-    padding: 13px 24px;
-    border-radius: 11px;
+    padding: 12px 20px;
+    border-radius: 10px;
     border: 1px solid var(--line);
     background: #fff;
     color: var(--ink);
     text-decoration: none;
     font-weight: 600;
-    font-size: 14.5px;
+    font-size: 14px;
     font-family: var(--font-display);
     transition: transform 0.2s ease, border-color 0.2s ease;
   }
-  .ghost-btn:hover {
-    transform: translateY(-2px);
-    border-color: #18181b;
+  @media (hover: hover) {
+    .pj-foot__all:hover {
+      transform: translateY(-2px);
+      border-color: #18181b;
+    }
   }
-  .ghost-btn__arrow {
+  .pj-foot__all-ic {
     font-family: var(--font-mono);
     color: var(--accent);
   }
 
-  @media (max-width: 920px) {
-    .projects__grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
+  .pj-card:focus-visible,
+  .pj-cta:focus-visible,
+  .pj-foot__all:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
   }
-  @media (max-width: 600px) {
-    .projects__grid {
+  /* Focus surfaces the same tag/CTA overlay as hover */
+  .pj-card:focus-visible .pj-card__hover {
+    opacity: 1;
+  }
+
+  /* Responsive */
+  @media (max-width: 560px) {
+    .pj-grid {
       grid-template-columns: 1fr;
+    }
+    .pj-foot {
+      align-items: flex-start;
     }
   }
 </style>
