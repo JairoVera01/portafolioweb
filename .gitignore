@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# local codebase knowledge-graph index (regenerable via index_repository — never commit)
+.codebase-memory/

@@ -433,6 +433,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         touchMultiplier: 2,
         infinite: false,
       });
+      // Exponer la instancia para el scroll programático del coverflow
+      // (flechas / dots / teclado usan window.lenis.scrollTo).
+      window.lenis = lenis;
 
       function raf(time) {
         lenis.raf(time);

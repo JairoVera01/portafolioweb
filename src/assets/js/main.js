@@ -121,7 +121,7 @@ function setupProjectFilters() {
 }
 
 /* =============================================================================
- * Secciones "En vivo" (live-glance) y "Proyectos" (projects-grid) — rediseño.
+ * Sección "En vivo" (live-glance) — rediseño.
  * Port a JS vanilla del prototipo. Depende de los atributos data-* del markup
  * y de la CSS var --accent. El reveal lo maneja setupReveal() de arriba.
  * ========================================================================== */
@@ -252,125 +252,9 @@ function setupTilt() {
 	});
 }
 
-// Tarjetas de proyecto: pixel-dissolve (12×8) + cuadros magnéticos + CTA.
-function setupProjects() {
-	const cards = Array.from(document.querySelectorAll("[data-proj-card]"));
-	if (cards.length) {
-		const COLS = 12;
-		const ROWS = 8;
-		const coarse = isCoarsePointer();
-		// posiciones de los cuadros magnéticos por tarjeta: [x%, y%, tamaño px]
-		const MAG = [
-			[[5, 30, 16], [10, 42, 10], [3, 52, 7], [80, 70, 14], [85, 82, 9], [78, 60, 6]],
-			[[82, 55, 16], [88, 68, 10], [78, 72, 7], [85, 42, 6], [90, 80, 8]],
-			[[4, 24, 16], [10, 36, 10], [2, 44, 7], [78, 78, 14], [84, 88, 8]],
-			[[82, 26, 14], [88, 38, 10], [78, 44, 7], [84, 54, 5], [90, 60, 8]],
-			[[6, 26, 15], [12, 38, 9], [4, 48, 7], [82, 72, 13], [88, 84, 8], [80, 62, 6]],
-			[[84, 52, 15], [90, 66, 10], [80, 70, 7], [86, 40, 6], [92, 78, 8]],
-		];
-
-		cards.forEach((card, idx) => {
-			if (card.__jvProj) return;
-			card.__jvProj = true;
-
-			// 1) rejilla de bloques para el pixel-dissolve
-			const pen = card.querySelector("[data-pixels]");
-			const blocks = [];
-			if (pen && !pen.childElementCount) {
-				const frag = document.createDocumentFragment();
-				for (let r = 0; r < ROWS; r++) {
-					for (let c = 0; c < COLS; c++) {
-						const b = document.createElement("div");
-						b.style.cssText =
-							"position:absolute;left:" +
-							(c * 100) / COLS +
-							"%;top:" +
-							(r * 100) / ROWS +
-							"%;width:" +
-							(100 / COLS + 0.4) +
-							"%;height:" +
-							(100 / ROWS + 0.4) +
-							"%;background:#0a0a0b;opacity:0;transform:scale(0);transform-origin:center;transition:transform .25s ease,opacity .25s ease;";
-						b._din = (r + c) * 0.018; // retardo diagonal al entrar
-						b._dout = (ROWS - r + (COLS - c)) * 0.012; // retardo al salir
-						frag.appendChild(b);
-						blocks.push(b);
-					}
-				}
-				pen.appendChild(frag);
-			}
-
-			// 2) cuadros magnéticos
-			const men = card.querySelector("[data-magnets]");
-			const mags = [];
-			if (men && !men.childElementCount) {
-				MAG[idx % MAG.length].forEach((s, j) => {
-					const el = document.createElement("div");
-					const accent = j % 3 === 0;
-					el.style.cssText =
-						"position:absolute;left:" +
-						s[0] +
-						"%;top:" +
-						s[1] +
-						"%;width:" +
-						s[2] +
-						"px;height:" +
-						s[2] +
-						"px;background:" +
-						(accent ? "var(--accent)" : "#0a0a0b") +
-						";opacity:" +
-						(accent ? 0.92 : 0.7) +
-						";border-radius:2px;transition:transform .35s cubic-bezier(.2,.8,.2,1);pointer-events:none;will-change:transform;";
-					el._f = 0.5 + s[2] / 16; // los más grandes se mueven más
-					men.appendChild(el);
-					mags.push(el);
-				});
-			}
-
-			const hover = card.querySelector("[data-hover]");
-			const enter = () => {
-				blocks.forEach((b) => {
-					b.style.transitionDelay = b._din + "s";
-					b.style.opacity = "0.86";
-					b.style.transform = "scale(1)";
-				});
-				if (hover) hover.style.opacity = "1";
-			};
-			const leave = () => {
-				blocks.forEach((b) => {
-					b.style.transitionDelay = b._dout + "s";
-					b.style.opacity = "0";
-					b.style.transform = "scale(0)";
-				});
-				if (hover) hover.style.opacity = "0";
-				mags.forEach((m) => {
-					m.style.transform = "translate(0,0)";
-				});
-			};
-			card.addEventListener("mouseenter", enter);
-			card.addEventListener("mouseleave", leave);
-			// Surface the tags/CTA overlay for keyboard users too.
-			card.addEventListener("focus", enter);
-			card.addEventListener("blur", leave);
-			if (!coarse && !prefersReduced()) {
-				card.addEventListener("mousemove", (e) => {
-					const r = card.getBoundingClientRect();
-					const px = (e.clientX - r.left) / r.width - 0.5;
-					const py = (e.clientY - r.top) / r.height - 0.5;
-					mags.forEach((m) => {
-						m.style.transform =
-							"translate(" +
-							(px * 40 * m._f).toFixed(1) +
-							"px," +
-							(py * 40 * m._f).toFixed(1) +
-							"px)";
-					});
-				});
-			}
-		});
-	}
-
-	// CTA "Trabajemos juntos": la insignia de flecha se eleva al pasar el mouse.
+// CTA "Trabajemos juntos": la insignia de flecha se eleva al pasar el mouse.
+// Hook data-cta / data-cta-badge; lo usa el footer de coverflow-3d.astro.
+function setupCta() {
 	const cta = document.querySelector("[data-cta]");
 	const badge = document.querySelector("[data-cta-badge]");
 	if (cta && badge && !cta.__jvCta) {
@@ -384,37 +268,243 @@ function setupProjects() {
 	}
 }
 
-// Parallax de los cuadros flotantes del encabezado de Proyectos.
-function setupParallax() {
-	const sec = document.querySelector("[data-projects]");
-	const squares = Array.from(document.querySelectorAll("[data-sq]"));
-	if (!sec || !squares.length) return;
-	if (prefersReduced()) return;
+// Coverflow 3D de la seccion Proyectos (home). Depende de los data-cf-*
+// del componente coverflow-3d.astro y de position:sticky en .cf__stage.
+// Reusa prefersReduced() e isCoarsePointer() ya definidos arriba.
+function setupCoverflow() {
+	const section = document.querySelector("[data-coverflow]");
+	if (!section || section.__cfInit) return;
+	section.__cfInit = true;
 
-	let ticking = false;
-	const update = () => {
-		ticking = false;
-		const r = sec.getBoundingClientRect();
-		const vh = window.innerHeight || 800;
-		const p = Math.min(1, Math.max(0, (vh - r.top) / (r.height + vh)));
-		squares.forEach((sq) => {
-			const depth = parseFloat(sq.getAttribute("data-depth")) || 120;
-			sq.style.transform = "translateY(" + (p * -depth).toFixed(1) + "px)";
-		});
-	};
-	const onScroll = () => {
-		if (!ticking) {
-			ticking = true;
-			requestAnimationFrame(update);
-		}
-	};
-	update();
-	// Re-init safe: replace any prior listener instead of stacking one.
-	if (window.__jvParallaxScroll) {
-		window.removeEventListener("scroll", window.__jvParallaxScroll);
+	const pin = section.querySelector("[data-cf-pin]");
+	const stage = section.querySelector("[data-cf-stage]");
+	const deck = section.querySelector("[data-cf-deck]");
+	const cards = Array.from(section.querySelectorAll("[data-cf-card]"));
+	const bignum = section.querySelector("[data-cf-bignum]");
+	const counter = section.querySelector("[data-cf-counter]");
+	const nameEl = section.querySelector("[data-cf-name]");
+	const bar = section.querySelector("[data-cf-bar]");
+	const dots = Array.from(section.querySelectorAll("[data-cf-dot]"));
+	const hint = section.querySelector("[data-cf-hint]");
+	if (!pin || !stage || !deck || !cards.length) return;
+
+	const N = cards.length;
+	const reduce = prefersReduced();
+	const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+	const pad2 = (n) => (n < 10 ? "0" : "") + n;
+
+	let mode = "";
+	let vh = 0;
+	let vw = 0;
+	let STEP = 0;
+	let CW = 0;
+	let SPREAD = 0;
+	let stride = 0;
+	let active = -1;
+	let curP = 0;
+
+	// Si el usuario pidió menos movimiento: la CSS ya deja el deck en flujo
+	// normal; no montamos scroll-jacking ni transforms 3D. Solo marcamos activo.
+	if (reduce) {
+		setActive(0);
+		return;
 	}
-	window.__jvParallaxScroll = onScroll;
-	window.addEventListener("scroll", onScroll, { passive: true });
+
+	function setActive(idx) {
+		if (idx === active) return;
+		active = idx;
+		if (bignum) bignum.textContent = pad2(idx + 1);
+		if (counter) counter.textContent = pad2(idx + 1) + " / " + pad2(N);
+		if (nameEl) nameEl.textContent = cards[idx].getAttribute("data-title") || "";
+		dots.forEach((d, i) => {
+			const on = i === idx;
+			d.style.width = on ? "22px" : "7px";
+			d.style.background = on ? "var(--accent)" : "rgba(255,255,255,0.22)";
+		});
+	}
+
+	function layout(p) {
+		curP = p;
+		const isMobile = mode === "mobile";
+		for (let i = 0; i < N; i++) {
+			const card = cards[i];
+			const o = i - p;
+			const ao = Math.abs(o);
+			const rot = -clamp(o, -1, 1) * (isMobile ? 30 : 44);
+			const depth = isMobile ? 70 : 150;
+			const z = -Math.min(ao, 3) * depth;
+			const sc = Math.max(isMobile ? 0.82 : 0.64, 1 - ao * 0.12);
+			const op = ao > 3.4 ? 0 : Math.max(0, 1 - Math.max(0, ao - 1.15) * 0.5);
+			let tf;
+			if (isMobile) {
+				tf =
+					"translateZ(" + z.toFixed(1) + "px) rotateY(" + rot.toFixed(2) +
+					"deg) scale(" + sc.toFixed(3) + ")";
+			} else {
+				const x = o * SPREAD;
+				tf =
+					"translate(-50%,-50%) translateX(" + x.toFixed(1) +
+					"px) translateZ(" + z.toFixed(1) + "px) rotateY(" + rot.toFixed(2) +
+					"deg) scale(" + sc.toFixed(3) + ")";
+			}
+			card.style.transform = tf;
+			card.style.opacity = op.toFixed(3);
+			card.style.zIndex = String(100 - Math.round(ao * 10));
+			card.style.pointerEvents = op > 0.05 ? "auto" : "none";
+
+			const scrim = card.querySelector("[data-cf-scrim]");
+			if (scrim) scrim.style.opacity = clamp((ao - 0.12) * 0.62, 0, 0.68).toFixed(3);
+			const isA = ao < 0.5;
+			card.style.boxShadow = isA
+				? "0 0 0 2px var(--accent), 0 46px 90px -34px rgba(0,0,0,0.85)"
+				: "0 34px 70px -32px rgba(0,0,0,0.7)";
+			const plus = card.querySelector("[data-cf-plus]");
+			if (plus) {
+				plus.style.transform = isA ? "rotate(90deg)" : "rotate(0deg)";
+				plus.style.background = isA ? "var(--accent)" : "rgba(10,10,11,0.4)";
+			}
+			const cta = card.querySelector("[data-cf-cta]");
+			if (cta) cta.style.opacity = isA ? "1" : "0";
+		}
+		setActive(clamp(Math.round(p), 0, N - 1));
+	}
+
+	/* ---- Desktop: scroll-jacking con position:sticky ----
+	   El stage está sticky (CSS). Solo leemos cuánto se ha desplazado el pin y
+	   mapeamos ese progreso a la posición del carrusel. Sin tocar position. */
+	let ticking = false;
+	function onWin() {
+		if (mode !== "desktop" || ticking) return;
+		ticking = true;
+		requestAnimationFrame(() => {
+			ticking = false;
+			const total = pin.offsetHeight - vh; // distancia scrolleable del pin
+			const scrolled = clamp(-pin.getBoundingClientRect().top, 0, total);
+			const prog = total > 0 ? scrolled / total : 0;
+			layout(prog * (N - 1));
+			if (bar) bar.style.width = (prog * 100).toFixed(2) + "%";
+			if (hint) hint.style.opacity = prog > 0.015 ? "0" : "1";
+		});
+	}
+
+	/* ---- Móvil: scroll horizontal nativo con snap ---- */
+	let mticking = false;
+	function onDeck() {
+		if (mode !== "mobile" || mticking) return;
+		mticking = true;
+		requestAnimationFrame(() => {
+			mticking = false;
+			const first = cards[0].offsetLeft + cards[0].offsetWidth / 2;
+			const cur = deck.scrollLeft + deck.clientWidth / 2;
+			const p = stride > 0 ? (cur - first) / stride : 0;
+			layout(clamp(p, 0, N - 1));
+			const maxSL = deck.scrollWidth - deck.clientWidth;
+			const prog = maxSL > 0 ? deck.scrollLeft / maxSL : 0;
+			if (bar) bar.style.width = (prog * 100).toFixed(2) + "%";
+			if (hint) hint.style.opacity = deck.scrollLeft > 6 ? "0" : "1";
+		});
+	}
+
+	function applyMode(m) {
+		mode = m;
+		if (m === "desktop") {
+			pin.style.height = pin.__cfH + "px";
+			cards.forEach((c) => {
+				c.style.width = CW + "px";
+			});
+			onWin();
+		} else {
+			pin.style.height = "auto";
+			// El ancho de tarjeta y el padding lateral los fija la CSS (@media).
+			requestAnimationFrame(() => {
+				stride = N > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : deck.clientWidth;
+				onDeck();
+			});
+			onDeck();
+		}
+	}
+
+	function measure() {
+		vh = window.innerHeight || 800;
+		vw = window.innerWidth || 1200;
+		const coarse = isCoarsePointer();
+		const m = vw <= 820 || (coarse && vw < 1024) ? "mobile" : "desktop";
+		if (m === "desktop") {
+			const availH = vh - 250;
+			CW = Math.min(560, vw * 0.46);
+			const maxByH = ((availH - 150) * 16) / 10;
+			CW = Math.max(360, Math.min(CW, maxByH));
+			SPREAD = CW * 0.6;
+			STEP = Math.round(vh * 0.5); // "distancia" de scroll por tarjeta
+			pin.__cfH = vh + STEP * (N - 1); // altura total del pin
+		}
+		applyMode(m);
+	}
+
+	function go(k) {
+		k = clamp(k, 0, N - 1);
+		if (mode === "desktop") {
+			const pinTop = window.pageYOffset + pin.getBoundingClientRect().top;
+			const y = Math.round(pinTop + k * STEP);
+			// Lenis si está expuesto (ver README paso 4); si no, scroll nativo.
+			if (window.lenis && typeof window.lenis.scrollTo === "function") {
+				window.lenis.scrollTo(y);
+			} else {
+				window.scrollTo({ top: y, behavior: "smooth" });
+			}
+		} else {
+			const target =
+				cards[k].offsetLeft - (deck.clientWidth - cards[k].clientWidth) / 2;
+			deck.scrollTo({ left: Math.max(0, Math.round(target)), behavior: "smooth" });
+		}
+	}
+
+	// Click en tarjeta: si no es la activa, la centra; si lo es, abre el enlace.
+	cards.forEach((card, idx) => {
+		card.addEventListener("click", (e) => {
+			if (idx !== active && mode === "desktop") {
+				e.preventDefault();
+				go(idx);
+				return;
+			}
+			const href = card.getAttribute("href");
+			if (!href || href === "#") e.preventDefault();
+		});
+	});
+
+	const prev = section.querySelector("[data-cf-prev]");
+	const next = section.querySelector("[data-cf-next]");
+	if (prev) prev.addEventListener("click", () => go(active - 1));
+	if (next) next.addEventListener("click", () => go(active + 1));
+	dots.forEach((d, idx) => d.addEventListener("click", () => go(idx)));
+
+	function onKey(e) {
+		const r = section.getBoundingClientRect();
+		if (r.bottom < 40 || r.top > vh - 40) return; // solo si está en pantalla
+		if (e.key === "ArrowRight") {
+			e.preventDefault();
+			go(active + 1);
+		} else if (e.key === "ArrowLeft") {
+			e.preventDefault();
+			go(active - 1);
+		}
+	}
+
+	// Listeners (idempotentes: reemplaza cualquiera previo entre navegaciones).
+	if (window.__jvCfWin) window.removeEventListener("scroll", window.__jvCfWin);
+	if (window.__jvCfKey) window.removeEventListener("keydown", window.__jvCfKey);
+	if (window.__jvCfResize) window.removeEventListener("resize", window.__jvCfResize);
+	window.__jvCfWin = onWin;
+	window.__jvCfKey = onKey;
+	window.__jvCfResize = () => measure();
+	window.addEventListener("scroll", window.__jvCfWin, { passive: true });
+	deck.addEventListener("scroll", onDeck, { passive: true });
+	window.addEventListener("keydown", window.__jvCfKey);
+	window.addEventListener("resize", window.__jvCfResize, { passive: true });
+
+	measure();
+	window.addEventListener("load", () => measure(), { once: true });
+	setTimeout(() => measure(), 500); // reintento tras cargar fuentes/imágenes
 }
 
 function init() {
@@ -424,8 +514,8 @@ function init() {
 	startClock();
 	setupCounters();
 	setupTilt();
-	setupProjects();
-	setupParallax();
+	setupCta();
+	setupCoverflow();
 }
 
 // Si en el futuro se monta ClientRouter, este evento reinicializa tras cada swap
