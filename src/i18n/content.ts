@@ -56,7 +56,7 @@ const es = {
   forBiz: "Para — ",
   forTeam: "Con — ",
   s2: "Trabajo seleccionado",
-  pTitleA: "Trece proyectos,",
+  pTitleA: "Catorce proyectos,",
   pTitleEm: "cuatro países.",
   pLead: "Sitios, plataformas y herramientas reales, para negocios y equipos en Perú, México, Chile y Puerto Rico.",
   lType: "Tipo",
@@ -130,7 +130,7 @@ const en: Dict = {
   forBiz: "For — ",
   forTeam: "With — ",
   s2: "Selected work",
-  pTitleA: "Thirteen projects,",
+  pTitleA: "Fourteen projects,",
   pTitleEm: "four countries.",
   pLead: "Real sites, platforms and tools for businesses and teams in Peru, Mexico, Chile and Puerto Rico.",
   lType: "Type",
@@ -217,6 +217,7 @@ export interface IndexEntry {
   url: string | null;
 }
 export const INDEX: readonly IndexEntry[] = [
+  { id: "calculacuanto", title: "calculacuánto", type: ["Calculadoras", "Calculators"], flag: "own", stack: "Next.js · TypeScript · Tailwind", url: "https://calculacuanto.com/" },
   { id: "rosariozolezzi", title: "Rosario Zolezzi", type: ["Web", "Web"], flag: "pe", stack: "Astro · Tailwind · Preline", url: "https://rosariozolezzi.com/" },
   { id: "estudioshaddai", title: "Estudio Shaddai", type: ["Web", "Web"], flag: "pe", stack: "Astro · Tailwind · Cloudflare", url: "https://estudioshaddai.com/" },
   { id: "drmao", title: "Dr. Carlos Mao", type: ["Landing", "Landing"], flag: "pe", stack: "Astro · Tailwind", url: "https://drmaowebpage.vercel.app/" },

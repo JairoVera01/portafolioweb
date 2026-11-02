@@ -45,7 +45,7 @@ const rows = SERVICES.map((service, i) => {
             type="button"
             data-aud-btn={a.id}
             aria-pressed={i === 0 ? "true" : "false"}
-            class="rounded-full px-[18px] py-2.5 leading-tight transition-[background-color,color] duration-[250ms] ease-out focus-visible:outline-offset-1 aria-pressed:bg-ink aria-pressed:text-paper max-sm:flex-1 max-sm:text-balance max-sm:px-3 hover:not-aria-pressed:text-accent"
+            class="rounded-full px-[18px] py-2.5 max-sm:leading-tight transition-[background-color,color] duration-[250ms] ease-out focus-visible:outline-offset-1 aria-pressed:bg-ink aria-pressed:text-paper max-sm:flex-1 max-sm:text-balance max-sm:px-3 hover:not-aria-pressed:text-accent"
           >
             {a.label}
           </button>

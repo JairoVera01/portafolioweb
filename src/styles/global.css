@@ -78,7 +78,6 @@
   line-height: 0.88;
   letter-spacing: -0.045em;
   font-variation-settings: "wdth" 86;
-  text-wrap: balance;
 }
 @utility t-h2-sm {
   font-weight: 800;
@@ -86,7 +85,6 @@
   line-height: 0.9;
   letter-spacing: -0.045em;
   font-variation-settings: "wdth" 86;
-  text-wrap: balance;
 }
 /* Énfasis en itálica dentro de titulares */
 @utility t-em {
@@ -113,6 +111,8 @@
     background: var(--pp);
     color: var(--ik);
     font-family: var(--font-display);
+    /* El prototipo no fija interlineado (normal); el 1.5 del preflight alargaba cada sección */
+    line-height: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: clip;

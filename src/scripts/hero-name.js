@@ -18,17 +18,20 @@ export function initHeroName(root = document.getElementById("hero-name")) {
   // las vecinas; medirlos cada 4 frames basta y evita 9 layouts por frame.
   // El radio del hover escala con el cuerpo (210px a 1280px, donde el nombre mide ~248px):
   // con un radio fijo, en ventanas estrechas se ensanchaban tantas letras que "Vera." se salía.
-  let frame = 0, radius = 210;
+  // `gain` baja la amplitud si el nombre llega a desbordar su caja (pantallas de 320px,
+  // barras de scroll clásicas) y se recupera despacio cuando vuelve a caber.
+  let frame = 0, radius = 210, gain = 1;
   const off = onFrame((t) => {
     const rr = root.getBoundingClientRect();
     if (rr.bottom < 0 || rr.top > window.innerHeight) return;
     if (frame++ % 4 === 0) {
       radius = 0.85 * parseFloat(getComputedStyle(root).fontSize);
       for (const L of letters) { const r = L.el.getBoundingClientRect(); L.cx = r.left + r.width / 2; }
+      gain = root.scrollWidth > root.clientWidth ? Math.max(0, gain - 0.2) : Math.min(1, gain + 0.02);
     }
     const near = !coarse && mouse.y > rr.top - 160 && mouse.y < rr.bottom + 160;
     for (const L of letters) {
-      const f = near ? Math.exp(-Math.pow((mouse.x - L.cx) / radius, 2)) : 0.18 + 0.18 * Math.sin(t / 1100 + L.cx / 140);
+      const f = gain * (near ? Math.exp(-Math.pow((mouse.x - L.cx) / radius, 2)) : 0.18 + 0.18 * Math.sin(t / 1100 + L.cx / 140));
       L.w += (80 + 45 * f - L.w) * 0.1;
       L.g += (640 + 260 * f - L.g) * 0.1;
       L.el.style.fontVariationSettings = `'wdth' ${L.w.toFixed(1)}, 'wght' ${L.g.toFixed(0)}`;
