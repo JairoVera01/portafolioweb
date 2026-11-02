@@ -1,17 +1,86 @@
 ---
-// STUB — lo reemplaza la sesión que construye esta sección.
+import { Icon } from "astro-icon/components";
 import SectionHead from "../SectionHead.astro";
-import { DICT, type Lang } from "../../i18n/content";
+import Cota from "../Cota.astro";
+import { CV_DOWNLOAD, CV_URL, DICT, EDU, EXP, PLACE, flagIcon, pick, type CvEntry, type Lang } from "../../i18n/content";
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
 const t = DICT[lang];
+const columns: { title: string; items: readonly CvEntry[] }[] = [
+  { title: t.expTitle, items: EXP },
+  { title: t.eduTitle, items: EDU },
+];
 ---
 
 <section id="sobre-mi" data-mode="shelf" class="container-taller pt-[180px]">
   <div class="reading">
     <SectionHead n="04" label={t.s4} />
-    <p class="mt-10 min-h-[60vh] font-serif text-[20px] text-muted">About — pendiente</p>
+    <h2 class="t-h2-sm mt-10">{t.aTitleA}<br /><em class="t-em">{t.aTitleEm}</em></h2>
+
+    <div class="mt-14 flex flex-wrap items-start gap-11">
+      <figure class="m-0 w-[260px] max-w-full flex-none">
+        <div class="relative aspect-[4/5] overflow-hidden bg-surface">
+          <img
+            src="/assets/images/port2.webp"
+            alt="Jairo Vera"
+            width="260"
+            height="325"
+            loading="lazy"
+            decoding="async"
+            class="block h-full w-full object-cover object-[50%_18%]"
+          />
+        </div>
+        <Cota label="260 × 325" />
+        <figcaption class="mt-1.5 font-mono text-[11px] text-muted">{t.fig7}</figcaption>
+      </figure>
+
+      <div class="min-w-0 flex-[1_1_380px]">
+        <p class="m-0 font-serif text-[clamp(21px,1.9vw,25px)] leading-[1.45]">
+          <span class="sr-only">{t.bioCap + t.bioRest}</span>
+          <span aria-hidden="true" class="float-left mt-1.5 mr-3 mb-0 ml-0 text-[96px] leading-[.76] font-extrabold text-accent">{t.bioCap}</span>
+          <span aria-hidden="true">{t.bioRest}</span>
+        </p>
+        <a
+          href={CV_URL}
+          download={CV_DOWNLOAD}
+          class="mt-9 flex items-center justify-between gap-5 rounded-[6px] bg-ink px-6 py-5 text-paper transition-[background-color,color] duration-[250ms] hover:bg-accent hover:text-white"
+        >
+          <span>
+            <span class="block text-[21px] font-bold tracking-[-0.01em]">{t.cvTitle}</span>
+            <span class="mt-1 block font-mono text-[12px]">{t.cvMeta}</span>
+          </span>
+          <span aria-hidden="true" class="text-[28px] leading-none">↓</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="mt-20 grid grid-cols-[repeat(auto-fit,minmax(min(320px,100%),1fr))] gap-12">
+      {
+        columns.map((col) => (
+          <div class="min-w-0">
+            <h3 class="mb-1.5 border-b-[1.5px] border-ink pb-3 text-[22px] font-bold tracking-[-0.015em]">{col.title}</h3>
+            <ul class="m-0 list-none p-0">
+              {col.items.map((e) => (
+                <li class="grid grid-cols-[minmax(0,1fr)] gap-1 border-b border-line py-4">
+                  <span class="font-mono text-[11.5px] text-muted">{pick(e.dates, lang)}</span>
+                  <span class="text-[17.5px] font-semibold tracking-[-0.01em]">{pick(e.role, lang)}</span>
+                  <span class="flex flex-wrap items-center gap-[7px] font-serif text-[17px]">
+                    {e.org}
+                    {e.flag && (
+                      <>
+                        <Icon name={flagIcon(e.flag)} width="14" height="14" aria-hidden="true" />
+                        <span class="text-muted">{pick(PLACE[e.flag], lang)}</span>
+                      </>
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
   </div>
 </section>
