@@ -1,7 +1,6 @@
 ---
-// STUB — lo reemplaza la sesión que construye esta sección.
 import SectionHead from "../SectionHead.astro";
-import { DICT, type Lang } from "../../i18n/content";
+import { DICT, STACK, type Lang } from "../../i18n/content";
 interface Props {
   lang: Lang;
 }
@@ -12,6 +11,19 @@ const t = DICT[lang];
 <section id="colofon" data-mode="shelf" class="container-taller pt-[180px]">
   <div class="reading">
     <SectionHead n="05" label={t.s5} />
-    <p class="mt-10 min-h-[60vh] font-serif text-[20px] text-muted">Colophon — pendiente</p>
+    <h2 class="t-h2-sm mt-10 mb-12">{t.stTitleA} <em class="t-em">{t.stTitleEm}</em></h2>
+    <dl class="m-0">
+      {
+        STACK.map((row) => {
+          const [term, def] = row[lang === "en" ? 1 : 0];
+          return (
+            <div class="wide:grid-cols-[240px_minmax(0,1fr)] grid grid-cols-1 items-baseline gap-x-6 gap-y-2 border-t border-line py-[22px]">
+              <dt class="text-[21px] font-bold tracking-[-0.015em]">{term}</dt>
+              <dd class="m-0 font-serif text-[21px] leading-[1.45]">{def}</dd>
+            </div>
+          );
+        })
+      }
+    </dl>
   </div>
 </section>
