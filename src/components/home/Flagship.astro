@@ -14,7 +14,7 @@ const f = FLAGSHIP;
 const row = "grid grid-cols-[96px_minmax(0,1fr)] items-baseline gap-4 border-b border-line py-3";
 const label = "font-mono text-[11.5px] tracking-[.06em] text-muted uppercase";
 const pill =
-  "inline-flex items-center gap-2 rounded-full border border-line bg-[color-mix(in_srgb,var(--pp)_86%,transparent)] px-3 py-1.5 font-mono text-[12px] text-ink backdrop-blur-[10px] transition-colors duration-200 hover:border-ink max-[639px]:px-2.5 max-[639px]:py-1 max-[639px]:text-[11px]";
+  "inline-flex items-center gap-2 rounded-full border border-line bg-[color-mix(in_srgb,var(--pp)_86%,transparent)] px-3 py-1.5 font-mono text-[12px] text-ink backdrop-blur-[10px] transition-colors duration-200 hover:border-ink max-[640px]:px-2.5 max-[640px]:py-1 max-[640px]:text-[11px]";
 ---
 
 <section id="calculacuanto" data-mode="away" class="container-taller pt-[160px]">
@@ -28,19 +28,38 @@ const pill =
   </div>
   <p class="mt-[clamp(20px,2.4vw,32px)] max-w-[560px] font-serif text-[clamp(20px,1.7vw,22px)] leading-[1.45]">{t.fLead}</p>
 
-  <figure class="mt-[clamp(40px,5vw,72px)]" data-flagship>
-    <div class="relative aspect-video overflow-hidden bg-surface [outline:1px_solid_var(--ln)]">
+  {/* Dos cortes del mismo video: 9:16 en móvil y 16:9 desde 640px. Con preload="none" y
+      display:none, solo se descarga el que está a la vista. */}
+  <figure
+    class="mt-[clamp(40px,5vw,72px)] max-[640px]:w-[min(100%,calc(78svh*9/16))]"
+    data-flagship
+  >
+    <div class="relative aspect-[9/16] overflow-hidden bg-surface [outline:1px_solid_var(--ln)] min-[640px]:aspect-video" data-video-box>
       <video
-        class="block size-full cursor-pointer object-cover"
-        width="1920"
-        height="1080"
-        poster={f.video.poster1080}
+        class="block size-full cursor-pointer object-cover min-[640px]:hidden"
+        width="1080"
+        height="1920"
+        poster={f.video.posterVertical}
         aria-label={t.fVideoLabel}
         muted
         loop
         playsinline
         preload="none"
-        data-video
+        data-video="v"
+      >
+        <source src={f.video.srcVertical} type="video/mp4" />
+      </video>
+      <video
+        class="hidden size-full cursor-pointer object-cover min-[640px]:block"
+        width="1920"
+        height="1080"
+        poster={f.video.poster}
+        aria-label={t.fVideoLabel}
+        muted
+        loop
+        playsinline
+        preload="none"
+        data-video="h"
       >
         <source src={f.video.src720} type="video/mp4" media="(max-width: 899px)" />
         <source src={f.video.src1080} type="video/mp4" />
@@ -54,7 +73,8 @@ const pill =
         </button>
       </div>
     </div>
-    <Cota label={`16 : 9 · ${f.video.duration}`} />
+    <div class="min-[640px]:hidden"><Cota label={`9 : 16 · ${f.video.duration}`} /></div>
+    <div class="hidden min-[640px]:block"><Cota label={`16 : 9 · ${f.video.duration}`} /></div>
     <figcaption class="mt-1.5 flex flex-wrap justify-between gap-x-4 gap-y-1 font-mono text-[11px] text-muted">
       <span>{t.fFig}</span>
       <a href={f.url} target="_blank" rel="noopener">{f.host} <span aria-hidden="true">↗</span></a>
@@ -64,7 +84,7 @@ const pill =
   <ul role="list" class="mt-[clamp(56px,6vw,96px)] grid grid-cols-1 border-t border-line min-[640px]:grid-cols-3">
     {
       f.stats.map((s) => (
-        <li class="group border-line max-[639px]:grid max-[639px]:grid-cols-[minmax(0,auto)_minmax(0,1fr)] max-[639px]:items-baseline max-[639px]:gap-x-5 max-[639px]:border-b max-[639px]:py-4 min-[640px]:border-l min-[640px]:py-[22px] min-[640px]:pr-[18px] min-[640px]:pb-[30px] min-[640px]:pl-4">
+        <li class="group border-line max-[640px]:grid max-[640px]:grid-cols-[minmax(0,auto)_minmax(0,1fr)] max-[640px]:items-baseline max-[640px]:gap-x-5 max-[640px]:border-b max-[640px]:py-4 min-[640px]:border-l min-[640px]:py-[22px] min-[640px]:pr-[18px] min-[640px]:pb-[30px] min-[640px]:pl-4">
           <span
             aria-hidden="true"
             class="block text-[clamp(56px,8vw,120px)] leading-[.85] font-extrabold tracking-[-0.05em] wdth-62 text-outline transition-[color,-webkit-text-stroke-color] duration-[350ms] group-hover:text-accent group-hover:[-webkit-text-stroke-color:var(--ac)]"
@@ -138,14 +158,19 @@ const pill =
 <script>
   // Autoplay silenciado solo mientras el video está en pantalla, sin datos con "ahorro de datos"
   // y nunca con movimiento reducido. Si la persona pausa, no se reanuda solo.
+  // Los controles mandan sobre el corte activo (9:16 en móvil, 16:9 desde 640px).
   const root = document.querySelector<HTMLElement>("[data-flagship]");
-  const video = root?.querySelector<HTMLVideoElement>("[data-video]");
+  const box = root?.querySelector<HTMLElement>("[data-video-box]");
+  const videos = root ? [...root.querySelectorAll<HTMLVideoElement>("video[data-video]")] : [];
   const playBtn = root?.querySelector<HTMLButtonElement>("[data-video-play]");
   const soundBtn = root?.querySelector<HTMLButtonElement>("[data-video-sound]");
 
-  if (root && video && playBtn && soundBtn) {
+  if (root && box && videos.length === 2 && playBtn && soundBtn) {
+    const narrow = window.matchMedia("(width < 640px)");
+    const pickActive = () => videos.find((v) => v.dataset.video === (narrow.matches ? "v" : "h"))!;
     const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+    let video = pickActive();
     let userPaused = still || saveData;
     let visible = false;
 
@@ -167,10 +192,10 @@ const pill =
       }
     };
 
-    video.addEventListener("play", sync);
-    video.addEventListener("pause", sync);
-    video.addEventListener("volumechange", sync);
-    video.addEventListener("click", toggle);
+    for (const v of videos) {
+      for (const type of ["play", "pause", "volumechange"]) v.addEventListener(type, () => v === video && sync());
+      v.addEventListener("click", toggle);
+    }
     playBtn.addEventListener("click", toggle);
     soundBtn.addEventListener("click", () => {
       video.muted = !video.muted;
@@ -180,6 +205,21 @@ const pill =
       }
     });
 
+    // Al cruzar 640px (girar el teléfono, redimensionar) se cambia de corte en el mismo segundo:
+    // los dos comparten guion y duración.
+    narrow.addEventListener("change", () => {
+      const prev = video;
+      video = pickActive();
+      if (video === prev) return;
+      const t = prev.currentTime;
+      video.muted = prev.muted;
+      prev.pause();
+      if (video.readyState >= 1) video.currentTime = t;
+      else video.addEventListener("loadedmetadata", () => (video.currentTime = t), { once: true });
+      if (visible && !userPaused) play();
+      sync();
+    });
+
     new IntersectionObserver(
       ([entry]) => {
         visible = entry.isIntersecting;
@@ -187,7 +227,7 @@ const pill =
         else if (!visible && !video.paused) video.pause();
       },
       { threshold: 0.35 },
-    ).observe(video);
+    ).observe(box);
 
     // Al cambiar de pestaña el navegador pausa; al volver, retomar si seguía a la vista.
     document.addEventListener("visibilitychange", () => {

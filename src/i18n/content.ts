@@ -257,11 +257,13 @@ export const FLAGSHIP = {
   type: ["Producto propio · Hub de calculadoras", "Own product · Calculator hub"] as Pair,
   tags: "Next.js 16 · React 19 · TypeScript · Tailwind 4 · Vitest",
   places: ["Perú y México", "Peru and Mexico"] as Pair,
+  /** Horizontal (16:9) desde 640px; vertical (9:16) en móvil, donde el texto de la UI sí se lee. */
   video: {
     src1080: "/assets/videos/calculacuanto/demo-1080.mp4",
     src720: "/assets/videos/calculacuanto/demo-720.mp4",
-    poster1080: "/assets/videos/calculacuanto/poster-1080.webp",
-    poster720: "/assets/videos/calculacuanto/poster-720.webp",
+    poster: "/assets/videos/calculacuanto/poster-1080.webp",
+    srcVertical: "/assets/videos/calculacuanto/demo-vertical.mp4",
+    posterVertical: "/assets/videos/calculacuanto/poster-vertical.webp",
     duration: "0:21",
   },
   /** Cifras verificadas en el repo el 1-nov-2026 (registry y `vitest run`) */
