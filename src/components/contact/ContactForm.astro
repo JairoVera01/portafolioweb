@@ -157,7 +157,11 @@ const field =
       lines.push(`${d.waMessage}: ${message}`);
       const url = `https://wa.me/${d.waPhone}?text=${encodeURIComponent(lines.join("\n"))}`;
 
-      if (!window.open(url, "_blank", "noopener")) window.location.href = url;
+      // Con el feature "noopener", window.open devuelve null aunque abra la pestaña:
+      // se corta el opener a mano y solo se navega aquí si el navegador bloqueó la ventana.
+      const win = window.open(url, "_blank");
+      if (win) win.opener = null;
+      else window.location.href = url;
       form.reset();
       if (status) status.hidden = false;
     });

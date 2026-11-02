@@ -106,9 +106,15 @@ const grid =
     let x = 0,
       y = 0,
       raf = 0;
+    // Igual que el índice de la home: a la derecha del cursor salvo que se salga, y
+    // en vertical siempre dentro (72 = masthead de 60px + aire).
+    const W = 320, H = 200, EDGE = 12, TOP = 72;
+    const still = matchMedia("(prefers-reduced-motion: reduce)");
     const place = () => {
       raf = 0;
-      box.style.transform = `translate(${x + 28}px, ${y - 100}px) rotate(-2deg)`;
+      const left = x + 28 + W > innerWidth - EDGE ? x - 28 - W : x + 28;
+      const top = Math.min(Math.max(y - 100, TOP), innerHeight - H - EDGE);
+      box.style.transform = `translate(${left}px, ${top}px)${still.matches ? "" : " rotate(-2deg)"}`;
     };
     window.addEventListener(
       "pointermove",

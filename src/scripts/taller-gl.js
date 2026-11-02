@@ -63,8 +63,8 @@ function createTaller(canvas, opts) {
   let H = 1, W = 1, S = 1.1, small = window.innerWidth < 700;
   function resize() {
     // El canvas es fixed + inset:0, así que su caja es el viewport sin la barra de scroll.
-    vw = canvas.clientWidth || window.innerWidth;
-    vh = canvas.clientHeight || window.innerHeight;
+    vw = Math.max(1, canvas.clientWidth || window.innerWidth);
+    vh = Math.max(1, canvas.clientHeight || window.innerHeight);
     renderer.setSize(vw, vh, false);
     camera.aspect = vw / vh;
     camera.updateProjectionMatrix();
@@ -252,7 +252,9 @@ function createTaller(canvas, opts) {
     const o = ray.ray.origin, d = ray.ray.direction, t = -o.z / d.z;
     return [o.x + d.x * t, o.y + d.y * t];
   }
-  const isUI = (e) => e.target && e.target.closest && e.target.closest("a,button,input,textarea,select,label,summary,[role=button],[data-no-drag]");
+  // Además de los controles, nada que tape el canvas por completo (masthead, menú móvil).
+  const isUI = (e) =>
+    e.target && e.target.closest && e.target.closest("a,button,input,textarea,select,label,summary,[role=button],[data-no-drag],.masthead,#mobile-menu");
   function down(e) {
     if (e.button > 0 || isUI(e)) return;
     const p = pick(e);
