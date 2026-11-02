@@ -1,16 +1,110 @@
 ---
-// STUB — lo reemplaza la sesión que construye esta sección.
-import { DICT, type Lang } from "../../i18n/content";
+// Hero «Taller» (README §6.2): nombre con tipografía variable, deck, figura y CTAs.
+// Sin fondos: las piezas 3D caen detrás del texto, sobre el espaciador del final.
+import { Image } from "astro:assets";
+import Cota from "../Cota.astro";
+import { CV_DOWNLOAD, CV_URL, DICT, type Lang } from "../../i18n/content";
+import portrait from "../../../public/assets/images/port2.webp";
+
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
 const t = DICT[lang];
+const alt =
+  lang === "en"
+    ? "Portrait of Jairo Vera in a dark jacket, standing by a stone wall under a cloudy sky"
+    : "Retrato de Jairo Vera con chaqueta oscura, de pie junto a un muro de piedra bajo un cielo nublado";
+const row = "flex items-center justify-between gap-4 border-b border-line py-[15px] text-[19px] font-semibold";
 ---
 
 <section id="inicio" data-mode="free" class="container-taller flex min-h-[calc(100svh-60px)] flex-col pb-8 pt-7">
-  <h1 class="text-[clamp(68px,19.4vw,400px)] font-extrabold leading-[0.8] tracking-[-0.045em]" aria-label="Jairo Vera">
-    Jairo Vera<span class="text-accent">.</span>
+  <div class="flex flex-wrap justify-between gap-x-5 gap-y-1 pb-[18px] font-mono text-[12.5px]">
+    <span>{t.heroRole}</span>
+    <span class="whitespace-nowrap">{t.heroPlace} · <time data-lima-time>--:--</time> GMT-5</span>
+  </div>
+
+  <!-- El tamaño se queda en 310px (19.4vw a 1600px): el contenedor deja de crecer ahí -->
+  <h1
+    id="hero-name"
+    aria-label="Jairo Vera"
+    class="hero-name flex select-none items-baseline justify-between whitespace-nowrap text-[clamp(60px,19.4vw,310px)] font-extrabold leading-[0.8] tracking-[-0.045em]"
+  >
+    <span aria-hidden="true" class="flex">{[..."Jairo"].map((c) => <span data-l>{c}</span>)}</span>
+    <span aria-hidden="true" class="flex">
+      {[..."Vera"].map((c) => <span data-l>{c}</span>)}<span class="text-accent">.</span>
+    </span>
   </h1>
-  <p class="mt-10 font-serif text-[20px] text-muted">Hero — pendiente · {t.heroRole}</p>
+
+  <!-- Base del deck a 420px (no 440): con barra de scroll clásica a 1024px las tres
+       columnas siguen cabiendo en una línea; por encima crece igual hasta 720px -->
+  <div class="mt-[clamp(28px,3.4vw,52px)] flex flex-wrap items-start gap-10 border-t-[1.5px] border-ink pt-[22px]">
+    <p class="max-w-[720px] flex-[1_1_420px] font-serif text-[clamp(24px,2.5vw,38px)] leading-[1.18] tracking-[-0.01em]">
+      {t.deckA}<em class="italic text-accent">{t.deckEm}</em>{t.deckB}
+    </p>
+
+    <figure class="group ml-auto flex-[0_0_150px]">
+      <div class="aspect-[4/5] overflow-hidden bg-surface">
+        <Image
+          src={portrait}
+          alt={alt}
+          width={150}
+          widths={[150, 300, 450]}
+          sizes="150px"
+          loading="eager"
+          fetchpriority="high"
+          class="block size-full object-cover object-[50%_18%] contrast-[1.06] grayscale transition-[filter] duration-500 ease-out group-hover:contrast-100 group-hover:grayscale-0"
+        />
+      </div>
+      <Cota label="4 : 5" />
+      <figcaption class="mt-1.5 font-mono text-[11px] text-muted">{t.fig2}</figcaption>
+    </figure>
+
+    <!-- Solo en su propia línea (móvil) la lista ocupa todo el ancho -->
+    <ul role="list" class="flex min-w-[240px] flex-[0_1_280px] flex-col border-t border-line max-[509px]:grow">
+      <li>
+        <a href="#trabajo" class:list={["group", row]}>
+          {t.ctaWork}<span aria-hidden="true" class="transition-transform duration-300 ease-taller group-hover:translate-y-0.5">↓</span>
+        </a>
+      </li>
+      <li>
+        <a href={CV_URL} download={CV_DOWNLOAD} class:list={["group", row]}>
+          {t.ctaCV}
+          <span class="whitespace-nowrap font-mono text-[12px] font-medium">
+            PDF <span aria-hidden="true" class="inline-block transition-transform duration-300 ease-taller group-hover:translate-y-0.5">↓</span>
+          </span>
+        </a>
+      </li>
+      <li class="mt-3.5">
+        <a
+          href="#contacto"
+          class="group flex items-center justify-between gap-4 rounded-full bg-ink px-[18px] py-[15px] text-[17px] font-semibold text-paper transition-[background-color,color] duration-[250ms] ease-out hover:bg-accent hover:text-white"
+        >
+          {t.ctaTalk}<span aria-hidden="true" class="transition-transform duration-300 ease-taller group-hover:translate-x-[3px]">→</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Suelo de las piezas 3D -->
+  <div class="min-h-[120px] flex-1" aria-hidden="true"></div>
+
+  <div class="flex items-end justify-between gap-5 font-mono text-[12px]">
+    <span>{t.fig1}</span>
+    <span class="whitespace-nowrap">{t.scroll} <span aria-hidden="true">↓</span></span>
+  </div>
 </section>
+
+<style>
+  .hero-name {
+    font-variation-settings:
+      "wdth" 90,
+      "wght" 760;
+  }
+</style>
+
+<script>
+  import { initHeroName } from "../../scripts/hero-name.js";
+
+  initHeroName();
+</script>
