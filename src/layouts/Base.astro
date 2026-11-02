@@ -9,6 +9,7 @@ import "../styles/global.css";
 import GLCanvas from "../components/GLCanvas.astro";
 import Masthead from "../components/Masthead.astro";
 import { DICT, type Lang } from "../i18n/content";
+import { META, personNode, websiteNode } from "../i18n/seo";
 
 interface Props {
   lang: Lang;
@@ -18,8 +19,10 @@ interface Props {
   noindex?: boolean;
   /** Las páginas sin piezas 3D (404) pueden prescindir del canvas */
   gl?: boolean;
+  /** Nodos schema.org propios de la página; se suman a la persona y el sitio en un @graph */
+  schema?: Record<string, unknown>[];
 }
-const { lang, title, description, type = "website", noindex = false, gl = true } = Astro.props;
+const { lang, title, description, type = "website", noindex = false, gl = true, schema = [] } = Astro.props;
 const t = DICT[lang];
 const isEnglish = lang === "en";
 
@@ -30,51 +33,26 @@ const esPath = basePath;
 const enPath = "/en" + (basePath === "/" ? "/" : basePath);
 const esHref = new URL(esPath, Astro.site).toString();
 const enHref = new URL(enPath, Astro.site).toString();
-const ogLocale = isEnglish ? "en_US" : "es_ES";
-const jsonLdLang = isEnglish ? "en-US" : "es-ES";
-const socialAlt = isEnglish ? "Jairo Vera - Front-End Developer" : "Jairo Vera - Desarrollador Front-End";
 
-// Datos estructurados
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Jairo Vera",
-  jobTitle: isEnglish ? "Front-End Developer" : "Desarrollador Front-End",
-  description: isEnglish
-    ? "Front-end developer with 4+ years of experience building fast, clean, well-crafted web and mobile interfaces."
-    : "Desarrollador front-end con más de 4 años de experiencia creando interfaces web y móviles rápidas, limpias y bien construidas.",
-  url: "https://jairovera.dev",
-  image: "https://jairovera.dev/assets/images/openG.png",
-  sameAs: ["https://www.linkedin.com/in/frank-jairo-vera/", "https://github.com/JairoVera01"],
-  knowsAbout: ["JavaScript", "TypeScript", "React", "Next.js", "Astro", "React Native", "Tailwind CSS", "Sass", "Desarrollo Web", "Frontend Development", "Mobile Development"],
-  offers: {
-    "@type": "Service",
-    name: isEnglish ? "Front-End Web & Mobile Development" : "Desarrollo Front-End Web y Móvil",
-    description: isEnglish
-      ? "Front-end development services for websites and mobile apps, for businesses and entrepreneurs."
-      : "Servicios de desarrollo front-end para web y aplicaciones móviles para empresas y emprendedores.",
-  },
-};
-const websiteSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "Jairo Vera - Desarrollador Front-End",
-  alternateName: "JairoVera.dev",
-  url: "https://jairovera.dev",
-  description: "Portafolio profesional de Jairo Vera, desarrollador front-end especializado en interfaces web y móviles.",
-  inLanguage: jsonLdLang,
-  isAccessibleForFree: true,
-  creator: { "@type": "Person", name: "Jairo Vera" },
-};
-
-const defaultTitle = isEnglish ? "Jairo Vera - Front-End Developer | Web & Mobile" : "Jairo Vera - Desarrollador Front-End | Web & Mobile";
-const defaultDescription = isEnglish
-  ? "Front-end developer with 4+ years of experience building fast, well-crafted web and mobile apps with Astro, Next.js, React and React Native. Browse my projects and let's talk."
-  : "Desarrollador web front end especializado en crear sitios web modernos, rápidos y optimizados. Experto en React, NextJs, Astro y tecnologías web modernas. ¡Convierte tu idea en realidad digital!";
-const defaultImage = "https://jairovera.dev/assets/images/openG.png";
+// Textos sociales por idioma. es_PE porque el sitio se escribe desde Lima.
+const ogLocale = isEnglish ? "en_US" : "es_PE";
+const ogLocaleAlt = isEnglish ? "es_PE" : "en_US";
+const siteName = isEnglish ? "Jairo Vera — Front-end developer" : "Jairo Vera — Desarrollador front-end";
+const { title: defaultTitle, description: defaultDescription } = META.home[lang];
+const ogImage = new URL(`/og/jairovera-${lang}.png`, Astro.site).toString();
+const ogImageAlt = isEnglish
+  ? "Jairo Vera. Front-end developer in Lima, Peru: websites and apps that feel handmade."
+  : "Jairo Vera. Desarrollador front-end en Lima, Perú: webs y apps que se sienten hechas a mano.";
+const keywords = isEnglish
+  ? "front-end developer, web developer Lima Peru, Astro developer, Next.js developer, React Native developer, websites for businesses, web performance, technical SEO, Jairo Vera"
+  : "desarrollador front-end, desarrollador web Lima Perú, desarrollador Astro, desarrollador Next.js, React Native, páginas web para negocios, rendimiento web, SEO técnico, Jairo Vera";
 const pageTitle = title || defaultTitle;
 const pageDescription = description || defaultDescription;
 const canonicalURL = new URL(pathname, Astro.site);
+const robots = noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
+
+// Un único bloque JSON-LD: persona + sitio + lo propio de la página
+const jsonLd = { "@context": "https://schema.org", "@graph": [personNode(lang), websiteNode(lang), ...schema] };
 ---
 
 <!doctype html>
@@ -106,48 +84,48 @@ const canonicalURL = new URL(pathname, Astro.site);
     <link rel="shortcut icon" href="/favicon/favicon.ico" />
 
     <meta name="description" content={pageDescription} />
-    <meta
-      name="keywords"
-      content="desarrollador web, programador front end, sitios web modernos, React developer, Astro developer, JavaScript expert, frontend developer, backend developer, desarrollo web profesional, páginas web optimizadas, SEO web, responsive design, Jairo Vera desarrollador"
-    />
+    <meta name="keywords" content={keywords} />
     <meta name="author" content="Jairo Vera" />
-    <meta
-      name="robots"
-      content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"}
-    />
-    <meta name="googlebot" content={noindex ? "noindex, nofollow" : "index, follow"} />
-    <meta name="bingbot" content={noindex ? "noindex, nofollow" : "index, follow"} />
+    <meta name="robots" content={robots} />
+    <meta name="googlebot" content={robots} />
 
-    <meta name="geo.region" content="PE" />
+    <meta name="geo.region" content="PE-LIM" />
     <meta name="geo.placename" content="Lima, Perú" />
 
-    <link rel="canonical" href={canonicalURL} />
-    <link rel="alternate" hreflang="es" href={esHref} />
-    <link rel="alternate" hreflang="en" href={enHref} />
-    <link rel="alternate" hreflang="x-default" href={esHref} />
+    {
+      /* Canonical y alternas solo en páginas indexables (la 404 no las declara) */
+      !noindex && (
+        <>
+          <link rel="canonical" href={canonicalURL} />
+          <link rel="alternate" hreflang="es" href={esHref} />
+          <link rel="alternate" hreflang="en" href={enHref} />
+          <link rel="alternate" hreflang="x-default" href={esHref} />
+        </>
+      )
+    }
     <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={siteName} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
-    <meta property="og:image" content={defaultImage} />
-    <meta property="og:image:alt" content={socialAlt} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogLocaleAlt} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:site_name" content="Jairo Vera - Desarrollador Web" />
-    <meta property="og:locale" content={ogLocale} />
-    <meta property="og:locale:alternate" content={isEnglish ? "es_ES" : "en_US"} />
+    <meta property="og:image:alt" content={ogImageAlt} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={pageDescription} />
-    <meta name="twitter:image" content={defaultImage} />
-    <meta name="twitter:image:alt" content={socialAlt} />
-    <meta property="article:author" content="Jairo Vera" />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <!-- Color de la barra del navegador: papel claro / papel oscuro -->
     <meta name="theme-color" content="#f1eee6" media="(prefers-color-scheme: light)" />
@@ -214,7 +192,5 @@ const canonicalURL = new URL(pathname, Astro.site);
         document.title = document.hidden ? awayTitle : originalTitle;
       });
     </script>
-
-    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
   </body>
 </html>

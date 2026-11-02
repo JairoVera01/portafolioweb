@@ -7,7 +7,14 @@ import icon from "astro-icon";
 // https://astro.build/config
 export default defineConfig({
   site: "https://jairovera.dev",
-  integrations: [sitemap(), icon()],
+  integrations: [
+    sitemap({
+      // Sin páginas 404 y con las alternas ES/EN de cada URL (mismos hreflang que el <head>)
+      filter: (page) => !/\/404\/?$/.test(new URL(page).pathname),
+      i18n: { defaultLocale: "es", locales: { es: "es", en: "en" } },
+    }),
+    icon(),
+  ],
   vite: {
     plugins: [tailwindcss()],
     // Las fuentes nunca se incrustan como data: (la CSP solo permite font-src 'self').

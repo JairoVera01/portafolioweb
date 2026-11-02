@@ -1,1 +1,15 @@
-{"name":"","short_name":"","icons":[{"src":"/android-chrome-192x192.png","sizes":"192x192","type":"image/png"},{"src":"/android-chrome-512x512.png","sizes":"512x512","type":"image/png"}],"theme_color":"#ffffff","background_color":"#ffffff","display":"standalone"}
+{
+  "name": "Jairo Vera — Desarrollador front-end",
+  "short_name": "Jairo Vera",
+  "description": "Webs y apps que se sienten hechas a mano: rápidas, precisas y con un poco de juego.",
+  "lang": "es",
+  "start_url": "/",
+  "scope": "/",
+  "icons": [
+    { "src": "/favicon/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/favicon/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#f1eee6",
+  "background_color": "#f1eee6",
+  "display": "standalone"
+}

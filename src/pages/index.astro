@@ -1,4 +1,5 @@
 ---
+import { META, homeSchema } from "../i18n/seo";
 import Base from "../layouts/Base.astro";
 import Hero from "../components/home/Hero.astro";
 import Services from "../components/home/Services.astro";
@@ -8,9 +9,11 @@ import Process from "../components/home/Process.astro";
 import About from "../components/home/About.astro";
 import Colophon from "../components/home/Colophon.astro";
 import Contact from "../components/home/Contact.astro";
+const meta = META.home.es;
+const url = new URL(Astro.url.pathname, Astro.site).toString();
 ---
 
-<Base lang="es">
+<Base lang="es" title={meta.title} description={meta.description} schema={homeSchema("es", url, meta.title)}>
   <Hero lang="es" />
   <Services lang="es" />
   <Flagship lang="es" />

@@ -1,14 +1,13 @@
 ---
+import { META, projectsSchema } from "../../i18n/seo";
 import Base from "../../layouts/Base.astro";
 import ProjectsList from "../../components/projects/ProjectsList.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
+const meta = META.projects.en;
+const url = new URL(Astro.url.pathname, Astro.site).toString();
 ---
 
-<Base
-  lang="en"
-  title="Projects · Jairo Vera — Front-End Developer"
-  description="Sites, platforms and tools I've built for real clients in Peru, Mexico and Puerto Rico. Web, landings and apps with Astro, Next.js, React and React Native."
->
+<Base lang="en" title={meta.title} description={meta.description} schema={projectsSchema("en", url, meta.title)}>
   <ProjectsList lang="en" />
   <SiteFooter lang="en" />
 </Base>

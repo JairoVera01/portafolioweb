@@ -1,10 +1,12 @@
 ---
+import { META } from "../i18n/seo";
 import Base from "../layouts/Base.astro";
 import NotFound from "../components/NotFound.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+const meta = META.notFound.es;
 ---
 
-<Base lang="es" title="404 · Página no encontrada · Jairo Vera" noindex>
+<Base lang="es" title={meta.title} description={meta.description} noindex>
   <NotFound lang="es" />
   <SiteFooter lang="es" />
 </Base>

@@ -1,14 +1,13 @@
 ---
+import { META, contactSchema } from "../i18n/seo";
 import Base from "../layouts/Base.astro";
 import ContactPage from "../components/contact/ContactPage.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+const meta = META.contact.es;
+const url = new URL(Astro.url.pathname, Astro.site).toString();
 ---
 
-<Base
-  lang="es"
-  title="Contacto · Jairo Vera — Desarrollador Front-End"
-  description="¿Tienes un proyecto web o móvil en mente? Hablemos. Disponible para trabajo remoto e internacional — respondo en menos de 24 horas."
->
+<Base lang="es" title={meta.title} description={meta.description} schema={contactSchema("es", url, meta.title)}>
   <ContactPage lang="es" />
   <SiteFooter lang="es" />
 </Base>
