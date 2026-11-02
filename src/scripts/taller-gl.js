@@ -196,7 +196,7 @@ function createTaller(canvas, opts) {
   function target(p, mode) {
     const g = S * 1.22;
     if (mode === "shelf") {
-      const col = p.i % 3, row = Math.floor(p.i / 3);
+      const col = p.i % shelfCols, row = Math.floor(p.i / shelfCols);
       return [W - S * 0.85 - col * g, -H + S * 0.75 + row * g];
     }
     if (mode === "away") return [-W + ((p.i + 0.5) / pieces.length) * 2 * W, H + 3 + (p.i % 3) * 1.2];
@@ -207,15 +207,31 @@ function createTaller(canvas, opts) {
     return null;
   }
   const sections = [...document.querySelectorAll("[data-mode]")];
+  let active = null, shelfCols = 3;
   function detectMode() {
     const mid = vh * 0.5;
     let m = "free";
+    active = null;
     for (const el of sections) {
       const r = el.getBoundingClientRect();
-      if (r.top <= mid && r.bottom > mid) m = el.getAttribute("data-mode");
+      if (r.top <= mid && r.bottom > mid) {
+        m = el.getAttribute("data-mode");
+        active = el;
+      }
     }
-    if (m === "shelf" && window.innerWidth < 1180) m = "away";
+    if (m === "shelf" && (window.innerWidth < 1180 || !fitShelf())) m = "away";
     return m;
+  }
+  // La repisa vive a la derecha de la columna de lectura (.reading, 900px). Entre 1180
+  // y ~1300px no caben 3 columnas sin pisar el texto: se usan 2, y si ni eso, "away".
+  function fitShelf() {
+    const col = active && (active.querySelector(".reading") || active);
+    if (!col) return (shelfCols = 3);
+    const upp = (2 * H) / vh; // unidades de mundo por px en z = 0
+    const xMin = (col.getBoundingClientRect().right - vw / 2) * upp + S * 0.75;
+    const xMax = W - S * 0.85;
+    shelfCols = Math.max(0, Math.min(3, Math.floor((xMax - xMin) / (S * 1.22)) + 1));
+    return shelfCols >= 2;
   }
 
   // ── Arrastrar y lanzar ──────────────────────────────────────────────────
