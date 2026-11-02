@@ -1,0 +1,16 @@
+---
+// Cota: línea de medida de ingeniero bajo una figura (tick · línea · "4 : 5" · línea · tick).
+interface Props {
+  label: string;
+  class?: string;
+}
+const { label, class: className } = Astro.props;
+---
+
+<div class:list={["mt-2 flex items-center gap-1.5 font-mono text-[10px] text-muted", className]} aria-hidden="true">
+  <span class="h-[9px] w-px bg-current"></span>
+  <span class="h-px flex-1 bg-current"></span>
+  <span class="whitespace-nowrap">{label}</span>
+  <span class="h-px flex-1 bg-current"></span>
+  <span class="h-[9px] w-px bg-current"></span>
+</div>
