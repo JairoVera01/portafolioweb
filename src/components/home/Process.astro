@@ -13,8 +13,6 @@ const t = DICT[lang];
     <SectionHead n="03" label={t.s3} />
     <h2 class="t-h2 mt-10">{t.prTitleA} <em class="t-em">{t.prTitleEm}</em></h2>
     <p class="mt-7 max-w-[560px] font-serif text-[21px] leading-[1.45]">{t.prLead}</p>
-    <!-- Contenedor con margen negativo: los bordes izquierdos de cada paso quedan
-         siempre dentro del grid y el último borde nunca queda huérfano al envolver -->
     <ol class="mt-16 grid list-none grid-cols-[repeat(auto-fit,minmax(150px,1fr))] border-t border-line p-0">
       {
         STEPS.map((s, i) => {
@@ -27,7 +25,7 @@ const t = DICT[lang];
               >
                 {String(i + 1).padStart(2, "0")}
               </div>
-              <h3 class="mt-[22px] mb-2 text-[21px] max-[420px]:text-[18px]font-bold tracking-[-0.015em]">
+              <h3 class="mt-[22px] mb-2 text-[21px] font-bold tracking-[-0.015em] max-[420px]:text-[18px]">
                 <span class="sr-only">{i + 1}. </span>
                 {title}
               </h3>
