@@ -72,12 +72,16 @@
 }
 
 /* Roles tipográficos compartidos por todas las secciones (ver README §5) */
+/* Bajo 360px el mínimo escala con el viewport: palabras como «Instrucciones» no caben a 52px. */
 @utility t-h2 {
   font-weight: 800;
   font-size: clamp(52px, 7.6vw, 124px);
   line-height: 0.88;
   letter-spacing: -0.045em;
   font-variation-settings: "wdth" 86;
+  @media (width < 360px) {
+    font-size: min(52px, 15.5vw);
+  }
 }
 @utility t-h2-sm {
   font-weight: 800;
@@ -85,6 +89,9 @@
   line-height: 0.9;
   letter-spacing: -0.045em;
   font-variation-settings: "wdth" 86;
+  @media (width < 360px) {
+    font-size: min(46px, 14vw);
+  }
 }
 /* Énfasis en itálica dentro de titulares */
 @utility t-em {

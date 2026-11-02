@@ -8,7 +8,11 @@ import icon from "astro-icon";
 export default defineConfig({
   site: "https://jairovera.dev",
   integrations: [sitemap(), icon()],
-  vite: { plugins: [tailwindcss()] },
+  vite: {
+    plugins: [tailwindcss()],
+    // Las fuentes nunca se incrustan como data: (la CSP solo permite font-src 'self').
+    build: { assetsInlineLimit: (file) => (/\.woff2?$/.test(file) ? false : undefined) },
+  },
   i18n: {
     defaultLocale: "es",
     locales: ["es", "en"],
