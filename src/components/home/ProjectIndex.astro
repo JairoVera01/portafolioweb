@@ -1,11 +1,176 @@
 ---
-// STUB — lo reemplaza la sesión que construye esta sección.
-import { DICT, type Lang } from "../../i18n/content";
+// Índice completo (Nº 05–13). ≥900: 6 columnas; <900: Nº · título · país · flecha.
+// Con ratón (≥900 y hover:hover) un único preview fijo sigue al cursor con la portada de la fila.
+import { Icon } from "astro-icon/components";
+import SectionHead from "../SectionHead.astro";
+import { DICT, IMG, INDEX, PLACE, flagIcon, pick, type Lang } from "../../i18n/content";
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
 const t = DICT[lang];
+const rows = INDEX.map((p, i) => ({ ...p, n: String(i + 5).padStart(2, "0"), img: IMG(p.id), place: pick(PLACE[p.flag], lang) }));
+// <900 la columna de país mide lo que el nombre más largo (bandera 14 + 7 + 7.2px por carácter mono a 12px),
+// igual en todas las filas para que las banderas queden alineadas. <480 solo bandera.
+const placeW = `${Math.ceil(21 + 7.2 * Math.max(...rows.map((p) => p.place.length)))}px`;
+const rowClass =
+  "group grid grid-cols-[32px_minmax(0,1fr)_var(--place-w)_18px] max-[479px]:grid-cols-[32px_minmax(0,1fr)_14px_18px] items-baseline gap-5 border-b border-line px-2 py-5 text-ink " +
+  "[transition:background-color_.25s_ease,padding_.35s_var(--ease-taller)] hover:bg-surface hover:pl-[22px] " +
+  "focus-visible:bg-surface focus-visible:pl-[22px] wide:grid-cols-[44px_minmax(0,1.5fr)_minmax(0,.7fr)_minmax(0,.8fr)_minmax(0,1.3fr)_24px]";
 ---
 
-<div class="mt-[clamp(110px,12vw,180px)]"><p class="font-serif text-[20px] text-muted">{t.indexTitle} — pendiente</p></div>
+<div data-project-index class="mt-[clamp(110px,12vw,180px)]">
+  <SectionHead label={t.indexTitle} aside={t.indexLead} asideClass="hidden text-muted wide:[@media(hover:hover)]:inline" />
+  <ul role="list" aria-label={t.indexTitle} data-index-list style={`--place-w: ${placeW}`}>
+    {
+      rows.map((p) => {
+        const cells = (
+          <>
+            <span class="font-mono text-[12px] text-muted">{p.n}</span>
+            <span class="text-[clamp(22px,2.4vw,34px)] leading-[1.05] font-bold tracking-[-0.025em]">{p.title}</span>
+            <span class="hidden font-mono text-[12px] wide:block">{pick(p.type, lang)}</span>
+            <span class="font-mono text-[12px] whitespace-nowrap">
+              <Icon name={flagIcon(p.flag)} size={14} aria-hidden="true" class="mr-[7px] inline-block align-[-2px] max-[479px]:mr-0" />
+              <span class="max-[479px]:sr-only">{p.place}</span>
+            </span>
+            <span class="hidden font-serif text-[17px] text-muted wide:block">{p.stack}</span>
+            <span aria-hidden="true" class="text-right transition-colors duration-200 group-hover:text-accent group-focus-visible:text-accent">
+              {p.url ? "↗" : ""}
+            </span>
+          </>
+        );
+        return (
+          <li>
+            {p.url ? (
+              <a href={p.url} target="_blank" rel="noopener" data-preview={p.img} class={rowClass}>
+                {cells}
+              </a>
+            ) : (
+              <div data-preview={p.img} class={rowClass}>
+                {cells}
+              </div>
+            )}
+          </li>
+        );
+      })
+    }
+  </ul>
+  <div
+    data-index-preview
+    aria-hidden="true"
+    class="pointer-events-none fixed top-0 left-0 z-30 hidden aspect-[16/10] w-[320px] overflow-hidden bg-surface opacity-0 shadow-[0_30px_60px_-30px_rgba(0,0,0,.45)] transition-opacity duration-[.25s] ease-[ease] will-change-transform [@media(min-width:900px)_and_(hover:hover)]:block"
+  >
+    <img alt="" class="block size-full object-cover object-top" />
+  </div>
+</div>
+
+<script>
+  // Preview flotante: transform directo (rAF) en pointermove, src por fila, fuera de la tabla o
+  // al desplazar la tabla bajo el cursor se recalcula la fila con elementFromPoint.
+  const root = document.querySelector<HTMLElement>("[data-project-index]");
+  const list = root?.querySelector<HTMLElement>("[data-index-list]");
+  const preview = root?.querySelector<HTMLElement>("[data-index-preview]");
+  const img = preview?.querySelector("img");
+
+  if (root && list && preview && img) {
+    const W = 320, H = 200, EDGE = 12, TOP = 72; // 60px de masthead + aire
+    const rows = [...list.querySelectorAll<HTMLElement>("[data-preview]")];
+    const canPreview = window.matchMedia("(min-width: 900px) and (hover: hover)");
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const cache: HTMLImageElement[] = [];
+    let x = 0, y = 0, shown = false, current = "", raf = 0, mouse = false, near = false;
+
+    const place = () => {
+      raf = 0;
+      // A la derecha del cursor salvo que se salga de la ventana; en vertical, siempre dentro.
+      const left = x + 28 + W > innerWidth - EDGE ? x - 28 - W : x + 28;
+      const top = Math.min(Math.max(y - 100, TOP), innerHeight - H - EDGE);
+      preview.style.transform = `translate(${left}px, ${top}px)${still.matches ? "" : " rotate(-2deg)"}`;
+    };
+    const preload = () => {
+      if (cache.length) return;
+      for (const row of rows) {
+        const im = new Image();
+        im.src = row.dataset.preview!;
+        im.decode().catch(() => {});
+        cache.push(im);
+      }
+    };
+    const show = (row: HTMLElement) => {
+      const src = row.dataset.preview!;
+      if (src !== current) img.src = current = src;
+      preload();
+      if (!shown) {
+        place(); // en su sitio antes de aparecer
+        preview.style.opacity = "1";
+        shown = true;
+      }
+    };
+    const hide = () => {
+      if (!shown) return;
+      preview.style.opacity = "0";
+      shown = false;
+    };
+    // Tras un scroll, la fila bajo un cursor quieto puede haber cambiado (o ya no hay tabla).
+    const recheck = () => {
+      raf = 0;
+      const row = document.elementFromPoint(x, y)?.closest<HTMLElement>("[data-preview]");
+      if (row && list.contains(row)) show(row);
+      else hide();
+      if (shown) place();
+    };
+
+    const onMove = (e: PointerEvent) => {
+      mouse = e.pointerType === "mouse";
+      x = e.clientX;
+      y = e.clientY;
+      if (shown && !raf) raf = requestAnimationFrame(place);
+    };
+    const onScroll = () => {
+      if (!mouse || !canPreview.matches) return;
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(recheck);
+    };
+    const onLeaveWindow = () => {
+      mouse = false;
+      hide();
+    };
+
+    for (const row of rows) {
+      row.addEventListener("pointerenter", (e) => {
+        if (e.pointerType !== "mouse" || !canPreview.matches) return;
+        mouse = true;
+        x = e.clientX;
+        y = e.clientY;
+        show(row);
+      });
+    }
+    list.addEventListener("pointerleave", hide);
+
+    // Los listeners globales solo viven mientras la tabla está cerca del viewport.
+    const attach = (on: boolean) => {
+      if (on === near) return;
+      near = on;
+      if (on) {
+        window.addEventListener("pointermove", onMove, { passive: true });
+        window.addEventListener("scroll", onScroll, { passive: true });
+        document.documentElement.addEventListener("pointerleave", onLeaveWindow);
+      } else {
+        window.removeEventListener("pointermove", onMove);
+        window.removeEventListener("scroll", onScroll);
+        document.documentElement.removeEventListener("pointerleave", onLeaveWindow);
+        hide();
+      }
+    };
+    new IntersectionObserver(([entry]) => attach(entry.isIntersecting && canPreview.matches), {
+      rootMargin: "200px 0px",
+    }).observe(list);
+    canPreview.addEventListener("change", () => {
+      if (!canPreview.matches) attach(false);
+      else {
+        const r = list.getBoundingClientRect();
+        attach(r.bottom > -200 && r.top < innerHeight + 200);
+      }
+    });
+  }
+</script>

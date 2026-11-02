@@ -1,13 +1,77 @@
 ---
-// STUB — lo reemplaza la sesión que construye esta sección.
-import type { Featured, Lang } from "../../i18n/content";
+// Spread de proyecto destacado: portada (plano WebGL sobre un <img> de respaldo) + texto con ficha técnica.
+// La dirección alterna solo cuando caben en una fila; al envolver, la portada siempre va primero.
+import { Icon } from "astro-icon/components";
+import { DICT, IMG, PLACE, flagIcon, pick, type Featured, type Lang } from "../../i18n/content";
 interface Props {
   lang: Lang;
   project: Featured;
   index: number;
   reverse?: boolean;
 }
-const { project } = Astro.props;
+const { lang, project, index, reverse = false } = Astro.props;
+const t = DICT[lang];
+const img = IMG(project.id);
+const fig = `${t.figPre} ${index + 3} — ${t.figHome} ${project.host}`;
+const facts = [
+  [t.lType, pick(project.type, lang)],
+  [t.lStack, project.tags],
+] as const;
 ---
 
-<article class="mt-20 min-h-[50vh]"><p class="font-serif text-[20px] text-muted">{project.title} — pendiente</p></article>
+<article class:list={["flex flex-wrap items-start gap-[clamp(28px,4vw,64px)]", reverse && "flex-row-reverse"]}>
+  <a href={project.url} target="_blank" rel="noopener" class="group block min-w-0 flex-[1_1_560px] text-ink">
+    <div data-gl={img} class="relative aspect-[16/10] overflow-hidden bg-surface [outline:1px_solid_var(--ln)]">
+      {/* Respaldo: el motor lo deja en opacity 0 al cargar la textura (sin transiciones aquí). */}
+      <img
+        src={img}
+        alt={project.title}
+        width="1600"
+        height="1000"
+        loading="lazy"
+        decoding="async"
+        class="block size-full object-cover object-top"
+      />
+    </div>
+    <div class="mt-3 flex flex-wrap justify-between gap-x-4 gap-y-1 font-mono text-[12px] text-muted">
+      <span>{fig}</span>
+      <span class="ml-auto transition-colors duration-200 group-hover:text-accent group-focus-visible:text-accent">
+        {project.host} <span aria-hidden="true">↗</span>
+      </span>
+    </div>
+  </a>
+
+  {/* mr-auto: en row-reverse, al quedar sola en su línea, la columna no se pega a la derecha. */}
+  <div class="mr-auto min-w-0 max-w-[540px] flex-[1_1_340px]">
+    <div class="font-serif text-[30px] italic text-accent">Nº {index + 1}</div>
+    <h3 class="mt-1.5 mb-[22px] text-[clamp(46px,5.6vw,92px)] leading-[.9] font-extrabold tracking-[-0.04em] wdth-84">
+      {project.title}
+    </h3>
+    <p class="mb-[30px] font-serif text-[22px] leading-[1.42]">{pick(project.sum, lang)}</p>
+    <dl class="border-t border-ink">
+      {
+        facts.map(([label, value]) => (
+          <div class="grid grid-cols-[96px_minmax(0,1fr)] items-baseline gap-4 border-b border-line py-3">
+            <dt class="font-mono text-[11.5px] tracking-[.06em] text-muted uppercase">{label}</dt>
+            <dd class="text-[16px]">{value}</dd>
+          </div>
+        ))
+      }
+      <div class="grid grid-cols-[96px_minmax(0,1fr)] items-center gap-4 border-b border-line py-3">
+        <dt class="font-mono text-[11.5px] tracking-[.06em] text-muted uppercase">{t.lPlace}</dt>
+        <dd class="flex items-center gap-2 text-[16px]">
+          <Icon name={flagIcon(project.flag)} size={16} aria-hidden="true" class="shrink-0" />
+          {pick(PLACE[project.flag], lang)}
+        </dd>
+      </div>
+    </dl>
+    <a
+      href={project.url}
+      target="_blank"
+      rel="noopener"
+      class="mt-[26px] inline-flex gap-2.5 border-b-2 border-accent pb-1 text-[17px] font-semibold"
+    >
+      {t.visit} <span aria-hidden="true">↗</span>
+    </a>
+  </div>
+</article>
