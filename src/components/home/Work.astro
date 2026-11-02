@@ -1,5 +1,6 @@
 ---
-// STUB — lo reemplaza la sesión que construye esta sección.
+// Nº 02 · Trabajo: titular + 4 spreads destacados + índice completo con preview flotante.
+// leading-[normal]: el prototipo no fija interlineado y las medidas (ficha, pies, filas) cuentan con ello.
 import SectionHead from "../SectionHead.astro";
 import FeaturedProject from "./FeaturedProject.astro";
 import ProjectIndex from "./ProjectIndex.astro";
@@ -11,8 +12,14 @@ const { lang } = Astro.props;
 const t = DICT[lang];
 ---
 
-<section id="trabajo" data-mode="away" class="container-taller pt-[160px]">
+<section id="trabajo" data-mode="away" aria-labelledby="trabajo-title" class="container-taller pt-[160px] leading-[normal]">
   <SectionHead n="02" label={t.s2} />
-  {FEATURED.map((project, index) => <FeaturedProject lang={lang} project={project} index={index} reverse={index % 2 === 1} />)}
+  <div class="mt-10 flex flex-wrap items-end justify-between gap-8">
+    <h2 id="trabajo-title" class="t-h2">{t.pTitleA}<br /><em class="t-em">{t.pTitleEm}</em></h2>
+    <p class="max-w-[400px] font-serif text-[20px] leading-[1.45]">{t.pLead}</p>
+  </div>
+  <div class="mt-[clamp(64px,7vw,110px)] flex flex-col gap-[clamp(80px,9vw,140px)]">
+    {FEATURED.map((project, index) => <FeaturedProject lang={lang} project={project} index={index} reverse={index % 2 === 1} />)}
+  </div>
   <ProjectIndex lang={lang} />
 </section>
