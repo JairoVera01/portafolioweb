@@ -1,0 +1,16 @@
+---
+// Pie de las páginas secundarias (la home lo lleva dentro de su sección de contacto).
+import { DICT, type Lang } from "../i18n/content";
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = DICT[lang];
+---
+
+<footer class="container-taller">
+  <div class="t-meta mt-[clamp(80px,10vw,140px)] flex flex-wrap justify-between gap-x-6 gap-y-2 border-t border-line pb-7 pt-[22px] normal-case tracking-normal">
+    <span>© 2026 Jairo Vera — {t.foot}</span>
+    <a href="#main-content" class="hover:text-accent">{t.top} ↑</a>
+  </div>
+</footer>

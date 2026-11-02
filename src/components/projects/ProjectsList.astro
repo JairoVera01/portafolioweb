@@ -1,0 +1,130 @@
+---
+// Listado completo de proyectos con el estilo del índice editorial (README §6.4).
+// Fuente: FEATURED + INDEX de content.ts (las colecciones JSON están desactualizadas).
+import { Icon } from "astro-icon/components";
+import SectionHead from "../SectionHead.astro";
+import { DICT, FEATURED, INDEX, IMG, PLACE, flagIcon, pick, type Country, type Lang, type Pair } from "../../i18n/content";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = DICT[lang];
+
+const copy = {
+  titleA: ["Todo el trabajo,", "All the work,"],
+  titleEm: ["sin recortes.", "uncut."],
+  count: ["proyectos", "projects"],
+  external: ["se abre en una pestaña nueva", "opens in a new tab"],
+  soon: ["sin sitio público", "no public site"],
+} satisfies Record<string, Pair>;
+
+interface Row {
+  id: string;
+  title: string;
+  type: string;
+  flag: Country;
+  stack: string;
+  url: string | null;
+}
+const rows: Row[] = [
+  ...FEATURED.map((p) => ({ id: p.id, title: p.title, type: pick(p.type, lang), flag: p.flag, stack: p.tags, url: p.url })),
+  ...INDEX.map((p) => ({ id: p.id, title: p.title, type: pick(p.type, lang), flag: p.flag, stack: p.stack, url: p.url })),
+];
+const pad = (n: number) => String(n).padStart(2, "0");
+const grid =
+  "grid grid-cols-[32px_minmax(0,1fr)_auto_18px] items-center gap-x-3 wide:grid-cols-[44px_minmax(0,1.5fr)_minmax(0,.7fr)_minmax(0,.8fr)_minmax(0,1.3fr)_24px] wide:gap-x-4";
+---
+
+<section data-mode="away" class="container-taller pt-[clamp(130px,16vw,180px)]">
+  <SectionHead n="02" label={t.s2} />
+
+  <div class="mt-9 flex flex-wrap items-end justify-between gap-x-12 gap-y-6">
+    <h1 class="t-h2">
+      {pick(copy.titleA, lang)}<br /><em class="t-em">{pick(copy.titleEm, lang)}</em>
+    </h1>
+    <p class="max-w-[400px] font-serif text-[20px] leading-[1.4] text-muted">{t.pLead}</p>
+  </div>
+
+  <div class="mt-[clamp(56px,7vw,100px)]" data-index>
+    <div class="t-meta flex justify-between gap-4 border-t-[1.5px] border-ink pb-3 pt-3">
+      <span>{t.indexTitle}</span>
+      <span class="text-right"><span class="hidden wide:inline">{t.indexLead} · </span>{rows.length} {pick(copy.count, lang)}</span>
+    </div>
+
+    <ol class="m-0 list-none p-0">
+      {
+        rows.map((r, i) => {
+          const inner = (
+            <>
+              <span class="font-mono text-[12.5px] text-muted">{pad(i + 1)}</span>
+              <span class="text-[clamp(22px,2.4vw,34px)] font-bold leading-[1.05] tracking-[-0.025em] transition-colors duration-200 group-hover:text-accent">{r.title}</span>
+              <span class="hidden text-[15px] wide:block">{r.type}</span>
+              <span class="inline-flex items-center gap-2 text-[15px]">
+                <Icon name={flagIcon(r.flag)} class="size-4 shrink-0" aria-hidden="true" />
+                <span class="sr-only wide:not-sr-only">{pick(PLACE[r.flag], lang)}</span>
+              </span>
+              <span class="hidden font-serif text-[17px] leading-[1.3] text-muted wide:block">{r.stack}</span>
+              <span class="text-right text-[18px] transition-transform duration-[350ms] ease-taller group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true">{r.url ? "↗" : ""}</span>
+            </>
+          );
+          // Orden de columnas: Nº · título · [tipo] · país · [stack] · ↗ — en móvil sólo 4 visibles
+          const cls = `group ${grid} border-b border-line px-2 py-5 text-ink transition-[background-color,padding] duration-[350ms] ease-taller hover:bg-surface hover:pl-[22px] focus-visible:bg-surface focus-visible:pl-[22px]`;
+          return (
+            <li>
+              {r.url ? (
+                <a href={r.url} target="_blank" rel="noopener" class={cls} data-preview={IMG(r.id)} aria-label={`${r.title} — ${pick(copy.external, lang)}`}>
+                  {inner}
+                </a>
+              ) : (
+                <div class={cls} data-preview={IMG(r.id)} title={pick(copy.soon, lang)}>
+                  {inner}
+                </div>
+              )}
+            </li>
+          );
+        })
+      }
+    </ol>
+
+    <div
+      data-preview-box
+      aria-hidden="true"
+      class="pointer-events-none fixed left-0 top-0 z-30 hidden aspect-[16/10] w-[320px] overflow-hidden bg-surface opacity-0 shadow-[0_30px_70px_-24px_rgba(0,0,0,0.45)] outline outline-1 outline-line transition-opacity duration-[250ms] wide:[@media(hover:hover)]:block"
+    >
+      <img alt="" class="size-full object-cover object-top" decoding="async" />
+    </div>
+  </div>
+</section>
+
+<script>
+  // Preview flotante: sigue al cursor con transform directo (sin layout), README §6.4 / §7.6
+  const wrap = document.querySelector<HTMLElement>("[data-index]");
+  const box = wrap?.querySelector<HTMLElement>("[data-preview-box]");
+  const img = box?.querySelector("img");
+  if (wrap && box && img && matchMedia("(min-width: 900px) and (hover: hover)").matches) {
+    let x = 0,
+      y = 0,
+      raf = 0;
+    const place = () => {
+      raf = 0;
+      box.style.transform = `translate(${x + 28}px, ${y - 100}px) rotate(-2deg)`;
+    };
+    window.addEventListener(
+      "pointermove",
+      (e) => {
+        x = e.clientX;
+        y = e.clientY;
+        if (!raf) raf = requestAnimationFrame(place);
+      },
+      { passive: true },
+    );
+    wrap.querySelectorAll<HTMLElement>("[data-preview]").forEach((row) => {
+      row.addEventListener("mouseenter", () => {
+        img.src = row.dataset.preview ?? "";
+        box.style.opacity = "1";
+      });
+    });
+    wrap.querySelector("ol")?.addEventListener("mouseleave", () => (box.style.opacity = "0"));
+  }
+</script>

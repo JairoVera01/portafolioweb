@@ -1,0 +1,60 @@
+---
+// /contacto: cabecera editorial, datos a la izquierda, formulario a la derecha y cierre «HOLA» sobre el pie.
+import SectionHead from "../SectionHead.astro";
+import ContactForm from "./ContactForm.astro";
+import { CONTACT, DICT, pick, type Lang, type Pair } from "../../i18n/content";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = DICT[lang];
+const c = {
+  reply: ["Suelo responder en menos de 24 horas.", "I usually reply within 24 hours."],
+  where: ["Lima, Perú · Trabajo remoto e internacional", "Lima, Peru · Remote and international work"],
+  write: ["Escríbeme", "Write to me"],
+  elsewhere: ["En otros sitios", "Elsewhere"],
+} satisfies Record<string, Pair>;
+const linkCls = "inline-block border-b-[1.5px] border-line pb-0.5 text-[17px] font-semibold transition-colors duration-200 hover:border-accent";
+const phone = CONTACT.phone;
+---
+
+<section data-mode="away" class="container-taller pt-[clamp(130px,16vw,180px)]">
+  <SectionHead n="06" label={t.s6} />
+
+  <h1 class="t-h2 mt-9">
+    {t.cTitle}<span class="text-accent">.</span>
+  </h1>
+
+  <div class="mt-[clamp(48px,6vw,88px)] grid gap-x-[clamp(40px,6vw,96px)] gap-y-14 wide:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+    <div class="flex flex-col gap-9">
+      <p class="max-w-[600px] font-serif text-[clamp(21px,1.9vw,26px)] leading-[1.4]">{t.cLead}</p>
+
+      <div>
+        <p class="t-meta mb-3 text-muted">{pick(c.write, lang)}</p>
+        <a href={`mailto:${CONTACT.email}`} class="break-all border-b-[3px] border-accent pb-0.5 text-[clamp(20px,2.2vw,28px)] font-bold tracking-[-0.02em]">{CONTACT.email}</a>
+      </div>
+
+      <div>
+        <p class="t-meta mb-3 text-muted">{pick(c.elsewhere, lang)}</p>
+        <ul class="m-0 flex list-none flex-wrap gap-x-7 gap-y-3 p-0">
+          <li><a href={CONTACT.whatsapp} target="_blank" rel="noopener" class={linkCls}>WhatsApp · {phone}</a></li>
+          <li><a href={CONTACT.linkedin} target="_blank" rel="noopener" class={linkCls}>LinkedIn ↗</a></li>
+          <li><a href={CONTACT.github} target="_blank" rel="noopener" class={linkCls}>GitHub ↗</a></li>
+        </ul>
+      </div>
+
+      <div class="border-t border-line pt-5">
+        <p class="font-serif text-[21px] italic leading-[1.35]">
+          {t.cTimeA} <time data-lima-time class="not-italic [font-variant-numeric:tabular-nums]">--:--</time> {t.cTimeB}
+        </p>
+        <p class="t-meta mt-2 normal-case tracking-normal text-muted">{pick(c.where, lang)} · {pick(c.reply, lang)}</p>
+      </div>
+    </div>
+
+    <ContactForm lang={lang} />
+  </div>
+</section>
+
+<!-- Cierre: aquí las piezas 3D forman «HOLA» (modo hola) justo encima del pie -->
+<div data-mode="hola" aria-hidden="true" class="min-h-[min(60vh,520px)]"></div>

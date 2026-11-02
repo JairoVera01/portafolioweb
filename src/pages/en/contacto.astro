@@ -1,13 +1,14 @@
 ---
-import Layout from "../../layouts/main.astro";
-import ContactPage from "../../components/contact/contact-page.astro";
+import Base from "../../layouts/Base.astro";
+import ContactPage from "../../components/contact/ContactPage.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
 ---
 
-<Layout
+<Base
+  lang="en"
   title="Contact · Jairo Vera — Front-End Developer"
   description="Have a web or mobile project in mind? Let's talk. Available for remote and international work — I reply in under 24 hours."
 >
-  <div class="jv-container">
-    <ContactPage lang="en" />
-  </div>
-</Layout>
+  <ContactPage lang="en" />
+  <SiteFooter lang="en" />
+</Base>
