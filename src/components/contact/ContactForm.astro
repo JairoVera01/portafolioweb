@@ -1,0 +1,165 @@
+---
+// Formulario de contacto: valida en cliente y abre WhatsApp con el mensaje armado (no envía nada a un servidor).
+import { CONTACT, type Lang } from "../../i18n/content";
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const en = lang === "en";
+const t = en
+  ? {
+      name: "Name",
+      email: "Email",
+      subject: "Subject",
+      optional: "optional",
+      message: "Message",
+      phName: "Your name",
+      phEmail: "you@email.com",
+      phSubject: "What do you want to talk about?",
+      phMessage: "Tell me about your project or idea…",
+      send: "Send via WhatsApp",
+      helper: "Opens WhatsApp with your message ready. Nothing is stored.",
+      okTitle: "Opening WhatsApp…",
+      okText: "Continue the conversation there. If it didn't open, check your browser's pop-up settings.",
+      errName: "Enter your name.",
+      errEmail: "Enter a valid email.",
+      errMessage: "Write a message.",
+      intro: "Hi Jairo, I'm {name}.",
+      wEmail: "Email",
+      wSubject: "Subject",
+      wMessage: "Message",
+    }
+  : {
+      name: "Nombre",
+      email: "Correo",
+      subject: "Asunto",
+      optional: "opcional",
+      message: "Mensaje",
+      phName: "Tu nombre",
+      phEmail: "tu@correo.com",
+      phSubject: "¿Sobre qué quieres hablar?",
+      phMessage: "Cuéntame sobre tu proyecto o idea…",
+      send: "Enviar por WhatsApp",
+      helper: "Se abre WhatsApp con tu mensaje listo. No se guarda nada.",
+      okTitle: "Abriendo WhatsApp…",
+      okText: "Continúa la conversación allí. Si no se abrió, revisa los bloqueos de ventanas emergentes del navegador.",
+      errName: "Ingresa tu nombre.",
+      errEmail: "Ingresa un correo válido.",
+      errMessage: "Escribe un mensaje.",
+      intro: "Hola Jairo, soy {name}.",
+      wEmail: "Correo",
+      wSubject: "Asunto",
+      wMessage: "Mensaje",
+    };
+const waPhone = new URL(CONTACT.whatsapp).pathname.slice(1);
+
+const label = "t-meta mb-2 block text-muted";
+const field =
+  "w-full rounded-none border-0 border-b border-line bg-transparent pb-3 pt-1 font-serif text-[22px] leading-[1.3] text-ink outline-none transition-colors duration-200 placeholder:text-muted/60 hover:border-ink focus:border-accent aria-[invalid=true]:border-accent";
+---
+
+<div>
+  <div
+    id="jvFormStatus"
+    role="status"
+    hidden
+    class="mb-8 border-t-[1.5px] border-ink bg-surface px-5 py-4"
+  >
+    <p class="text-[18px] font-bold">{t.okTitle}</p>
+    <p class="mt-1 font-serif text-[18px] text-muted">{t.okText}</p>
+  </div>
+
+  <form
+    id="jvContactForm"
+    novalidate
+    class="grid gap-9"
+    data-msg-name={t.errName}
+    data-msg-email={t.errEmail}
+    data-msg-message={t.errMessage}
+    data-wa-phone={waPhone}
+    data-wa-intro={t.intro}
+    data-wa-email={t.wEmail}
+    data-wa-subject={t.wSubject}
+    data-wa-message={t.wMessage}
+  >
+    <div class="grid gap-9 wide:grid-cols-2">
+      <div>
+        <label class={label} for="jv-name">{t.name}</label>
+        <input id="jv-name" name="name" type="text" autocomplete="name" required placeholder={t.phName} aria-describedby="jvFormErr" class={field} />
+      </div>
+      <div>
+        <label class={label} for="jv-email">{t.email}</label>
+        <input id="jv-email" name="email" type="email" autocomplete="email" required placeholder={t.phEmail} aria-describedby="jvFormErr" class={field} />
+      </div>
+    </div>
+    <div>
+      <label class={label} for="jv-subject">{t.subject} <span class="normal-case tracking-normal">({t.optional})</span></label>
+      <input id="jv-subject" name="subject" type="text" placeholder={t.phSubject} class={field} />
+    </div>
+    <div>
+      <label class={label} for="jv-message">{t.message}</label>
+      <textarea id="jv-message" name="message" rows="5" required placeholder={t.phMessage} aria-describedby="jvFormErr" class:list={[field, "resize-y"]}></textarea>
+    </div>
+
+    <p id="jvFormErr" role="alert" hidden class="t-meta -mt-3 normal-case tracking-normal text-accent"></p>
+
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-4">
+      <button
+        type="submit"
+        class="inline-flex items-center gap-2 rounded-full bg-ink px-7 py-4 text-[17px] font-semibold text-paper transition-colors duration-[250ms] hover:bg-accent hover:text-white"
+      >
+        {t.send} <span aria-hidden="true">→</span>
+      </button>
+      <p class="t-meta max-w-[320px] normal-case tracking-normal text-muted">{t.helper}</p>
+    </div>
+  </form>
+</div>
+
+<script>
+  const form = document.getElementById("jvContactForm") as HTMLFormElement | null;
+  if (form) {
+    const status = document.getElementById("jvFormStatus");
+    const errBox = document.getElementById("jvFormErr");
+    const nameEl = document.getElementById("jv-name");
+    const emailEl = document.getElementById("jv-email");
+    const messageEl = document.getElementById("jv-message");
+    const fields = [nameEl, emailEl, messageEl];
+    const d = form.dataset;
+
+    const clearInvalid = () => fields.forEach((f) => f?.removeAttribute("aria-invalid"));
+    const fail = (msg: string | undefined, el: HTMLElement | null) => {
+      if (errBox) {
+        errBox.textContent = `› ${msg ?? ""}`;
+        errBox.hidden = false;
+      }
+      el?.setAttribute("aria-invalid", "true");
+      el?.focus();
+    };
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      clearInvalid();
+      if (status) status.hidden = true;
+
+      const data = new FormData(form);
+      const name = String(data.get("name") ?? "").trim();
+      const email = String(data.get("email") ?? "").trim();
+      const subject = String(data.get("subject") ?? "").trim();
+      const message = String(data.get("message") ?? "").trim();
+
+      if (!name) return fail(d.msgName, nameEl);
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail(d.msgEmail, emailEl);
+      if (!message) return fail(d.msgMessage, messageEl);
+      if (errBox) errBox.hidden = true;
+
+      const lines = [(d.waIntro ?? "").replace("{name}", name), `${d.waEmail}: ${email}`];
+      if (subject) lines.push(`${d.waSubject}: ${subject}`);
+      lines.push(`${d.waMessage}: ${message}`);
+      const url = `https://wa.me/${d.waPhone}?text=${encodeURIComponent(lines.join("\n"))}`;
+
+      if (!window.open(url, "_blank", "noopener")) window.location.href = url;
+      form.reset();
+      if (status) status.hidden = false;
+    });
+  }
+</script>

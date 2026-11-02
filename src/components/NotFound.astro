@@ -1,0 +1,36 @@
+---
+// 404 editorial: cota de error, titular y vuelta a la home de su idioma.
+import SectionHead from "./SectionHead.astro";
+import { homePath, pick, type Lang, type Pair } from "../i18n/content";
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = {
+  label: ["Error", "Error"],
+  titleA: ["Esta página", "This page"],
+  titleEm: ["se perdió.", "got lost."],
+  lead: ["La dirección no existe o se movió de sitio. Las piezas siguen sueltas por ahí: puedes jugar con ellas mientras vuelves.", "The address doesn't exist or moved elsewhere. The pieces are still lying around: play with them while you head back."],
+  home: ["Volver al inicio", "Back to home"],
+  work: ["Ver el trabajo", "See the work"],
+} satisfies Record<string, Pair>;
+const workHref = lang === "en" ? "/en/projects" : "/projects";
+---
+
+<section class="container-taller flex min-h-dvh flex-col pt-[clamp(130px,16vw,180px)]">
+  <SectionHead n="404" label={pick(c.label, lang)} />
+  <h1 class="t-h2 mt-9">
+    {pick(c.titleA, lang)}<br /><em class="t-em">{pick(c.titleEm, lang)}</em>
+  </h1>
+  <p class="mt-8 max-w-[560px] font-serif text-[clamp(21px,1.9vw,26px)] leading-[1.4] text-muted">{pick(c.lead, lang)}</p>
+  <div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+    <a
+      href={homePath(lang)}
+      class="inline-flex items-center gap-2 rounded-full bg-ink px-7 py-4 text-[17px] font-semibold text-paper transition-colors duration-[250ms] hover:bg-accent hover:text-white"
+    >
+      {pick(c.home, lang)} <span aria-hidden="true">→</span>
+    </a>
+    <a href={workHref} class="border-b-[1.5px] border-line pb-0.5 text-[17px] font-semibold transition-colors hover:border-accent">{pick(c.work, lang)} ↗</a>
+  </div>
+  <div class="min-h-[120px] flex-1"></div>
+</section>

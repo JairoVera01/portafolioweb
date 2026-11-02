@@ -1,13 +1,14 @@
 ---
-import Layout from "../layouts/main.astro";
-import ContactPage from "../components/contact/contact-page.astro";
+import Base from "../layouts/Base.astro";
+import ContactPage from "../components/contact/ContactPage.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 ---
 
-<Layout
+<Base
+  lang="es"
   title="Contacto · Jairo Vera — Desarrollador Front-End"
   description="¿Tienes un proyecto web o móvil en mente? Hablemos. Disponible para trabajo remoto e internacional — respondo en menos de 24 horas."
 >
-  <div class="jv-container">
-    <ContactPage lang="es" />
-  </div>
-</Layout>
+  <ContactPage lang="es" />
+  <SiteFooter lang="es" />
+</Base>
