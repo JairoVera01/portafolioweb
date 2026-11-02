@@ -1,0 +1,17 @@
+---
+// STUB — lo reemplaza la sesión que construye esta sección.
+import SectionHead from "../SectionHead.astro";
+import { DICT, type Lang } from "../../i18n/content";
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = DICT[lang];
+---
+
+<section id="servicios" data-mode="shelf" class="container-taller pt-[140px]">
+  <div class="reading">
+    <SectionHead n="01" label={t.s1} />
+    <p class="mt-10 min-h-[60vh] font-serif text-[20px] text-muted">Services — pendiente</p>
+  </div>
+</section>

@@ -1,0 +1,16 @@
+---
+// STUB — lo reemplaza la sesión que construye esta sección.
+import SectionHead from "../SectionHead.astro";
+import { DICT, type Lang } from "../../i18n/content";
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = DICT[lang];
+---
+
+<section id="contacto" data-mode="hola" class="container-taller flex min-h-screen flex-col pt-[180px]">
+  <SectionHead n="06" label={t.s6} />
+  <p class="mt-10 font-serif text-[20px] text-muted">Contact — pendiente</p>
+  <div class="min-h-[200px] flex-1"></div>
+</section>

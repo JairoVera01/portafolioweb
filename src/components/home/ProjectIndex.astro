@@ -1,0 +1,11 @@
+---
+// STUB — lo reemplaza la sesión que construye esta sección.
+import { DICT, type Lang } from "../../i18n/content";
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = DICT[lang];
+---
+
+<div class="mt-[clamp(110px,12vw,180px)]"><p class="font-serif text-[20px] text-muted">{t.indexTitle} — pendiente</p></div>

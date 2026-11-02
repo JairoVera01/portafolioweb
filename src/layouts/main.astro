@@ -12,7 +12,6 @@ const {
   type = "website",
   noindex = false,
 } = Astro.props;
-import { SEO } from "astro-seo";
 
 // i18n: idioma y rutas alternas según el path
 const pathname = Astro.url.pathname;
@@ -416,7 +415,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     </style>
 
     <!-- Scripts críticos -->
-    <script src="../assets/css/main.css"></script>
     <Fragment set:html={import.meta.env.HEADER_INJECT} />
 
     <!-- Lenis para smooth scrolling -->

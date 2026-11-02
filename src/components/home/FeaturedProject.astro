@@ -1,0 +1,13 @@
+---
+// STUB — lo reemplaza la sesión que construye esta sección.
+import type { Featured, Lang } from "../../i18n/content";
+interface Props {
+  lang: Lang;
+  project: Featured;
+  index: number;
+  reverse?: boolean;
+}
+const { project } = Astro.props;
+---
+
+<article class="mt-20 min-h-[50vh]"><p class="font-serif text-[20px] text-muted">{project.title} — pendiente</p></article>

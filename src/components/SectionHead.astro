@@ -1,0 +1,28 @@
+---
+// Cabecera de sección: regla de 1.5px + "Nº 0X" a la izquierda y la etiqueta a la derecha.
+// Sin `n`, la etiqueta va a la izquierda y `aside` (opcional) a la derecha.
+interface Props {
+  n?: string;
+  label: string;
+  aside?: string;
+  asideClass?: string;
+  class?: string;
+}
+const { n, label, aside, asideClass, class: className } = Astro.props;
+---
+
+<div class:list={["t-meta flex justify-between gap-4 border-t-[1.5px] border-ink pt-3", className]}>
+  {
+    n ? (
+      <>
+        <span>Nº {n}</span>
+        <span class="text-right">{label}</span>
+      </>
+    ) : (
+      <>
+        <span>{label}</span>
+        {aside && <span class:list={["text-right", asideClass]}>{aside}</span>}
+      </>
+    )
+  }
+</div>

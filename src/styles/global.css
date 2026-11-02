@@ -1,0 +1,158 @@
+/* Tokens + base del rediseño «Taller» (Tailwind CSS 4).
+   La configuración vive aquí: no hay tailwind.config. */
+@import "tailwindcss";
+
+/* Modo oscuro por atributo: <html data-theme="dark"> (lo fija el script del <head>) */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  --pp: #f1eee6; /* paper   */
+  --ik: #1b1916; /* ink     */
+  --mt: #625d55; /* muted   */
+  --ln: rgba(27, 25, 22, 0.16); /* line */
+  --sf: #e7e3d8; /* surface */
+  --ac: #6a4fd8; /* accent (morado) */
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  --pp: #161513;
+  --ik: #ede9e0;
+  --mt: #a39d92;
+  --ln: rgba(237, 233, 224, 0.16);
+  --sf: #211f1c;
+  /* En oscuro #6a4fd8 da ≈3.2:1; #8b74f0 llega a ≈5:1 y sirve para texto pequeño. */
+  --ac: #8b74f0;
+  color-scheme: dark;
+}
+
+/* Tokens -> utilidades (bg-paper, text-ink, border-line, text-accent, …) */
+@theme inline {
+  --color-paper: var(--pp);
+  --color-ink: var(--ik);
+  --color-muted: var(--mt);
+  --color-line: var(--ln);
+  --color-surface: var(--sf);
+  --color-accent: var(--ac);
+  --color-available: #2f9e58;
+
+  --font-display: "Archivo Variable", "Archivo", ui-sans-serif, sans-serif;
+  --font-serif: "Newsreader Variable", "Newsreader", ui-serif, serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
+
+  --breakpoint-wide: 900px; /* "wide" del prototipo */
+  --breakpoint-nav: 1100px; /* nav visible */
+  --breakpoint-shelf: 1180px; /* repisa 3D */
+  --breakpoint-mast: 1380px; /* subtítulo masthead */
+
+  --ease-taller: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Eje de anchura de Archivo: wdth-62 … wdth-125 (el peso sigue en font-weight) */
+@utility wdth-* {
+  font-variation-settings: "wdth" --value(integer);
+}
+
+/* Contenedor y columna de lectura */
+@utility container-taller {
+  width: 100%;
+  max-width: 1600px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 3vw, 40px);
+}
+@utility reading {
+  max-width: 900px;
+}
+
+/* Numeral con contorno (proceso) */
+@utility text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--ik);
+}
+
+/* Roles tipográficos compartidos por todas las secciones (ver README §5) */
+@utility t-h2 {
+  font-weight: 800;
+  font-size: clamp(52px, 7.6vw, 124px);
+  line-height: 0.88;
+  letter-spacing: -0.045em;
+  font-variation-settings: "wdth" 86;
+  text-wrap: balance;
+}
+@utility t-h2-sm {
+  font-weight: 800;
+  font-size: clamp(46px, 6.4vw, 104px);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  font-variation-settings: "wdth" 86;
+  text-wrap: balance;
+}
+/* Énfasis en itálica dentro de titulares */
+@utility t-em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  font-variation-settings: normal;
+}
+/* Anotación mono (cabeceras de sección, pies de figura, metadatos) */
+@utility t-meta {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--pp);
+    color: var(--ik);
+    font-family: var(--font-display);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+    transition:
+      background 0.5s ease,
+      color 0.5s ease;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  a:hover {
+    color: var(--ac);
+  }
+  button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+  ::selection {
+    background: var(--ac);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ac);
+    outline-offset: 3px;
+  }
+  p {
+    text-wrap: pretty;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.001ms !important;
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+}

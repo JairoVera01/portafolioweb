@@ -1,0 +1,210 @@
+---
+// Cabecera sticky (README §6.1) + menú móvil a pantalla completa por debajo de 1100px.
+import { DICT, NAV, homePath, type Lang } from "../i18n/content";
+
+interface Props {
+  lang: Lang;
+  esPath: string;
+  enPath: string;
+}
+const { lang, esPath, enPath } = Astro.props;
+const t = DICT[lang];
+const home = homePath(lang);
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isHome = path === "/" || path === "/en";
+const anchor = (id: string) => (isHome ? `#${id}` : `${home}#${id}`);
+const langs = [
+  { code: "es", href: esPath },
+  { code: "en", href: enPath },
+] as const;
+---
+
+<header class="masthead sticky top-0 z-20 h-[60px] border-b border-line backdrop-blur-[14px]">
+  <div class="container-taller flex h-full items-center justify-between gap-6">
+    <a href={isHome ? "#inicio" : home} class="flex min-w-0 items-baseline gap-3.5 text-ink">
+      <span class="whitespace-nowrap text-[18px] font-extrabold tracking-[-0.02em]">
+        Jairo Vera<span class="text-accent">.</span>
+      </span>
+      <span class="hidden whitespace-nowrap font-mono text-[11.5px] text-muted mast:inline">{t.mast}</span>
+    </a>
+
+    <nav class="hidden gap-7 whitespace-nowrap text-[14.5px] font-medium nav:flex" aria-label={t.navServices}>
+      {NAV.map((item) => <a href={anchor(item.id)}>{t[item.key]}</a>)}
+    </nav>
+
+    <div class="flex shrink-0 items-center gap-3 font-mono text-[12px] min-[400px]:gap-4">
+      <span class="hidden items-center gap-2 whitespace-nowrap nav:inline-flex">
+        <span class="size-[7px] rounded-full bg-available" aria-hidden="true"></span>{t.avail}
+      </span>
+
+      <div class="flex items-center gap-0.5" role="group" aria-label={t.langLabel}>
+        {
+          langs.map(({ code, href }, i) => (
+            <>
+              {i > 0 && (
+                <span class="opacity-40" aria-hidden="true">
+                  /
+                </span>
+              )}
+              <a
+                href={href}
+                hreflang={code}
+                lang={code}
+                aria-current={code === lang ? "page" : undefined}
+                class:list={[
+                  "px-1 py-1.5 uppercase underline-offset-4 transition-opacity hover:opacity-100",
+                  code === lang ? "underline" : "opacity-45",
+                ]}
+              >
+                {code}
+              </a>
+            </>
+          ))
+        }
+      </div>
+
+      <button
+        type="button"
+        data-theme-toggle
+        class="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-line px-3 py-1.5 transition-colors duration-200 hover:border-ink"
+      >
+        <span
+          class="size-2.5 shrink-0 rounded-full border-[1.5px] border-current bg-[linear-gradient(90deg,currentColor_50%,transparent_50%)]"
+          aria-hidden="true"></span>
+        <span class="sr-only">{t.themeLabel}: </span>
+        <span class="max-[419px]:sr-only">
+          <span class="dark:hidden">{t.toDark}</span><span class="hidden dark:inline">{t.toLight}</span>
+        </span>
+      </button>
+
+      <button
+        type="button"
+        data-menu-toggle
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        class="-mr-1 px-1 py-1.5 nav:hidden"
+      >
+        <span data-when="closed">{t.menu}</span><span data-when="open" hidden>{t.close}</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div id="mobile-menu" class="mobile-menu fixed inset-x-0 bottom-0 top-[60px] z-[19] bg-paper nav:hidden" hidden>
+  <div class="container-taller flex h-full flex-col overflow-y-auto pb-8 pt-6" data-lenis-prevent>
+    <nav aria-label={t.navServices}>
+      <ul class="border-t border-line">
+        {
+          NAV.map((item) => (
+            <li class="border-b border-line">
+              <a
+                href={anchor(item.id)}
+                class="flex items-baseline justify-between gap-4 py-[clamp(14px,2.4vh,22px)] text-[clamp(40px,10vw,72px)] font-extrabold leading-[0.95] tracking-[-0.045em] wdth-86"
+              >
+                <span>{t[item.key]}</span>
+                <span class="font-mono text-[12px] font-normal tracking-normal text-muted">Nº {item.n}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="mt-auto flex flex-wrap items-center justify-between gap-3 pt-10 font-mono text-[12px] text-muted">
+      <span class="inline-flex items-center gap-2 text-ink">
+        <span class="size-[7px] rounded-full bg-available" aria-hidden="true"></span>{t.avail}
+      </span>
+      <span>{t.heroPlace} · <time data-lima-time>--:--</time> GMT-5</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .masthead {
+    background: color-mix(in srgb, var(--pp) 82%, transparent);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  .mobile-menu {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s var(--ease-taller);
+  }
+  .mobile-menu[data-open] {
+    opacity: 1;
+    transform: none;
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+
+  // ── Tema ────────────────────────────────────────────────────────────────
+  const syncThemeColor = () => {
+    const bg = getComputedStyle(root).getPropertyValue("--pp").trim();
+    document.querySelectorAll('meta[name="theme-color"]').forEach((m) => m.setAttribute("content", bg));
+  };
+  // Solo si el usuario eligió tema a mano: si no, las dos metas con `media` ya siguen al sistema.
+  try {
+    if (localStorage.getItem("jv-theme")) syncThemeColor();
+  } catch {}
+  document.querySelectorAll("[data-theme-toggle]").forEach((btn) =>
+    btn.addEventListener("click", () => {
+      const next = root.dataset.theme === "dark" ? "light" : "dark";
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem("jv-theme", next);
+      } catch {}
+      syncThemeColor();
+      window.taller?.setTheme();
+    }),
+  );
+
+  // ── Menú móvil ──────────────────────────────────────────────────────────
+  const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+  const menu = document.getElementById("mobile-menu");
+  const main = document.getElementById("main-content");
+  if (toggle && menu) {
+    let closeTimer = 0;
+    const isOpen = () => toggle.getAttribute("aria-expanded") === "true";
+    const setLabel = (open: boolean) =>
+      toggle.querySelectorAll<HTMLElement>("[data-when]").forEach((el) => {
+        el.hidden = (el.dataset.when === "open") !== open;
+      });
+    const open = () => {
+      window.clearTimeout(closeTimer);
+      menu.hidden = false;
+      requestAnimationFrame(() => requestAnimationFrame(() => menu.setAttribute("data-open", "")));
+      toggle.setAttribute("aria-expanded", "true");
+      setLabel(true);
+      if (main) main.inert = true;
+      root.style.overflow = "hidden";
+      window.lenis?.stop();
+      menu.querySelector("a")?.focus({ preventScroll: true });
+    };
+    const close = (restoreFocus = true) => {
+      if (!isOpen()) return;
+      menu.removeAttribute("data-open");
+      toggle.setAttribute("aria-expanded", "false");
+      setLabel(false);
+      if (main) main.inert = false;
+      root.style.overflow = "";
+      window.lenis?.start();
+      closeTimer = window.setTimeout(() => (menu.hidden = true), 260);
+      if (restoreFocus) toggle.focus({ preventScroll: true });
+    };
+    toggle.addEventListener("click", () => (isOpen() ? close() : open()));
+    // Un enlace cierra el menú antes de que Lenis haga el scroll al ancla.
+    menu.addEventListener("click", (e) => {
+      const target = e.target as Element;
+      if (target.closest("a")) close(false);
+      else if (!target.closest("nav")) close();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") close();
+    });
+    window.matchMedia("(min-width: 1100px)").addEventListener("change", (e) => {
+      if (e.matches) close(false);
+    });
+  }
+</script>

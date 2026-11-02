@@ -1,0 +1,27 @@
+---
+// Canvas WebGL fijo detrás del contenido. three + cannon-es (~180 kB gz) llegan en un
+// chunk aparte, después del `load` y en tiempo ocioso, para no tocar el LCP.
+---
+
+<canvas id="taller-gl" aria-hidden="true" class="pointer-events-none fixed inset-0 z-0 block size-full"></canvas>
+
+<script>
+  const start = async () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const canvas = document.getElementById("taller-gl");
+    if (!(canvas instanceof HTMLCanvasElement)) return;
+    if (!document.createElement("canvas").getContext("webgl2")) return;
+    // Las letras de los bloques se pintan en un <canvas> 2D: la fuente debe estar lista.
+    try {
+      await document.fonts.load('800 150px "Archivo Variable"');
+    } catch {}
+    const { initTaller } = await import("../scripts/taller-gl.js");
+    window.taller = initTaller(canvas, { pieces: 12 });
+  };
+  const idle = (fn: () => void) => {
+    if (typeof requestIdleCallback === "function") requestIdleCallback(fn, { timeout: 1500 });
+    else setTimeout(fn, 300);
+  };
+  if (document.readyState === "complete") idle(start);
+  else window.addEventListener("load", () => idle(start), { once: true });
+</script>

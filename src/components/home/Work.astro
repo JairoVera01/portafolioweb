@@ -1,0 +1,18 @@
+---
+// STUB — lo reemplaza la sesión que construye esta sección.
+import SectionHead from "../SectionHead.astro";
+import FeaturedProject from "./FeaturedProject.astro";
+import ProjectIndex from "./ProjectIndex.astro";
+import { DICT, FEATURED, type Lang } from "../../i18n/content";
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = DICT[lang];
+---
+
+<section id="trabajo" data-mode="away" class="container-taller pt-[160px]">
+  <SectionHead n="02" label={t.s2} />
+  {FEATURED.map((project, index) => <FeaturedProject lang={lang} project={project} index={index} reverse={index % 2 === 1} />)}
+  <ProjectIndex lang={lang} />
+</section>

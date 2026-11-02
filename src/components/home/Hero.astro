@@ -1,0 +1,16 @@
+---
+// STUB — lo reemplaza la sesión que construye esta sección.
+import { DICT, type Lang } from "../../i18n/content";
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = DICT[lang];
+---
+
+<section id="inicio" data-mode="free" class="container-taller flex min-h-[calc(100svh-60px)] flex-col pb-8 pt-7">
+  <h1 class="text-[clamp(68px,19.4vw,400px)] font-extrabold leading-[0.8] tracking-[-0.045em]" aria-label="Jairo Vera">
+    Jairo Vera<span class="text-accent">.</span>
+  </h1>
+  <p class="mt-10 font-serif text-[20px] text-muted">Hero — pendiente · {t.heroRole}</p>
+</section>

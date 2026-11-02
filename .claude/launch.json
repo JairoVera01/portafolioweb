@@ -3,9 +3,33 @@
   "configurations": [
     {
       "name": "astro-dev",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "PATH=/opt/homebrew/opt/node@24/bin:$PATH exec npm run dev -- --port 4321"],
       "port": 4321
+    },
+    {
+      "name": "astro-dev-hero",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "PATH=/opt/homebrew/opt/node@24/bin:$PATH exec npm run dev -- --port 4331"],
+      "port": 4331
+    },
+    {
+      "name": "astro-dev-work",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "PATH=/opt/homebrew/opt/node@24/bin:$PATH exec npm run dev -- --port 4332"],
+      "port": 4332
+    },
+    {
+      "name": "astro-dev-editorial",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "PATH=/opt/homebrew/opt/node@24/bin:$PATH exec npm run dev -- --port 4333"],
+      "port": 4333
+    },
+    {
+      "name": "astro-dev-pages",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "PATH=/opt/homebrew/opt/node@24/bin:$PATH exec npm run dev -- --port 4334"],
+      "port": 4334
     }
   ]
 }
