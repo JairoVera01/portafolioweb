@@ -12,7 +12,7 @@ interface Props {
 const { lang, project, index, reverse = false } = Astro.props;
 const t = DICT[lang];
 const img = IMG(project.id);
-const fig = `${t.figPre} ${index + 3} — ${t.figHome} ${project.host}`;
+const fig = `${t.figPre} ${index + 4} — ${t.figHome} ${project.host}`;
 const facts = [
   [t.lType, pick(project.type, lang)],
   [t.lStack, project.tags],

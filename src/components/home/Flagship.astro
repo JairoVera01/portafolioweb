@@ -1,0 +1,198 @@
+---
+// Proyecto insignia: calculacuánto, producto propio. Video de demostración como figura
+// principal (autoplay silenciado solo en pantalla), cifras, ficha técnica y cómo está hecho.
+import { Icon } from "astro-icon/components";
+import SectionHead from "../SectionHead.astro";
+import Cota from "../Cota.astro";
+import { DICT, FLAGSHIP, flagIcon, pick, type Lang } from "../../i18n/content";
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = DICT[lang];
+const f = FLAGSHIP;
+const row = "grid grid-cols-[96px_minmax(0,1fr)] items-baseline gap-4 border-b border-line py-3";
+const label = "font-mono text-[11.5px] tracking-[.06em] text-muted uppercase";
+const pill =
+  "inline-flex items-center gap-2 rounded-full border border-line bg-[color-mix(in_srgb,var(--pp)_86%,transparent)] px-3 py-1.5 font-mono text-[12px] text-ink backdrop-blur-[10px] transition-colors duration-200 hover:border-ink max-[639px]:px-2.5 max-[639px]:py-1 max-[639px]:text-[11px]";
+---
+
+<section id="calculacuanto" data-mode="away" class="container-taller pt-[160px]">
+  <SectionHead n="02" label={t.f1} />
+
+  {/* El nombre llena la columna como "Jairo Vera." en el hero: cqi mide el contenedor, no el viewport. */}
+  <div class="@container mt-10">
+    <h2 class="text-[min(17.8cqi,280px)] leading-[.85] font-extrabold tracking-[-0.045em] whitespace-nowrap wdth-86">
+      {t.fTitleA}<em class="t-em text-accent">{t.fTitleEm}</em>
+    </h2>
+  </div>
+  <p class="mt-[clamp(20px,2.4vw,32px)] max-w-[560px] font-serif text-[clamp(20px,1.7vw,22px)] leading-[1.45]">{t.fLead}</p>
+
+  <figure class="mt-[clamp(40px,5vw,72px)]" data-flagship>
+    <div class="relative aspect-video overflow-hidden bg-surface [outline:1px_solid_var(--ln)]">
+      <video
+        class="block size-full cursor-pointer object-cover"
+        width="1920"
+        height="1080"
+        poster={f.video.poster1080}
+        aria-label={t.fVideoLabel}
+        muted
+        loop
+        playsinline
+        preload="none"
+        data-video
+      >
+        <source src={f.video.src720} type="video/mp4" media="(max-width: 899px)" />
+        <source src={f.video.src1080} type="video/mp4" />
+      </video>
+      <div class="absolute bottom-2 left-2 flex flex-wrap gap-1.5 min-[640px]:bottom-3 min-[640px]:left-3 min-[640px]:gap-2 wide:bottom-4 wide:left-4">
+        <button type="button" class={pill} data-video-play>
+          <span data-when="paused">{t.fPlay}</span><span data-when="playing" hidden>{t.fPause}</span>
+        </button>
+        <button type="button" class={pill} data-video-sound aria-pressed="false">
+          <span data-when="muted">{t.fSoundOn}</span><span data-when="sound" hidden>{t.fSoundOff}</span>
+        </button>
+      </div>
+    </div>
+    <Cota label={`16 : 9 · ${f.video.duration}`} />
+    <figcaption class="mt-1.5 flex flex-wrap justify-between gap-x-4 gap-y-1 font-mono text-[11px] text-muted">
+      <span>{t.fFig}</span>
+      <a href={f.url} target="_blank" rel="noopener">{f.host} <span aria-hidden="true">↗</span></a>
+    </figcaption>
+  </figure>
+
+  <ul role="list" class="mt-[clamp(56px,6vw,96px)] grid grid-cols-1 border-t border-line min-[640px]:grid-cols-3">
+    {
+      f.stats.map((s) => (
+        <li class="group border-line max-[639px]:grid max-[639px]:grid-cols-[minmax(0,auto)_minmax(0,1fr)] max-[639px]:items-baseline max-[639px]:gap-x-5 max-[639px]:border-b max-[639px]:py-4 min-[640px]:border-l min-[640px]:py-[22px] min-[640px]:pr-[18px] min-[640px]:pb-[30px] min-[640px]:pl-4">
+          <span
+            aria-hidden="true"
+            class="block text-[clamp(56px,8vw,120px)] leading-[.85] font-extrabold tracking-[-0.05em] wdth-62 text-outline transition-[color,-webkit-text-stroke-color] duration-[350ms] group-hover:text-accent group-hover:[-webkit-text-stroke-color:var(--ac)]"
+          >
+            {s.value}
+          </span>
+          <span class="block font-serif text-[17.5px] leading-[1.42] text-muted min-[640px]:mt-4">
+            <span class="sr-only">{s.value} </span>
+            {pick(s.label, lang)}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="mt-14 grid gap-x-16 gap-y-12 wide:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+    <div class="min-w-0">
+      <p class="max-w-[620px] font-serif text-[clamp(20px,1.7vw,22px)] leading-[1.45]">{t.fBody}</p>
+      <a
+        href={f.url}
+        target="_blank"
+        rel="noopener"
+        class="group mt-8 inline-flex items-center gap-4 rounded-full bg-ink px-[22px] py-[15px] text-[17px] font-semibold text-paper transition-[background-color,color] duration-[250ms] hover:bg-accent-solid hover:text-white"
+      >
+        {t.fVisit}
+        <span aria-hidden="true" class="transition-transform duration-[250ms] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+      </a>
+    </div>
+    <dl class="min-w-0 self-start border-t border-ink">
+      <div class={row}>
+        <dt class={label}>{t.lType}</dt>
+        <dd class="text-[16px]">{pick(f.type, lang)}</dd>
+      </div>
+      <div class={row}>
+        <dt class={label}>{t.lStack}</dt>
+        <dd class="text-[16px]">{f.tags}</dd>
+      </div>
+      <div class={`${row} items-center`}>
+        <dt class={label}>{t.lPlace}</dt>
+        <dd class="flex items-center gap-2 text-[16px]">
+          <span class="flex gap-1">
+            {f.countries.map((c) => <Icon name={flagIcon(c)} size={16} aria-hidden="true" class="shrink-0" />)}
+          </span>
+          {pick(f.places, lang)}
+        </dd>
+      </div>
+      <div class={`${row} items-center`}>
+        <dt class={label}>{t.fStatus}</dt>
+        <dd class="flex items-center gap-2 text-[16px]">
+          <span class="size-[7px] rounded-full bg-available" aria-hidden="true"></span>{t.fLive}
+        </dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="reading mt-[clamp(80px,9vw,140px)]">
+    <SectionHead label={t.fBuilt} />
+    <dl class="mt-6">
+      {
+        f.built.map((b) => (
+          <div class="grid grid-cols-1 items-baseline gap-x-6 gap-y-2 border-t border-line py-[22px] first:border-t-0 wide:grid-cols-[240px_minmax(0,1fr)]">
+            <dt class="text-[21px] font-bold tracking-[-0.015em]">{pick(b.term, lang)}</dt>
+            <dd class="m-0 font-serif text-[21px] leading-[1.45]">{pick(b.def, lang)}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<script>
+  // Autoplay silenciado solo mientras el video está en pantalla, sin datos con "ahorro de datos"
+  // y nunca con movimiento reducido. Si la persona pausa, no se reanuda solo.
+  const root = document.querySelector<HTMLElement>("[data-flagship]");
+  const video = root?.querySelector<HTMLVideoElement>("[data-video]");
+  const playBtn = root?.querySelector<HTMLButtonElement>("[data-video-play]");
+  const soundBtn = root?.querySelector<HTMLButtonElement>("[data-video-sound]");
+
+  if (root && video && playBtn && soundBtn) {
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+    let userPaused = still || saveData;
+    let visible = false;
+
+    const show = (btn: HTMLElement, state: string) =>
+      btn.querySelectorAll<HTMLElement>("[data-when]").forEach((el) => (el.hidden = el.dataset.when !== state));
+    const sync = () => {
+      show(playBtn, video.paused ? "paused" : "playing");
+      show(soundBtn, video.muted ? "muted" : "sound");
+      soundBtn.setAttribute("aria-pressed", String(!video.muted));
+    };
+    const play = () => video.play().catch(() => sync());
+    const toggle = () => {
+      if (video.paused) {
+        userPaused = false;
+        play();
+      } else {
+        userPaused = true;
+        video.pause();
+      }
+    };
+
+    video.addEventListener("play", sync);
+    video.addEventListener("pause", sync);
+    video.addEventListener("volumechange", sync);
+    video.addEventListener("click", toggle);
+    playBtn.addEventListener("click", toggle);
+    soundBtn.addEventListener("click", () => {
+      video.muted = !video.muted;
+      if (!video.muted && video.paused) {
+        userPaused = false;
+        play();
+      }
+    });
+
+    new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible && !userPaused) play();
+        else if (!visible && !video.paused) video.pause();
+      },
+      { threshold: 0.35 },
+    ).observe(video);
+
+    // Al cambiar de pestaña el navegador pausa; al volver, retomar si seguía a la vista.
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible" && visible && !userPaused) play();
+    });
+    sync();
+  }
+</script>

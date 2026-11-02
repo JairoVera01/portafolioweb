@@ -3,7 +3,7 @@
 // Fuente: FEATURED + INDEX de content.ts (las colecciones JSON están desactualizadas).
 import { Icon } from "astro-icon/components";
 import SectionHead from "../SectionHead.astro";
-import { DICT, FEATURED, INDEX, IMG, PLACE, flagIcon, pick, type Country, type Lang, type Pair } from "../../i18n/content";
+import { DICT, FEATURED, FLAGSHIP, INDEX, IMG, PLACE, flagIcon, pick, type Country, type Lang, type Pair } from "../../i18n/content";
 
 interface Props {
   lang: Lang;
@@ -28,6 +28,14 @@ interface Row {
   url: string | null;
 }
 const rows: Row[] = [
+  {
+    id: FLAGSHIP.id,
+    title: FLAGSHIP.title,
+    type: lang === "en" ? "Calculator hub" : "Hub de calculadoras",
+    flag: FLAGSHIP.flag,
+    stack: "Next.js · React · TypeScript · Vitest",
+    url: FLAGSHIP.url,
+  },
   ...FEATURED.map((p) => ({ id: p.id, title: p.title, type: pick(p.type, lang), flag: p.flag, stack: p.tags, url: p.url })),
   ...INDEX.map((p) => ({ id: p.id, title: p.title, type: pick(p.type, lang), flag: p.flag, stack: p.stack, url: p.url })),
 ];

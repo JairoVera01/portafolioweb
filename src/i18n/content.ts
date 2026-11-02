@@ -55,6 +55,21 @@ const es = {
   audTeam: "Busco un dev para mi equipo",
   forBiz: "Para — ",
   forTeam: "Con — ",
+  f1: "Proyecto insignia",
+  fTitleA: "calcula",
+  fTitleEm: "cuánto",
+  fLead: "Mi propio producto: 27 calculadoras de sueldo, beneficios e impuestos para Perú y México, en producción. Lo diseñé, lo construí y lo mantengo.",
+  fFig: "Fig. 3 — calculacuánto en 21 segundos",
+  fPlay: "Reproducir",
+  fPause: "Pausar",
+  fSoundOn: "Activar sonido",
+  fSoundOff: "Silenciar",
+  fVideoLabel: "Video de demostración de calculacuánto",
+  fBody: "Cada resultado muestra su desglose paso a paso con parámetros oficiales, y el número que ves en pantalla está fijado por una prueba automatizada: S/ 5,000 con ONP dan S/ 4,120.00, en la app y en la prueba.",
+  fBuilt: "Cómo está hecho",
+  fStatus: "Estado",
+  fLive: "En producción",
+  fVisit: "Visitar calculacuanto.com",
   s2: "Trabajo seleccionado",
   pTitleA: "Catorce proyectos,",
   pTitleEm: "cuatro países.",
@@ -74,7 +89,7 @@ const es = {
   s4: "Sobre mí",
   aTitleA: "Ingeniero de sistemas,",
   aTitleEm: "front-end por vocación.",
-  fig7: "Fig. 7 — En el taller",
+  fig7: "Fig. 8 — En el taller",
   bioCap: "S",
   bioRest:
     "oy Jairo. Me dedico a construir interfaces rápidas, responsivas y bien cuidadas. Disfruto el detalle técnico tanto como el diseño, y siempre estoy aprendiendo algo nuevo. He trabajado en remoto con equipos de Perú, México, Chile y Puerto Rico.",
@@ -129,6 +144,21 @@ const en: Dict = {
   audTeam: "I need a dev for my team",
   forBiz: "For — ",
   forTeam: "With — ",
+  f1: "Flagship project",
+  fTitleA: "calcula",
+  fTitleEm: "cuánto",
+  fLead: "My own product: 27 salary, benefits and tax calculators for Peru and Mexico, live in production. I designed it, built it and maintain it.",
+  fFig: "Fig. 3 — calculacuánto in 21 seconds",
+  fPlay: "Play",
+  fPause: "Pause",
+  fSoundOn: "Sound on",
+  fSoundOff: "Mute",
+  fVideoLabel: "calculacuánto demo video",
+  fBody: "Every result shows its step-by-step breakdown with official parameters, and the number on screen is pinned by an automated test: S/ 5,000 with ONP gives S/ 4,120.00, in the app and in the test.",
+  fBuilt: "How it's built",
+  fStatus: "Status",
+  fLive: "Live",
+  fVisit: "Visit calculacuanto.com",
   s2: "Selected work",
   pTitleA: "Fourteen projects,",
   pTitleEm: "four countries.",
@@ -148,7 +178,7 @@ const en: Dict = {
   s4: "About",
   aTitleA: "Systems engineer,",
   aTitleEm: "front-end by calling.",
-  fig7: "Fig. 7 — In the workshop",
+  fig7: "Fig. 8 — In the workshop",
   bioCap: "I",
   bioRest:
     "'m Jairo. I build fast, responsive, carefully crafted interfaces. I enjoy the technical detail as much as the design, and I'm always learning something new. I've worked remotely with teams in Peru, Mexico, Chile and Puerto Rico.",
@@ -216,8 +246,63 @@ export interface IndexEntry {
   stack: string;
   url: string | null;
 }
+/** Proyecto insignia: producto propio con sección y video propios en la home */
+export const FLAGSHIP = {
+  id: "calculacuanto",
+  title: "calculacuánto",
+  host: "calculacuanto.com",
+  url: "https://calculacuanto.com/",
+  flag: "own" as Country,
+  countries: ["pe", "mx"] as const satisfies readonly Country[],
+  type: ["Producto propio · Hub de calculadoras", "Own product · Calculator hub"] as Pair,
+  tags: "Next.js 16 · React 19 · TypeScript · Tailwind 4 · Vitest",
+  places: ["Perú y México", "Peru and Mexico"] as Pair,
+  video: {
+    src1080: "/assets/videos/calculacuanto/demo-1080.mp4",
+    src720: "/assets/videos/calculacuanto/demo-720.mp4",
+    poster1080: "/assets/videos/calculacuanto/poster-1080.webp",
+    poster720: "/assets/videos/calculacuanto/poster-720.webp",
+    duration: "0:21",
+  },
+  /** Cifras verificadas en el repo el 1-nov-2026 (registry y `vitest run`) */
+  stats: [
+    { value: "27", label: ["calculadoras", "calculators"] as Pair },
+    { value: "2", label: ["países: Perú y México", "countries: Peru and Mexico"] as Pair },
+    { value: "1,267", label: ["pruebas en verde", "passing tests"] as Pair },
+  ],
+  built: [
+    {
+      term: ["Motor", "Engine"] as Pair,
+      def: [
+        "Un registry central del que salen las 27 calculadoras con sus rutas, sitemap, breadcrumbs y JSON-LD.",
+        "A central registry that generates all 27 calculators with their routes, sitemap, breadcrumbs and JSON-LD.",
+      ] as Pair,
+    },
+    {
+      term: ["Rigor", "Rigor"] as Pair,
+      def: [
+        "Parámetros oficiales validados con Zod y cálculos puros contrastados con casos de SUNAT, SBS, MTPE, SAT, IMSS y DOF.",
+        "Official parameters validated with Zod and pure calculations checked against SUNAT, SBS, MTPE, SAT, IMSS and DOF cases.",
+      ] as Pair,
+    },
+    {
+      term: ["Producto", "Product"] as Pair,
+      def: [
+        "Desglose paso a paso, enlaces compartibles con los datos del cálculo y metodología pública.",
+        "Step-by-step breakdowns, shareable links that carry the calculation and a public methodology.",
+      ] as Pair,
+    },
+    {
+      term: ["Entrega", "Delivery"] as Pair,
+      def: [
+        "Next.js 16 con generación estática en Vercel; cada cambio pasa por 1,267 pruebas en Vitest.",
+        "Next.js 16 statically generated on Vercel; every change runs through 1,267 Vitest tests.",
+      ] as Pair,
+    },
+  ],
+};
+
 export const INDEX: readonly IndexEntry[] = [
-  { id: "calculacuanto", title: "calculacuánto", type: ["Calculadoras", "Calculators"], flag: "own", stack: "Next.js · TypeScript · Tailwind", url: "https://calculacuanto.com/" },
   { id: "rosariozolezzi", title: "Rosario Zolezzi", type: ["Web", "Web"], flag: "pe", stack: "Astro · Tailwind · Preline", url: "https://rosariozolezzi.com/" },
   { id: "estudioshaddai", title: "Estudio Shaddai", type: ["Web", "Web"], flag: "pe", stack: "Astro · Tailwind · Cloudflare", url: "https://estudioshaddai.com/" },
   { id: "drmao", title: "Dr. Carlos Mao", type: ["Landing", "Landing"], flag: "pe", stack: "Astro · Tailwind", url: "https://drmaowebpage.vercel.app/" },
@@ -279,11 +364,12 @@ export const CONTACT = {
   github: "https://github.com/JairoVera01",
 } as const;
 
-/** Anclas de la home, en el orden del masthead (n = numeral de su SectionHead) */
+/** Anclas de la home, en el orden del masthead (n = numeral de su SectionHead).
+ *  "Trabajo" abre en el proyecto insignia, que precede al resto del trabajo. */
 export const NAV = [
   { id: "servicios", key: "navServices", n: "01" },
-  { id: "trabajo", key: "navWork", n: "02" },
-  { id: "proceso", key: "navProcess", n: "03" },
-  { id: "sobre-mi", key: "navAbout", n: "04" },
-  { id: "contacto", key: "navContact", n: "06" },
+  { id: "calculacuanto", key: "navWork", n: "02" },
+  { id: "proceso", key: "navProcess", n: "04" },
+  { id: "sobre-mi", key: "navAbout", n: "05" },
+  { id: "contacto", key: "navContact", n: "07" },
 ] as const satisfies readonly { id: string; key: keyof Dict; n: string }[];
